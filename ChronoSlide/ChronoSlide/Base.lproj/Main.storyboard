@@ -8,7 +8,7 @@
         <!--Alarms-->
         <scene sceneID="BEz-ga-Fj1">
             <objects>
-                <tableViewController id="9Iz-pW-VDb" sceneMemberID="viewController">
+                <tableViewController id="9Iz-pW-VDb" customClass="AlarmTableViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="zpL-1O-J85">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -29,13 +29,20 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Alarms" id="DPE-wD-rN1">
-                        <barButtonItem key="leftBarButtonItem" title="Settings" id="Hct-5I-fSV"/>
+                        <barButtonItem key="leftBarButtonItem" title="Settings" id="Hct-5I-fSV">
+                            <connections>
+                                <action selector="goToSettings:" destination="9Iz-pW-VDb" id="WBr-8b-PjO"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="q4u-4k-ujJ">
                             <connections>
                                 <segue destination="Pa5-M4-Xtu" kind="show" id="E02-vX-kOt"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="settingsButton" destination="Hct-5I-fSV" id="nFD-0E-gGv"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WIQ-3g-zFM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
