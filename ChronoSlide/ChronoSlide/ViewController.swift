@@ -38,6 +38,8 @@ class AlarmTableViewController: UITableViewController {
     var ChronoAlarms: [Alarm] = [Alarm]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))
+        
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
