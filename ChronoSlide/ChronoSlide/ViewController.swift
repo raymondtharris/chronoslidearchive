@@ -43,9 +43,10 @@ class AlarmTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let chronoAlarmCell = tableView.dequeueReusableCellWithIdentifier("", forIndexPath: indexPath)
+        let chronoAlarmCell = tableView.dequeueReusableCellWithIdentifier("", forIndexPath: indexPath) as! AlarmTableCellView
         let chronoAlarm = ChronoAlarms[indexPath.row]
-        chronoAlarmCell.textLabel?.text = chronoAlarm.alarmName
+        chronoAlarmCell.alamTimeLabel.text = chronoAlarm.alarmHour.description + ":" + chronoAlarm.alarmMinute.description
+        chronoAlarmCell.alarmOptionsLabel.text = chronoAlarm.alarmName
         return chronoAlarmCell
     }
     
@@ -67,4 +68,16 @@ class NewAlarmViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+}
+
+
+class AlarmTableCellView: UITableViewCell {
+    
+    @IBOutlet weak var alamTimeLabel: UILabel!
+    @IBOutlet weak var alarmOptionsLabel: UILabel!
+    @IBOutlet weak var alarmToggleSwitch: UISwitch!
+    
+    @IBAction func toggleAlarm(sender: AnyObject) {
+    }
+    
 }
