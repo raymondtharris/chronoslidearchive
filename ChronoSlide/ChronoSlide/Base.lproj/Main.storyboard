@@ -73,10 +73,10 @@
             </objects>
             <point key="canvasLocation" x="490" y="376"/>
         </scene>
-        <!--View Controller-->
+        <!--New Alarm-->
         <scene sceneID="lf2-wF-dWw">
             <objects>
-                <viewController id="Pa5-M4-Xtu" sceneMemberID="viewController">
+                <viewController id="Pa5-M4-Xtu" customClass="NewAlarmViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SSB-6G-bh9"/>
                         <viewControllerLayoutGuide type="bottom" id="Qp1-6R-OKc"/>
@@ -86,6 +86,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="New Alarm" id="K6w-IT-aPg">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="ALC-4y-ktE">
+                            <connections>
+                                <action selector="commitNewAlarm:" destination="Pa5-M4-Xtu" id="WZw-LM-uSc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EOX-ZF-u6Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

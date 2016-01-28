@@ -29,6 +29,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var templabel: UILabel!
 }
 
+let AddingNewAlarmNotification:String = "AddingNewAlarmNotification"
 
 class AlarmTableViewController: UITableViewController {
     @IBOutlet weak var settingsButton: UIBarButtonItem!
@@ -39,7 +40,7 @@ class AlarmTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addingNewAlarm:", name: AddingNewAlarmNotification, object: nil)
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -52,6 +53,23 @@ class AlarmTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ChronoAlarms.count
+    }
+    
+    override func tableView(tableView: UITableView, canFocusRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+    }
+    
+    func addingNewAlarm(notification: NSNotification){
+        let alarmDictionary = notification.userInfo!
+        let tempdata = alarmDictionary["alarm"] as! Alarm
+        print(tempdata.alarmHour.description + ": " + tempdata.alarmMinute.description)
+        ChronoAlarms.append(tempdata)
+        let tableView = self.view as! UITableView
+        tableView.reloadData()
     }
     
     
@@ -68,6 +86,19 @@ class NewAlarmViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    @IBAction func commitNewAlarm(sender: AnyObject) {
+        let newAlarm = testAlarm()
+        let alarmDicationary:Dictionary = ["alarm": newAlarm as! AnyObject] //Need to fix cast or make a wrapper for values.
+        NSNotificationCenter.defaultCenter().postNotificationName(AddingNewAlarmNotification, object: self, userInfo: alarmDicationary)
+        self.navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
+    func testAlarm() -> Alarm{
+        let temp = Alarm()
+        return temp
+    }
+    
 }
 
 
@@ -80,4 +111,5 @@ class AlarmTableCellView: UITableViewCell {
     @IBAction func toggleAlarm(sender: AnyObject) {
     }
     
+
 }

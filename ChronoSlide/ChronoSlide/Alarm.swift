@@ -15,8 +15,15 @@ struct Alarm {
     var alarmMinute: Int
     var alarmState: Bool
     var alarmName: String
-    var alarmSound: MPMediaItem
-    var alarmNotification: UILocalNotification
+    var alarmSound: MPMediaItem? = nil
+    var alarmNotification: UILocalNotification? = nil
+    
+    init(){
+        self.alarmMinute = 30
+        self.alarmHour = 8
+        self.alarmState = false
+        self.alarmName = ""
+    }
     
     mutating func setAlarmHour(newHour: Int){
         alarmHour = newHour
