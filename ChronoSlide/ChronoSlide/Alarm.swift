@@ -25,6 +25,13 @@ struct Alarm {
         self.alarmName = ""
     }
     
+    init(newMinute: Int, newHour: Int, newName: String){
+        alarmMinute = newMinute
+        alarmHour = newHour
+        alarmName = newName
+        alarmState = false
+    }
+    
     mutating func setAlarmHour(newHour: Int){
         alarmHour = newHour
     }

@@ -44,7 +44,7 @@ class AlarmTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let chronoAlarmCell = tableView.dequeueReusableCellWithIdentifier("", forIndexPath: indexPath) as! AlarmTableCellView
+        let chronoAlarmCell = tableView.dequeueReusableCellWithIdentifier("alarmCell", forIndexPath: indexPath) as! AlarmTableCellView
         let chronoAlarm = ChronoAlarms[indexPath.row]
         chronoAlarmCell.alamTimeLabel.text = chronoAlarm.alarmHour.description + ":" + chronoAlarm.alarmMinute.description
         chronoAlarmCell.alarmOptionsLabel.text = chronoAlarm.alarmName
@@ -65,9 +65,10 @@ class AlarmTableViewController: UITableViewController {
     
     func addingNewAlarm(notification: NSNotification){
         let alarmDictionary = notification.userInfo!
-        let tempdata = alarmDictionary["alarm"] as! Alarm
-        print(tempdata.alarmHour.description + ": " + tempdata.alarmMinute.description)
-        ChronoAlarms.append(tempdata)
+        
+        let createdAlarm = Alarm(newMinute: alarmDictionary["alarmMinute"] as! Int, newHour: alarmDictionary["alarmHour"] as! Int, newName: alarmDictionary["alarmName"]as! String)
+        print(createdAlarm.alarmHour.description + ": " + createdAlarm.alarmMinute.description)
+        ChronoAlarms.append(createdAlarm)
         let tableView = self.view as! UITableView
         tableView.reloadData()
     }
@@ -89,8 +90,8 @@ class NewAlarmViewController: UIViewController {
     
     @IBAction func commitNewAlarm(sender: AnyObject) {
         let newAlarm = testAlarm()
-        let alarmDicationary:Dictionary = ["alarm": newAlarm as! AnyObject] //Need to fix cast or make a wrapper for values.
-        NSNotificationCenter.defaultCenter().postNotificationName(AddingNewAlarmNotification, object: self, userInfo: alarmDicationary)
+        let alarmDicationary = ["alarmHour": newAlarm.alarmHour, "alarmMinute": newAlarm.alarmMinute, "alarmName": newAlarm.alarmName] //Need to fix cast or make a wrapper for values.
+        NSNotificationCenter.defaultCenter().postNotificationName(AddingNewAlarmNotification, object: self, userInfo: alarmDicationary as [NSObject : AnyObject])
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
