@@ -21,12 +21,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="99"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2rN-tW-XOY">
-                                            <rect key="frame" x="498" y="34" width="51" height="31"/>
-                                            <connections>
-                                                <action selector="toggleAlarm:" destination="7iD-Ls-MzZ" eventType="valueChanged" id="hGH-NZ-MyI"/>
-                                            </connections>
-                                        </switch>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qd1-Ib-imc">
                                             <rect key="frame" x="18" y="13" width="66" height="70"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -44,7 +38,6 @@
                                 <connections>
                                     <outlet property="alamTimeLabel" destination="qd1-Ib-imc" id="C4M-yD-uX7"/>
                                     <outlet property="alarmOptionsLabel" destination="VUf-S1-hEu" id="1mu-ph-lWP"/>
-                                    <outlet property="alarmToggleSwitch" destination="2rN-tW-XOY" id="Zic-dZ-lYf"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

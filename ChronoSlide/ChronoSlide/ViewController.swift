@@ -48,6 +48,10 @@ class AlarmTableViewController: UITableViewController {
         let chronoAlarm = ChronoAlarms[indexPath.row]
         chronoAlarmCell.alamTimeLabel.text = chronoAlarm.alarmHour.description + ":" + chronoAlarm.alarmMinute.description
         chronoAlarmCell.alarmOptionsLabel.text = chronoAlarm.alarmName
+        
+        let gesture = UISwipeGestureRecognizer.init(target: self, action: "toggleAlarm:")
+        gesture.direction = UISwipeGestureRecognizerDirection.Left
+        self.view.addGestureRecognizer(gesture)
         return chronoAlarmCell
     }
     
@@ -55,14 +59,8 @@ class AlarmTableViewController: UITableViewController {
         return ChronoAlarms.count
     }
     
-    override func tableView(tableView: UITableView, canFocusRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
     
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        
-    }
-    
+
     func addingNewAlarm(notification: NSNotification){
         let alarmDictionary = notification.userInfo!
         
@@ -71,6 +69,23 @@ class AlarmTableViewController: UITableViewController {
         ChronoAlarms.append(createdAlarm)
         let tableView = self.view as! UITableView
         tableView.reloadData()
+    }
+    
+    func toggleAlarm(gestureRecongnizer: UIGestureRecognizer){
+        //print("left")
+       let location = gestureRecongnizer.locationInView(self.tableView)
+        let indexPath = self.tableView.indexPathForRowAtPoint(location)
+        print(indexPath?.row)
+        
+        ChronoAlarms[(indexPath?.row)!].setAlarmState(!ChronoAlarms[(indexPath?.row)!].alarmState)
+        
+        print(ChronoAlarms[(indexPath?.row)!].alarmState.boolValue)
+        let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!)
+        if ChronoAlarms[(indexPath?.row)!].alarmState {
+            swipedCell?.backgroundColor = UIColor(red: 0.93, green: 0.17, blue: 0.17, alpha: 1.0)
+        } else {
+            swipedCell?.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1.0)
+        }
     }
     
     
@@ -107,10 +122,7 @@ class AlarmTableCellView: UITableViewCell {
     
     @IBOutlet weak var alamTimeLabel: UILabel!
     @IBOutlet weak var alarmOptionsLabel: UILabel!
-    @IBOutlet weak var alarmToggleSwitch: UISwitch!
-    
-    @IBAction func toggleAlarm(sender: AnyObject) {
-    }
+
     
 
 }
