@@ -9,6 +9,7 @@
 import UIKit
 import MediaPlayer
 
+
 class ViewController: UIViewController {
     var mediaLibrary: MPMediaLibrary = MPMediaLibrary.defaultMediaLibrary()
     override func viewDidLoad() {
@@ -82,7 +83,14 @@ class AlarmTableViewController: UITableViewController {
         print(ChronoAlarms[(indexPath?.row)!].alarmState.boolValue)
         let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!)
         if ChronoAlarms[(indexPath?.row)!].alarmState {
-            swipedCell?.backgroundColor = UIColor(red: 0.93, green: 0.17, blue: 0.17, alpha: 1.0)
+            let animOption = UIViewAnimationOptions.AllowUserInteraction
+            UIView.animateWithDuration(0.275, delay: 0.0, options: animOption, animations: {
+                swipedCell?.frame = CGRect(x: -((swipedCell?.frame.width)!/5), y: (swipedCell?.frame.origin.y)!, width: (swipedCell?.frame.size.width)!, height: (swipedCell?.frame.size.height)!)
+                }, completion:{ (finished: Bool) in
+                    swipedCell?.backgroundColor = UIColor(red: 0.93, green: 0.17, blue: 0.17, alpha: 1.0)
+            })
+
+            
         } else {
             swipedCell?.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1.0)
         }
