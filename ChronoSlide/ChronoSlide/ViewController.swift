@@ -36,12 +36,13 @@ class AlarmTableViewController: UITableViewController {
     @IBOutlet weak var settingsButton: UIBarButtonItem!
     
     
-    
+    var animator: UIDynamicAnimator?
     var ChronoAlarms: [Alarm] = [Alarm]()
     override func viewDidLoad() {
         super.viewDidLoad()
         UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addingNewAlarm:", name: AddingNewAlarmNotification, object: nil)
+        animator = UIDynamicAnimator(referenceView: self.view)
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -49,7 +50,10 @@ class AlarmTableViewController: UITableViewController {
         let chronoAlarm = ChronoAlarms[indexPath.row]
         chronoAlarmCell.alamTimeLabel.text = chronoAlarm.alarmHour.description + ":" + chronoAlarm.alarmMinute.description
         chronoAlarmCell.alarmOptionsLabel.text = chronoAlarm.alarmName
-        
+        chronoAlarmCell.springNode = UIAttachmentBehavior(item: chronoAlarmCell , attachedToAnchor: CGPoint(x: (chronoAlarmCell.frame.size.width * 1.5) , y: (chronoAlarmCell.frame.origin.y + (chronoAlarmCell.frame.height/2))))
+        chronoAlarmCell.springNode?.length = chronoAlarmCell.frame.width/2
+        chronoAlarmCell.springNode?.frequency = 0.4 * CGFloat(indexPath.row)
+        animator?.addBehavior(chronoAlarmCell.springNode!)
         let gesture = UISwipeGestureRecognizer.init(target: self, action: "toggleAlarm:")
         gesture.direction = UISwipeGestureRecognizerDirection.Left
         self.view.addGestureRecognizer(gesture)
@@ -130,7 +134,7 @@ class AlarmTableCellView: UITableViewCell {
     
     @IBOutlet weak var alamTimeLabel: UILabel!
     @IBOutlet weak var alarmOptionsLabel: UILabel!
-
+    var springNode: UIAttachmentBehavior?
     
 
 }
