@@ -50,10 +50,19 @@ class AlarmTableViewController: UITableViewController {
         let chronoAlarm = ChronoAlarms[indexPath.row]
         chronoAlarmCell.alamTimeLabel.text = chronoAlarm.alarmHour.description + ":" + chronoAlarm.alarmMinute.description
         chronoAlarmCell.alarmOptionsLabel.text = chronoAlarm.alarmName
-        chronoAlarmCell.springNode = UIAttachmentBehavior(item: chronoAlarmCell , attachedToAnchor: CGPoint(x: (chronoAlarmCell.frame.size.width * 1.5) , y: (chronoAlarmCell.frame.origin.y + (chronoAlarmCell.frame.height/2))))
-        chronoAlarmCell.springNode?.length = chronoAlarmCell.frame.width/2
-        chronoAlarmCell.springNode?.frequency = 0.4 * CGFloat(indexPath.row)
+        
+        // Spring
+        chronoAlarmCell.springNode = UIAttachmentBehavior(item: chronoAlarmCell , attachedToAnchor: CGPoint(x: (chronoAlarmCell.frame.size.width * 1.25) , y: (chronoAlarmCell.frame.origin.y + (chronoAlarmCell.frame.height/2))))
+        chronoAlarmCell.springNode?.length = chronoAlarmCell.frame.width*(1.25/2)
+        chronoAlarmCell.springNode?.frequency = 0.4
         animator?.addBehavior(chronoAlarmCell.springNode!)
+        
+        //Collision
+        chronoAlarmCell.boundingBox = UICollisionBehavior(items: [chronoAlarmCell])
+        //chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier(<#T##identifier: NSCopying##NSCopying#>, fromPoint: <#T##CGPoint#>, toPoint: <#T##CGPoint#>)
+        animator?.addBehavior(chronoAlarmCell.boundingBox!)
+        
+        // Gesture
         let gesture = UISwipeGestureRecognizer.init(target: self, action: "toggleAlarm:")
         gesture.direction = UISwipeGestureRecognizerDirection.Left
         self.view.addGestureRecognizer(gesture)
@@ -76,7 +85,16 @@ class AlarmTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    func toggleAlarm(gestureRecongnizer: UIGestureRecognizer){
+    func toggleAlarm(gestureRecognizer: UISwipeGestureRecognizer){
+        let location = gestureRecognizer.locationInView(self.tableView)
+        let indexPath = self.tableView.indexPathForRowAtPoint(location)
+        print(indexPath?.row)
+        
+        gestureRecognizer.locationOfTouch(0, inView: self.tableView)
+        
+    }
+    
+    func toggleAlarmO(gestureRecongnizer: UIGestureRecognizer){
         //print("left")
        let location = gestureRecongnizer.locationInView(self.tableView)
         let indexPath = self.tableView.indexPathForRowAtPoint(location)
@@ -135,6 +153,7 @@ class AlarmTableCellView: UITableViewCell {
     @IBOutlet weak var alamTimeLabel: UILabel!
     @IBOutlet weak var alarmOptionsLabel: UILabel!
     var springNode: UIAttachmentBehavior?
+    var boundingBox: UICollisionBehavior?
     
 
 }
