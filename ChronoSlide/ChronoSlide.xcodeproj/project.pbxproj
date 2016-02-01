@@ -16,6 +16,7 @@
 		2254C1A51C51E4B2007B9BFB /* ChronoSlideUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2254C1A41C51E4B2007B9BFB /* ChronoSlideUITests.swift */; };
 		2254C1B31C51E590007B9BFB /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2254C1B21C51E590007B9BFB /* Alarm.swift */; };
 		226591E41C55A53B00516EC2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 226591E31C55A53B00516EC2 /* Settings.bundle */; };
+		226591E61C5F217900516EC2 /* SwipeGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226591E51C5F217900516EC2 /* SwipeGesture.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		2254C1A61C51E4B2007B9BFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2254C1B21C51E590007B9BFB /* Alarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
 		226591E31C55A53B00516EC2 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		226591E51C5F217900516EC2 /* SwipeGesture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeGesture.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 			children = (
 				2254C1841C51E4B2007B9BFB /* AppDelegate.swift */,
 				2254C1861C51E4B2007B9BFB /* ViewController.swift */,
+				226591E51C5F217900516EC2 /* SwipeGesture.swift */,
 				2254C1B21C51E590007B9BFB /* Alarm.swift */,
 				2254C1881C51E4B2007B9BFB /* Main.storyboard */,
 				2254C18B1C51E4B2007B9BFB /* Assets.xcassets */,
@@ -266,6 +269,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				226591E61C5F217900516EC2 /* SwipeGesture.swift in Sources */,
 				2254C1871C51E4B2007B9BFB /* ViewController.swift in Sources */,
 				2254C1851C51E4B2007B9BFB /* AppDelegate.swift in Sources */,
 				2254C1B31C51E590007B9BFB /* Alarm.swift in Sources */,
