@@ -54,7 +54,7 @@ class AlarmTableViewController: UITableViewController {
         // Spring
         chronoAlarmCell.springNode = UIAttachmentBehavior(item: chronoAlarmCell , attachedToAnchor: CGPoint(x: (chronoAlarmCell.frame.size.width * 1.25) , y: (chronoAlarmCell.frame.origin.y + (chronoAlarmCell.frame.height/2))))
         chronoAlarmCell.springNode?.length = chronoAlarmCell.frame.width*(1.25/2)
-        chronoAlarmCell.springNode?.frequency = 0.4
+        chronoAlarmCell.springNode?.frequency = 0.6
         animator?.addBehavior(chronoAlarmCell.springNode!)
         
         //Collision
@@ -64,9 +64,9 @@ class AlarmTableViewController: UITableViewController {
         animator?.addBehavior(chronoAlarmCell.boundingBox!)
         
         //Elasticity
-        chronoAlarmCell.cellElasticity = UIDynamicItemBehavior(items: [chronoAlarmCell])
-        chronoAlarmCell.cellElasticity?.elasticity = 0.4
-        animator?.addBehavior(chronoAlarmCell.cellElasticity!)
+        //chronoAlarmCell.cellElasticity = UIDynamicItemBehavior(items: [chronoAlarmCell])
+        //chronoAlarmCell.cellElasticity?.elasticity = 0.4
+        //animator?.addBehavior(chronoAlarmCell.cellElasticity!)
         
         // Gesture
         let gesture = UISwipeGestureRecognizer.init(target: self, action: "toggleAlarm:")
@@ -91,15 +91,17 @@ class AlarmTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    func toggleAlarm(gestureRecognizer: UIGestureRecognizer){
+    func toggleAlarm(gestureRecognizer: UISwipeGestureRecognizer){
         let location = gestureRecognizer.locationInView(self.tableView)
         let indexPath = self.tableView.indexPathForRowAtPoint(location)
         print(indexPath?.row)
-        
-        gestureRecognizer.locationOfTouch(0, inView: self.tableView)
         let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
+        
+        //Swipe Push
         swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.Instantaneous)
         swipedCell.cellPush?.pushDirection = CGVector(dx: -30.0, dy: 0.0)
+        print(swipedCell.cellPush?.magnitude)
+        
         animator?.addBehavior(swipedCell.cellPush!)
         
     }
