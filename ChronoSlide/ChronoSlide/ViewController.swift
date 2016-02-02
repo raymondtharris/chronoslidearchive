@@ -63,6 +63,11 @@ class AlarmTableViewController: UITableViewController {
         chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier("left", fromPoint: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y), toPoint: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height))
         animator?.addBehavior(chronoAlarmCell.boundingBox!)
         
+        //Elasticity
+        chronoAlarmCell.cellElasticity = UIDynamicItemBehavior(items: [chronoAlarmCell])
+        chronoAlarmCell.cellElasticity?.elasticity = 0.4
+        animator?.addBehavior(chronoAlarmCell.cellElasticity!)
+        
         // Gesture
         let gesture = UISwipeGestureRecognizer.init(target: self, action: "toggleAlarm:")
         gesture.direction = UISwipeGestureRecognizerDirection.Left
@@ -86,12 +91,16 @@ class AlarmTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    func toggleAlarm(gestureRecognizer: UISwipeGestureRecognizer){
+    func toggleAlarm(gestureRecognizer: UIGestureRecognizer){
         let location = gestureRecognizer.locationInView(self.tableView)
         let indexPath = self.tableView.indexPathForRowAtPoint(location)
         print(indexPath?.row)
         
         gestureRecognizer.locationOfTouch(0, inView: self.tableView)
+        let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
+        swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.Instantaneous)
+        swipedCell.cellPush?.pushDirection = CGVector(dx: -30.0, dy: 0.0)
+        animator?.addBehavior(swipedCell.cellPush!)
         
     }
     
@@ -155,6 +164,7 @@ class AlarmTableCellView: UITableViewCell {
     @IBOutlet weak var alarmOptionsLabel: UILabel!
     var springNode: UIAttachmentBehavior?
     var boundingBox: UICollisionBehavior?
-    
+    var cellElasticity: UIDynamicItemBehavior?
+    var cellPush: UIPushBehavior?
 
 }
