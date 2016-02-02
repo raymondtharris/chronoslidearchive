@@ -59,7 +59,8 @@ class AlarmTableViewController: UITableViewController {
         
         //Collision
         chronoAlarmCell.boundingBox = UICollisionBehavior(items: [chronoAlarmCell])
-        //chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier(<#T##identifier: NSCopying##NSCopying#>, fromPoint: <#T##CGPoint#>, toPoint: <#T##CGPoint#>)
+        chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier("right", fromPoint: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y), toPoint: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height))
+        chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier("left", fromPoint: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y), toPoint: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height))
         animator?.addBehavior(chronoAlarmCell.boundingBox!)
         
         // Gesture

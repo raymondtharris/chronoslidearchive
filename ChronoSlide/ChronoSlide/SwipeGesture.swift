@@ -9,6 +9,6 @@
 import Foundation
 import UIKit
 
-class ChronoSwipeGesture: UISwipeGestureRecognizer{
+class ChronoSwipeGesture: UIGestureRecognizer{
     var velocity: CGVector?
 }
