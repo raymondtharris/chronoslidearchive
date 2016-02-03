@@ -38,6 +38,7 @@
                                 <connections>
                                     <outlet property="alamTimeLabel" destination="qd1-Ib-imc" id="C4M-yD-uX7"/>
                                     <outlet property="alarmOptionsLabel" destination="VUf-S1-hEu" id="1mu-ph-lWP"/>
+                                    <segue destination="JsC-fF-64p" kind="show" id="83j-we-tee"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -89,7 +90,28 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EOX-ZF-u6Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1320" y="376"/>
+            <point key="canvasLocation" x="1315" y="376"/>
+        </scene>
+        <!--Edit Alarm-->
+        <scene sceneID="UI6-pV-Gho">
+            <objects>
+                <viewController id="JsC-fF-64p" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="okY-S3-h88"/>
+                        <viewControllerLayoutGuide type="bottom" id="LlG-t5-UeH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ixw-46-2GJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Edit Alarm" id="gqN-i1-DL0">
+                        <barButtonItem key="rightBarButtonItem" title="Update" id="Y1p-vm-8X5"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cEN-k3-pSB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="935" y="1297"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Qb7-pR-elC">
