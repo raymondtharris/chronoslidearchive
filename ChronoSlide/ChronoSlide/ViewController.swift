@@ -50,22 +50,28 @@ class AlarmTableViewController: UITableViewController {
         let chronoAlarm = ChronoAlarms[indexPath.row]
         chronoAlarmCell.alamTimeLabel.text = chronoAlarm.alarmHour.description + ":" + chronoAlarm.alarmMinute.description
         chronoAlarmCell.alarmOptionsLabel.text = chronoAlarm.alarmName
+        chronoAlarmCell.cellAnimator = UIDynamicAnimator(referenceView: self.view)
+        
         
         // Spring
-        chronoAlarmCell.springNode = UIAttachmentBehavior(item: chronoAlarmCell , attachedToAnchor: CGPoint(x: (chronoAlarmCell.frame.size.width * 1.25) , y: (chronoAlarmCell.frame.origin.y + (chronoAlarmCell.frame.height/2))))
-        chronoAlarmCell.springNode?.length = chronoAlarmCell.frame.width*(1.25/2)
+        chronoAlarmCell.springNode = UIAttachmentBehavior(item: chronoAlarmCell , attachedToAnchor: CGPoint(x: (chronoAlarmCell.frame.width * 1.25) , y: (chronoAlarmCell.frame.origin.y + (chronoAlarmCell.frame.height/2))))
+        chronoAlarmCell.springNode?.length = chronoAlarmCell.frame.width * (1.25/2)
         chronoAlarmCell.springNode?.frequency = 0.6
-        animator?.addBehavior(chronoAlarmCell.springNode!)
+        chronoAlarmCell.cellAnimator?.addBehavior(chronoAlarmCell.springNode!)
+        //animator?.addBehavior(chronoAlarmCell.springNode!)
+        //print(chronoAlarmCell.springNode!.length )
         
         //Collision
         chronoAlarmCell.boundingBox = UICollisionBehavior(items: [chronoAlarmCell])
         chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier("right", fromPoint: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y), toPoint: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height))
         chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier("left", fromPoint: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y), toPoint: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height))
-        animator?.addBehavior(chronoAlarmCell.boundingBox!)
+        chronoAlarmCell.cellAnimator?.addBehavior(chronoAlarmCell.boundingBox!)
+        //animator?.addBehavior(chronoAlarmCell.boundingBox!)
         
         //Elasticity
-        //chronoAlarmCell.cellElasticity = UIDynamicItemBehavior(items: [chronoAlarmCell])
-        //chronoAlarmCell.cellElasticity?.elasticity = 0.4
+        chronoAlarmCell.cellElasticity = UIDynamicItemBehavior(items: [chronoAlarmCell])
+        chronoAlarmCell.cellElasticity?.elasticity = 0.4
+        chronoAlarmCell.cellAnimator?.addBehavior(chronoAlarmCell.cellElasticity!)
         //animator?.addBehavior(chronoAlarmCell.cellElasticity!)
         
         // Gesture
@@ -96,13 +102,13 @@ class AlarmTableViewController: UITableViewController {
         let indexPath = self.tableView.indexPathForRowAtPoint(location)
         print(indexPath?.row)
         let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
-        
+        print(swipedCell.springNode?.length)
         //Swipe Push
         swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.Instantaneous)
         swipedCell.cellPush?.pushDirection = CGVector(dx: -30.0, dy: 0.0)
-        print(swipedCell.cellPush?.magnitude)
-        
-        animator?.addBehavior(swipedCell.cellPush!)
+        //print(swipedCell.cellPush?.magnitude)
+        swipedCell.cellAnimator?.addBehavior(swipedCell.cellPush!)
+        //animator?.addBehavior(swipedCell.cellPush!)
         
     }
     
@@ -168,5 +174,5 @@ class AlarmTableCellView: UITableViewCell {
     var boundingBox: UICollisionBehavior?
     var cellElasticity: UIDynamicItemBehavior?
     var cellPush: UIPushBehavior?
-
+    var cellAnimator: UIDynamicAnimator?
 }
