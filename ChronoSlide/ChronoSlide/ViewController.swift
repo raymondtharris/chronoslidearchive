@@ -108,7 +108,22 @@ class AlarmTableViewController: UITableViewController {
         swipedCell.cellPush?.pushDirection = CGVector(dx: -30.0, dy: 0.0)
         //print(swipedCell.cellPush?.magnitude)
         swipedCell.cellAnimator?.addBehavior(swipedCell.cellPush!)
+        
+        changeAlarmToggleState(swipedCell, currentRow: (indexPath?.row)!)
         //animator?.addBehavior(swipedCell.cellPush!)
+        
+    }
+    
+    func changeAlarmToggleState(interactedCell: AlarmTableCellView, currentRow: Int){
+        UIView.animateWithDuration(0.6, delay: 0.3, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+            if self.ChronoAlarms[currentRow].alarmState {
+                interactedCell.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1.0)
+            } else {
+                interactedCell.backgroundColor = UIColor(red: 0.93, green: 0.17, blue: 0.17, alpha: 1.0)
+            }
+
+            }, completion: nil)
+                ChronoAlarms[currentRow].setAlarmState(!ChronoAlarms[currentRow].alarmState)
         
     }
     
