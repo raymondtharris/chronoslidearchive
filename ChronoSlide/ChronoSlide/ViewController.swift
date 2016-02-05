@@ -10,25 +10,7 @@ import UIKit
 import MediaPlayer
 
 
-class ViewController: UIViewController {
-    var mediaLibrary: MPMediaLibrary = MPMediaLibrary.defaultMediaLibrary()
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        let songs = MPMediaQuery.songsQuery().items
-        
-        templabel.text = songs?.count.description
-        print(songs?.count.description)
-    }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
-    @IBOutlet weak var templabel: UILabel!
-}
 
 let AddingNewAlarmNotification:String = "AddingNewAlarmNotification"
 
@@ -100,9 +82,8 @@ class AlarmTableViewController: UITableViewController {
     func toggleAlarm(gestureRecognizer: UISwipeGestureRecognizer){
         let location = gestureRecognizer.locationInView(self.tableView)
         let indexPath = self.tableView.indexPathForRowAtPoint(location)
-        print(indexPath?.row)
         let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
-        print(swipedCell.springNode?.length)
+        
         //Swipe Push
         swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.Instantaneous)
         swipedCell.cellPush?.pushDirection = CGVector(dx: -30.0, dy: 0.0)
@@ -123,32 +104,8 @@ class AlarmTableViewController: UITableViewController {
             }
 
             }, completion: nil)
-                ChronoAlarms[currentRow].setAlarmState(!ChronoAlarms[currentRow].alarmState)
+             ChronoAlarms[currentRow].setAlarmState(!ChronoAlarms[currentRow].alarmState)
         
-    }
-    
-    func toggleAlarmO(gestureRecongnizer: UIGestureRecognizer){
-        //print("left")
-       let location = gestureRecongnizer.locationInView(self.tableView)
-        let indexPath = self.tableView.indexPathForRowAtPoint(location)
-        print(indexPath?.row)
-        
-        ChronoAlarms[(indexPath?.row)!].setAlarmState(!ChronoAlarms[(indexPath?.row)!].alarmState)
-        
-        print(ChronoAlarms[(indexPath?.row)!].alarmState.boolValue)
-        let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!)
-        if ChronoAlarms[(indexPath?.row)!].alarmState {
-            let animOption = UIViewAnimationOptions.AllowUserInteraction
-            UIView.animateWithDuration(0.275, delay: 0.0, options: animOption, animations: {
-                swipedCell?.frame = CGRect(x: -((swipedCell?.frame.width)!/5), y: (swipedCell?.frame.origin.y)!, width: (swipedCell?.frame.size.width)!, height: (swipedCell?.frame.size.height)!)
-                }, completion:{ (finished: Bool) in
-                    swipedCell?.backgroundColor = UIColor(red: 0.93, green: 0.17, blue: 0.17, alpha: 1.0)
-            })
-
-            
-        } else {
-            swipedCell?.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1.0)
-        }
     }
     
     
@@ -178,6 +135,17 @@ class NewAlarmViewController: UIViewController {
         return temp
     }
     
+}
+
+class EditAlarmViewController: UIViewController {
+    
+    @IBOutlet weak var updateAlarmButton: UIBarButtonItem!
+    
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
 }
 
 

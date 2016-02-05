@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ZVT-sG-O5v">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ZVT-sG-O5v">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
         <!--Alarms-->
@@ -78,6 +78,11 @@
                     <view key="view" contentMode="scaleToFill" id="Jqe-3U-Zws">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CJx-nP-ved">
+                                <rect key="frame" x="0.0" y="110" width="600" height="216"/>
+                            </pickerView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="New Alarm" id="K6w-IT-aPg">
@@ -95,7 +100,7 @@
         <!--Edit Alarm-->
         <scene sceneID="UI6-pV-Gho">
             <objects>
-                <viewController id="JsC-fF-64p" sceneMemberID="viewController">
+                <viewController id="JsC-fF-64p" customClass="EditAlarmViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="okY-S3-h88"/>
                         <viewControllerLayoutGuide type="bottom" id="LlG-t5-UeH"/>
@@ -108,6 +113,9 @@
                     <navigationItem key="navigationItem" title="Edit Alarm" id="gqN-i1-DL0">
                         <barButtonItem key="rightBarButtonItem" title="Update" id="Y1p-vm-8X5"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="updateAlarmButton" destination="Y1p-vm-8X5" id="CHt-es-CTK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cEN-k3-pSB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
