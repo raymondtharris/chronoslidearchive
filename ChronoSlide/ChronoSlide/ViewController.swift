@@ -118,9 +118,27 @@ class AlarmTableViewController: UITableViewController {
     
 }
 
-class NewAlarmViewController: UIViewController {
+class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    @IBOutlet weak var hourTextLabel: UITextField!
+    
+    @IBOutlet weak var minuteTextLabel: UITextField!
+    
+    let hourPicker = UIPickerView()
+    let minutePicker = UIPickerView()
+    
+    var hourData = ["1", "2", "3", "4"]
+    var minuteData = ["1", "2", "3", "4", "5", "6"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        hourPicker.delegate = self
+        minutePicker.delegate = self
+        hourPicker.dataSource = self
+        minutePicker.dataSource = self
+        hourTextLabel.inputView = hourPicker
+        minuteTextLabel.inputView = minutePicker
     }
     
     @IBAction func commitNewAlarm(sender: AnyObject) {
@@ -133,6 +151,33 @@ class NewAlarmViewController: UIViewController {
     func testAlarm() -> Alarm{
         let temp = Alarm()
         return temp
+    }
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView == hourPicker{
+            return hourData.count
+        } else {
+            return minuteData.count
+        }
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView == hourPicker{
+            hourTextLabel.text = hourData[row]
+        } else {
+            minuteTextLabel.text = minuteData[row]
+        }
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if pickerView == hourPicker{
+            return hourData[row]
+        } else {
+            return minuteData[row]
+        }
     }
     
 }

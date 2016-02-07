@@ -79,9 +79,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CJx-nP-ved">
-                                <rect key="frame" x="0.0" y="110" width="600" height="216"/>
-                            </pickerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0n3-l1-DNr">
                                 <rect key="frame" x="61" y="374" width="325" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -92,6 +89,16 @@
                                 <rect key="frame" x="514" y="370" width="46" height="30"/>
                                 <state key="normal" title="Button"/>
                             </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="21" translatesAutoresizingMaskIntoConstraints="NO" id="QBI-et-wYX">
+                                <rect key="frame" x="160" y="153" width="127" height="139"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="31"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wyW-xR-uCw">
+                                <rect key="frame" x="323" y="153" width="127" height="139"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="31"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -102,6 +109,10 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="hourTextLabel" destination="QBI-et-wYX" id="qlf-YW-3qF"/>
+                        <outlet property="minuteTextLabel" destination="wyW-xR-uCw" id="zFd-u8-R72"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EOX-ZF-u6Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
