@@ -72,7 +72,7 @@ class AlarmTableViewController: UITableViewController {
     func addingNewAlarm(notification: NSNotification){
         let alarmDictionary = notification.userInfo!
         
-        let createdAlarm = Alarm(newMinute: alarmDictionary["alarmMinute"] as! Int, newHour: alarmDictionary["alarmHour"] as! Int, newName: alarmDictionary["alarmName"]as! String)
+        let createdAlarm = Alarm(newMinute: Int(alarmDictionary["alarmMinute"] as! String)!, newHour: Int(alarmDictionary["alarmHour"] as! String)!, newName: alarmDictionary["alarmName"]as! String)
         print(createdAlarm.alarmHour.description + ": " + createdAlarm.alarmMinute.description)
         ChronoAlarms.append(createdAlarm)
         let tableView = self.view as! UITableView
@@ -127,11 +127,14 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     let hourPicker = UIPickerView()
     let minutePicker = UIPickerView()
     
-    var hourData = ["1", "2", "3", "4"]
-    var minuteData = ["1", "2", "3", "4", "5", "6"]
+    let toolbar = UIToolbar()
+    
+    var hourData = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+    var minuteData = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        buildArrays()
         
         hourPicker.delegate = self
         minutePicker.delegate = self
@@ -139,11 +142,18 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         minutePicker.dataSource = self
         hourTextLabel.inputView = hourPicker
         minuteTextLabel.inputView = minutePicker
+        
+    }
+    
+    func buildArrays(){
+        for aNumber in 0..<60 {
+            minuteData.append(aNumber.description)
+        }
     }
     
     @IBAction func commitNewAlarm(sender: AnyObject) {
-        let newAlarm = testAlarm()
-        let alarmDicationary = ["alarmHour": newAlarm.alarmHour, "alarmMinute": newAlarm.alarmMinute, "alarmName": newAlarm.alarmName] //Need to fix cast or make a wrapper for values.
+        
+        let alarmDicationary = ["alarmHour": hourTextLabel.text!, "alarmMinute": minuteTextLabel.text!, "alarmName": "test alarm"] //Need to fix cast or make a wrapper for values.
         NSNotificationCenter.defaultCenter().postNotificationName(AddingNewAlarmNotification, object: self, userInfo: alarmDicationary as [NSObject : AnyObject])
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
@@ -179,6 +189,9 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
             return minuteData[row]
         }
     }
+    
+    
+
     
 }
 
