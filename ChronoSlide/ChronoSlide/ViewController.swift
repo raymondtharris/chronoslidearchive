@@ -121,15 +121,16 @@ class AlarmTableViewController: UITableViewController {
 class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
     @IBOutlet weak var hourTextLabel: UITextField!
-    
     @IBOutlet weak var minuteTextLabel: UITextField!
+    @IBOutlet weak var alarmAMPMSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var alarmNameTextField: UITextField!
     
     let hourPicker = UIPickerView()
     let minutePicker = UIPickerView()
     
     let toolbar = UIToolbar()
     
-    var hourData = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+    var hourData = [String]()
     var minuteData = [String]()
     
     override func viewDidLoad() {
@@ -147,7 +148,14 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     func buildArrays(){
         for aNumber in 0..<60 {
+            if aNumber < 10 {
+                minuteData.append("0" + aNumber.description)
+            } else {
             minuteData.append(aNumber.description)
+            }
+        }
+        for aNumber2 in 1..<13 {
+            hourData.append(aNumber2.description)
         }
     }
     
