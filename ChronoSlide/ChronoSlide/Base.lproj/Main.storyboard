@@ -124,6 +124,8 @@
                     <connections>
                         <outlet property="alarmAMPMSegmentedControl" destination="gco-kS-UUj" id="FLm-W4-CEm"/>
                         <outlet property="alarmNameTextField" destination="6Ij-r5-cwY" id="6bD-VT-nmn"/>
+                        <outlet property="alarmToneLabel" destination="0n3-l1-DNr" id="G0f-BJ-ob1"/>
+                        <outlet property="chooseToneButton" destination="kZZ-L4-zsi" id="yEv-80-rUU"/>
                         <outlet property="hourTextLabel" destination="QBI-et-wYX" id="qlf-YW-3qF"/>
                         <outlet property="minuteTextLabel" destination="wyW-xR-uCw" id="zFd-u8-R72"/>
                     </connections>

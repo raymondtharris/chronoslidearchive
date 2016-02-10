@@ -125,6 +125,10 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     @IBOutlet weak var alarmAMPMSegmentedControl: UISegmentedControl!
     @IBOutlet weak var alarmNameTextField: UITextField!
     
+    @IBOutlet weak var chooseToneButton: UIButton!
+    @IBOutlet weak var alarmToneLabel: UILabel!
+    
+    
     let hourPicker = UIPickerView()
     let minutePicker = UIPickerView()
     
@@ -160,8 +164,9 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     @IBAction func commitNewAlarm(sender: AnyObject) {
+        print(alarmAMPMSegmentedControl.description)
         
-        let alarmDicationary = ["alarmHour": hourTextLabel.text!, "alarmMinute": minuteTextLabel.text!, "alarmName": "test alarm"] //Need to fix cast or make a wrapper for values.
+        let alarmDicationary = ["alarmHour": hourTextLabel.text!, "alarmMinute": minuteTextLabel.text!, "alarmName": "test alarm", "alarmAMPM": alarmAMPMSegmentedControl.description] //Need to fix cast or make a wrapper for values.
         NSNotificationCenter.defaultCenter().postNotificationName(AddingNewAlarmNotification, object: self, userInfo: alarmDicationary as [NSObject : AnyObject])
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
@@ -206,6 +211,8 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
 class EditAlarmViewController: UIViewController {
     
     @IBOutlet weak var updateAlarmButton: UIBarButtonItem!
+    
+    //Load Alarm Data
     
     
     
