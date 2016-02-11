@@ -108,6 +108,14 @@ class AlarmTableViewController: UITableViewController {
         
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let destination = segue.destinationViewController as! EditAlarmViewController
+        let tView = self.view as! UITableView
+        let indexPath = tView.indexPathForSelectedRow!
+        let tappedAlarm = ChronoAlarms[indexPath.row]
+        destination.alarmToEdit = tappedAlarm
+    }
+    
     
     @IBAction func goToSettings(sender: AnyObject) {
         if let chronoslideSettings = NSURL(string: UIApplicationOpenSettingsURLString){
@@ -214,7 +222,7 @@ class EditAlarmViewController: UIViewController {
     
     //Load Alarm Data
     
-    
+    var alarmToEdit: Alarm = Alarm()
     
     override func viewDidLoad() {
         super.viewDidLoad()
