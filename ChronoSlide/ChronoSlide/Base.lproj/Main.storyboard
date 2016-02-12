@@ -173,12 +173,30 @@
                     <view key="view" contentMode="scaleToFill" id="ixw-46-2GJ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vvL-mY-VPj">
+                                <rect key="frame" x="154" y="139" width="127" height="139"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="31"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mer-S3-Lei">
+                                <rect key="frame" x="320" y="139" width="127" height="139"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="31"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Edit Alarm" id="gqN-i1-DL0">
-                        <barButtonItem key="rightBarButtonItem" title="Update" id="Y1p-vm-8X5"/>
+                        <barButtonItem key="rightBarButtonItem" title="Update" id="Y1p-vm-8X5">
+                            <connections>
+                                <action selector="updateAlarm:" destination="JsC-fF-64p" id="a4F-PV-Vnt"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="hourTextLabel" destination="vvL-mY-VPj" id="sHh-X6-bJt"/>
+                        <outlet property="minuteTextLabel" destination="mer-S3-Lei" id="zyA-W6-ach"/>
                         <outlet property="updateAlarmButton" destination="Y1p-vm-8X5" id="CHt-es-CTK"/>
                     </connections>
                 </viewController>

@@ -184,6 +184,7 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         return temp
     }
     
+    
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -216,17 +217,79 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
 }
 
-class EditAlarmViewController: UIViewController {
+class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
     @IBOutlet weak var updateAlarmButton: UIBarButtonItem!
+    
+    
+    @IBOutlet weak var hourTextLabel: UITextField!
+    @IBOutlet weak var minuteTextLabel: UITextField!
     
     //Load Alarm Data
     
     var alarmToEdit: Alarm = Alarm()
     
+    let hourPicker = UIPickerView()
+    let minutePicker = UIPickerView()
+    
+    let toolbar = UIToolbar()
+    
+    var hourData = [String]()
+    var minuteData = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        buildArrays()
+        updateAlarmButton.enabled = false
+        hourTextLabel.text = alarmToEdit.alarmHour.description
+        minuteTextLabel.text = alarmToEdit.alarmMinute.description
     }
+    
+    @IBAction func updateAlarm(sender: AnyObject) {
+    }
+    
+    func buildArrays(){
+        for aNumber in 0..<60 {
+            if aNumber < 10 {
+                minuteData.append("0" + aNumber.description)
+            } else {
+                minuteData.append(aNumber.description)
+            }
+        }
+        for aNumber2 in 1..<13 {
+            hourData.append(aNumber2.description)
+        }
+    }
+    
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView == hourPicker{
+            return hourData.count
+        } else {
+            return minuteData.count
+        }
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView == hourPicker{
+            hourTextLabel.text = hourData[row]
+        } else {
+            minuteTextLabel.text = minuteData[row]
+        }
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if pickerView == hourPicker{
+            return hourData[row]
+        } else {
+            return minuteData[row]
+        }
+    }
+
+    
 }
 
 
