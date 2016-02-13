@@ -114,6 +114,7 @@ class AlarmTableViewController: UITableViewController {
         let indexPath = tView.indexPathForSelectedRow!
         let tappedAlarm = ChronoAlarms[indexPath.row]
         destination.alarmToEdit = tappedAlarm
+        destination.editRow = indexPath.row
     }
     
     
@@ -225,9 +226,18 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     @IBOutlet weak var hourTextLabel: UITextField!
     @IBOutlet weak var minuteTextLabel: UITextField!
     
+    @IBOutlet weak var alarmAMPMSegmentControl: UISegmentedControl!
+    @IBOutlet weak var alarmNameLabel: UITextField!
+    
+    
+    @IBOutlet weak var alarmSoundLabel: UILabel!
+    
+    @IBOutlet weak var alarmToneChooseButton: UIButton!
+    
     //Load Alarm Data
     
     var alarmToEdit: Alarm = Alarm()
+    var editRow: Int = -1
     
     let hourPicker = UIPickerView()
     let minutePicker = UIPickerView()
@@ -289,6 +299,9 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         }
     }
 
+    @IBAction func removeAlarm(sender: AnyObject) {
+        
+    }
     
 }
 

@@ -184,6 +184,35 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="31"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="3dt-B1-v9S">
+                                <rect key="frame" x="154" y="313" width="293" height="29"/>
+                                <segments>
+                                    <segment title="AM"/>
+                                    <segment title="PM"/>
+                                </segments>
+                            </segmentedControl>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Alarm Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="x8B-3C-UDW">
+                                <rect key="frame" x="59" y="374" width="483" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="306-YL-VA8">
+                                <rect key="frame" x="496" y="450" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJo-Yu-HXB">
+                                <rect key="frame" x="59" y="454" width="388" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rEt-Yr-gKF">
+                                <rect key="frame" x="105" y="530" width="390" height="45"/>
+                                <state key="normal" title="Remove Alarm"/>
+                                <connections>
+                                    <action selector="removeAlarm:" destination="JsC-fF-64p" eventType="touchUpInside" id="RlP-PL-Xqj"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -195,6 +224,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="alarmAMPMSegmentControl" destination="3dt-B1-v9S" id="Tds-yn-Vva"/>
+                        <outlet property="alarmNameLabel" destination="x8B-3C-UDW" id="407-61-Zyc"/>
+                        <outlet property="alarmSoundLabel" destination="TJo-Yu-HXB" id="Add-X5-d1x"/>
+                        <outlet property="alarmToneChooseButton" destination="306-YL-VA8" id="1Sh-YR-gYd"/>
                         <outlet property="hourTextLabel" destination="vvL-mY-VPj" id="sHh-X6-bJt"/>
                         <outlet property="minuteTextLabel" destination="mer-S3-Lei" id="zyA-W6-ach"/>
                         <outlet property="updateAlarmButton" destination="Y1p-vm-8X5" id="CHt-es-CTK"/>
