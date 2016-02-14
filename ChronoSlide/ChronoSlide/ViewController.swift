@@ -13,6 +13,7 @@ import MediaPlayer
 
 
 let AddingNewAlarmNotification:String = "AddingNewAlarmNotification"
+let DeletingAlarmNotification:String = "DeletingAlarmNotification"
 
 class AlarmTableViewController: UITableViewController {
     @IBOutlet weak var settingsButton: UIBarButtonItem!
@@ -24,6 +25,7 @@ class AlarmTableViewController: UITableViewController {
         super.viewDidLoad()
         UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addingNewAlarm:", name: AddingNewAlarmNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "deletingAlarm:", name: DeletingAlarmNotification, object: nil)
         animator = UIDynamicAnimator(referenceView: self.view)
     }
     
@@ -75,6 +77,16 @@ class AlarmTableViewController: UITableViewController {
         let createdAlarm = Alarm(newMinute: Int(alarmDictionary["alarmMinute"] as! String)!, newHour: Int(alarmDictionary["alarmHour"] as! String)!, newName: alarmDictionary["alarmName"]as! String)
         print(createdAlarm.alarmHour.description + ": " + createdAlarm.alarmMinute.description)
         ChronoAlarms.append(createdAlarm)
+        let tableView = self.view as! UITableView
+        tableView.reloadData()
+    }
+    
+    func deletingAlarm(notification: NSNotification){
+        let removeDictionary = notification.userInfo!
+        
+        let indexToRemove = Int(removeDictionary["index"] as! String)!
+        ChronoAlarms.removeAtIndex(indexToRemove)
+        
         let tableView = self.view as! UITableView
         tableView.reloadData()
     }
@@ -300,7 +312,9 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     }
 
     @IBAction func removeAlarm(sender: AnyObject) {
-        
+        let dataDictionary = ["index": editRow.description]
+        NSNotificationCenter.defaultCenter().postNotificationName(DeletingAlarmNotification, object: self, userInfo: dataDictionary as [NSObject : AnyObject])
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
 }
