@@ -14,6 +14,7 @@ import MediaPlayer
 
 let AddingNewAlarmNotification:String = "AddingNewAlarmNotification"
 let DeletingAlarmNotification:String = "DeletingAlarmNotification"
+let UpdatingAlarmNotification:String = "UpdatingAlarmNotification"
 
 class AlarmTableViewController: UITableViewController {
     @IBOutlet weak var settingsButton: UIBarButtonItem!
@@ -26,6 +27,7 @@ class AlarmTableViewController: UITableViewController {
         UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addingNewAlarm:", name: AddingNewAlarmNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "deletingAlarm:", name: DeletingAlarmNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatingAlarm", name: UpdatingAlarmNotification, object: nil)
         animator = UIDynamicAnimator(referenceView: self.view)
     }
     
@@ -89,6 +91,20 @@ class AlarmTableViewController: UITableViewController {
         
         let tableView = self.view as! UITableView
         tableView.reloadData()
+    }
+    
+    func updatingAlarm(notification: NSNotification){
+        let updateDictionary = notification.userInfo!
+        
+        let rowIndex = Int(updateDictionary["index"] as! String)!
+        ChronoAlarms[rowIndex].setAlarmHour(Int(updateDictionary["alarmHour"] as! String)!)
+        ChronoAlarms[rowIndex].setAlarmMinute(Int(updateDictionary["alarmMinute"] as! String)!)
+        ChronoAlarms[rowIndex].setAlarmName(updateDictionary["alarmHour"] as! String)
+        
+        
+        let tableView = self.view as! UITableView
+        tableView.reloadData()
+        
     }
     
     func toggleAlarm(gestureRecognizer: UISwipeGestureRecognizer){
@@ -268,6 +284,9 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     }
     
     @IBAction func updateAlarm(sender: AnyObject) {
+        let updateDictionary = ["alarmHour": hourTextLabel.text!, "alarmMinute": minuteTextLabel.text!, "alarmName": alarmNameLabel.text!, "alarmAMPM": alarmAMPMSegmentControl.description]
+        NSNotificationCenter.defaultCenter().postNotificationName(UpdatingAlarmNotification, object: self, userInfo: updateDictionary)
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
     func buildArrays(){
