@@ -284,7 +284,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     }
     
     @IBAction func updateAlarm(sender: AnyObject) {
-        let updateDictionary = ["alarmHour": hourTextLabel.text!, "alarmMinute": minuteTextLabel.text!, "alarmName": alarmNameLabel.text!, "alarmAMPM": alarmAMPMSegmentControl.description]
+        let updateDictionary = ["alarmHour": hourTextLabel.text!, "alarmMinute": minuteTextLabel.text!, "alarmName": alarmNameLabel.text!, "alarmAMPM": alarmAMPMSegmentControl.description, "alarmSound": alarmToEdit.alarmSound!]
         NSNotificationCenter.defaultCenter().postNotificationName(UpdatingAlarmNotification, object: self, userInfo: updateDictionary)
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
@@ -349,3 +349,25 @@ class AlarmTableCellView: UITableViewCell {
     var cellPush: UIPushBehavior?
     var cellAnimator: UIDynamicAnimator?
 }
+
+
+
+class SongsTableViewController: UITableViewController {
+    var songArray:[MPMediaItem] = [MPMediaItem]()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        loadSongLibrary()
+    }
+    
+    func loadSongLibrary(){
+        
+    }
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("", forIndexPath: indexPath)
+        return cell
+    }
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return songArray.count
+    }
+}
+
