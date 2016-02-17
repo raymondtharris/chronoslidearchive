@@ -353,6 +353,7 @@ class AlarmTableCellView: UITableViewCell {
 
 
 class SongsTableViewController: UITableViewController {
+    let mediaLibrary: MPMediaLibrary = MPMediaLibrary.defaultMediaLibrary()
     var songArray:[MPMediaItem] = [MPMediaItem]()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -360,14 +361,24 @@ class SongsTableViewController: UITableViewController {
     }
     
     func loadSongLibrary(){
-        
+        songArray = MPMediaQuery.songsQuery().items!
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("AlarmSongCell", forIndexPath: indexPath) as! SongTableCellView
+        
         return cell
     }
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return songArray.count
     }
+}
+
+class SongTableCellView: UITableViewCell {
+    @IBOutlet weak var alarmSongTextLabel: UILabel!
+    @IBOutlet weak var alarmSongImageView: UIImageView!
+    
+    
+    
+    
 }
 
