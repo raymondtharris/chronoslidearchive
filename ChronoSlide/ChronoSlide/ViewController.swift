@@ -137,12 +137,14 @@ class AlarmTableViewController: UITableViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let destination = segue.destinationViewController as! EditAlarmViewController
-        let tView = self.view as! UITableView
-        let indexPath = tView.indexPathForSelectedRow!
-        let tappedAlarm = ChronoAlarms[indexPath.row]
-        destination.alarmToEdit = tappedAlarm
-        destination.editRow = indexPath.row
+        if segue.identifier == "EditSegue" {
+            let destination = segue.destinationViewController as! EditAlarmViewController
+            let tView = self.view as! UITableView
+            let indexPath = tView.indexPathForSelectedRow!
+            let tappedAlarm = ChronoAlarms[indexPath.row]
+            destination.alarmToEdit = tappedAlarm
+            destination.editRow = indexPath.row
+        }
     }
     
     
@@ -362,10 +364,12 @@ class SongsTableViewController: UITableViewController {
     
     func loadSongLibrary(){
         songArray = MPMediaQuery.songsQuery().items!
+        print(songArray.count)
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("AlarmSongCell", forIndexPath: indexPath) as! SongTableCellView
-        
+        cell.alarmSongTextLabel.text = songArray[indexPath.row].title!
+        cell.alarmSongImageView.image = songArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
         return cell
     }
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
