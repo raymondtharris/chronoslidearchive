@@ -167,6 +167,7 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     @IBOutlet weak var chooseToneButton: UIButton!
     @IBOutlet weak var alarmToneLabel: UILabel!
     
+    @IBOutlet weak var scrollView: UIScrollView!
     
     let hourPicker = UIPickerView()
     let minutePicker = UIPickerView()
@@ -186,6 +187,7 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         minutePicker.dataSource = self
         hourTextLabel.inputView = hourPicker
         minuteTextLabel.inputView = minutePicker
+        scrollView.contentSize.height = 800
         
     }
     
