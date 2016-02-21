@@ -157,6 +157,9 @@ class AlarmTableViewController: UITableViewController {
     
 }
 
+let AddingSongNotification:String = "AddingSongNotification"
+
+
 class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
     @IBOutlet weak var hourTextLabel: UITextField!
@@ -188,6 +191,8 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         hourTextLabel.inputView = hourPicker
         minuteTextLabel.inputView = minutePicker
         scrollView.contentSize.height = 800
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addSong:", name: AddingSongNotification, object: nil)
         
     }
     
@@ -245,8 +250,10 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         }
     }
     
-    
-
+    func addSong(notification: NSNotification){
+        let songDictionary = notification.userInfo!
+        print(songDictionary)
+    }
     
 }
 
@@ -372,16 +379,14 @@ class SongsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("AlarmSongCell", forIndexPath: indexPath) as! SongTableCellView
         cell.alarmSongTextLabel.text = songArray[indexPath.row].title!
         cell.alarmSongImageView.image = songArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
+        cell.alarmSongImageView.userInteractionEnabled = true
         
-        
-        // Gesture
+        // Choose Song Gesture
         let chooseGesture = UITapGestureRecognizer.init(target: self, action: "chooseSong:")
-        //chooseGesture.direction = UISwipeGestureRecognizerDirection.Left
         self.view.addGestureRecognizer(chooseGesture)
         
-        // Gesture 2
+        // Previe wSong Gesutre
         let previewGesture = UITapGestureRecognizer.init(target: self, action: "togglePreview:")
-        //gesture.direction = UISwipeGestureRecognizerDirection.Left
         cell.alarmSongImageView.addGestureRecognizer(previewGesture)
         
         return cell
@@ -406,6 +411,10 @@ class SongsTableViewController: UITableViewController {
         let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! SongTableCellView
         print(songArray[indexPath!.row].albumTitle)
         print(tappedCell)
+        let songDictionary = ["songItem": songArray[indexPath!.row]]
+        NSNotificationCenter.defaultCenter().postNotificationName(AddingSongNotification, object: self, userInfo: songDictionary)
+        self.navigationController?.popViewControllerAnimated(true)
+        
     }
 }
 
