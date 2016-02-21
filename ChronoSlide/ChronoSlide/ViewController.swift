@@ -390,12 +390,22 @@ class SongsTableViewController: UITableViewController {
         return songArray.count
     }
     
-    func togglePreview(gesture: UIGestureRecognizer){
+    func togglePreview(gestureRecognizer: UIGestureRecognizer){
         print("toggle Preview")
+        let location = gestureRecognizer.locationInView(self.tableView)
+        let indexPath = self.tableView.indexPathForRowAtPoint(location)
+        let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! SongTableCellView
+        print(songArray[indexPath!.row].title)
+        print(tappedCell)
     }
     
-    func chooseSong(gesture: UIGestureRecognizer){
+    func chooseSong(gestureRecognizer: UIGestureRecognizer){
         print("Choose Song")
+        let location = gestureRecognizer.locationInView(self.tableView)
+        let indexPath = self.tableView.indexPathForRowAtPoint(location)
+        let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! SongTableCellView
+        print(songArray[indexPath!.row].albumTitle)
+        print(tappedCell)
     }
 }
 
