@@ -366,6 +366,7 @@ class AlarmTableCellView: UITableViewCell {
 class SongsTableViewController: UITableViewController {
     let mediaLibrary: MPMediaLibrary = MPMediaLibrary.defaultMediaLibrary()
     var songArray:[MPMediaItem] = [MPMediaItem]()
+    let mediaPlayer: MPMusicPlayerController = MPMusicPlayerController()
     override func viewDidLoad() {
         super.viewDidLoad()
         loadSongLibrary()
@@ -402,6 +403,7 @@ class SongsTableViewController: UITableViewController {
         let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! SongTableCellView
         print(songArray[indexPath!.row].title)
         print(tappedCell)
+        previewSong(songArray[indexPath!.row])
     }
     
     func chooseSong(gestureRecognizer: UIGestureRecognizer){
@@ -416,6 +418,16 @@ class SongsTableViewController: UITableViewController {
         self.navigationController?.popViewControllerAnimated(true)
         
     }
+    
+    func previewSong(songItem: MPMediaItem){
+        if mediaPlayer.nowPlayingItem != nil{
+            mediaPlayer.pause()
+        }
+        mediaPlayer.nowPlayingItem = songItem
+        mediaPlayer.play()
+        
+    }
+    
 }
 
 class SongTableCellView: UITableViewCell {
