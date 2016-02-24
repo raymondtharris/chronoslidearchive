@@ -420,11 +420,20 @@ class SongsTableViewController: UITableViewController {
     }
     
     func previewSong(songItem: MPMediaItem){
+        
         if mediaPlayer.nowPlayingItem != nil{
-            mediaPlayer.pause()
+            //print(mediaPlayer.nowPlayingItem?.title!)
+            if mediaPlayer.nowPlayingItem?.title == songItem.title {
+                mediaPlayer.pause()
+            } else {
+                mediaPlayer.pause()
+                let newQueue = MPMediaItemCollection(items: [songItem])
+                mediaPlayer.setQueueWithItemCollection(newQueue)
+                mediaPlayer.play()
+            }
+            
         }
-        mediaPlayer.nowPlayingItem = songItem
-        mediaPlayer.play()
+        
         
     }
     
