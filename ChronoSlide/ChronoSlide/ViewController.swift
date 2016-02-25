@@ -423,8 +423,13 @@ class SongsTableViewController: UITableViewController {
         
         if mediaPlayer.nowPlayingItem != nil{
             //print(mediaPlayer.nowPlayingItem?.title!)
-            if mediaPlayer.nowPlayingItem?.title == songItem.title {
-                mediaPlayer.pause()
+            if mediaPlayer.nowPlayingItem! == songItem {
+                if mediaPlayer.playbackState == .Playing {
+                    mediaPlayer.pause()
+                } else {
+                    mediaPlayer.play()
+                }
+                
             } else {
                 mediaPlayer.pause()
                 let newQueue = MPMediaItemCollection(items: [songItem])
