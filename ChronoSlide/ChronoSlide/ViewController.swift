@@ -76,7 +76,11 @@ class AlarmTableViewController: UITableViewController {
     func addingNewAlarm(notification: NSNotification){
         let alarmDictionary = notification.userInfo!
         
-        let createdAlarm = Alarm(newMinute: Int(alarmDictionary["alarmMinute"] as! String)!, newHour: Int(alarmDictionary["alarmHour"] as! String)!, newName: alarmDictionary["alarmName"]as! String)
+        var createdAlarm = Alarm(newMinute: Int(alarmDictionary["alarmMinute"] as! String)!, newHour: Int(alarmDictionary["alarmHour"] as! String)!, newName: alarmDictionary["alarmName"]as! String)
+        let song = alarmDictionary["songItem"] as! MPMediaItem
+        if song.title != nil {
+            createdAlarm.alarmSound = song
+        }
         print(createdAlarm.alarmHour.description + ": " + createdAlarm.alarmMinute.description)
         ChronoAlarms.append(createdAlarm)
         let tableView = self.view as! UITableView
@@ -180,6 +184,8 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     var hourData = [String]()
     var minuteData = [String]()
     
+    var songData: MPMediaItem?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         buildArrays()
@@ -212,7 +218,7 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     @IBAction func commitNewAlarm(sender: AnyObject) {
         print(alarmAMPMSegmentedControl.description)
         
-        let alarmDicationary = ["alarmHour": hourTextLabel.text!, "alarmMinute": minuteTextLabel.text!, "alarmName": "test alarm", "alarmAMPM": alarmAMPMSegmentedControl.description] //Need to fix cast or make a wrapper for values.
+        let alarmDicationary = ["alarmHour": hourTextLabel.text!, "alarmMinute": minuteTextLabel.text!, "alarmName": "test alarm", "alarmAMPM": alarmAMPMSegmentedControl.description, "alarmSong": songData!] //Need to fix cast or make a wrapper for values.
         NSNotificationCenter.defaultCenter().postNotificationName(AddingNewAlarmNotification, object: self, userInfo: alarmDicationary as [NSObject : AnyObject])
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
@@ -253,6 +259,9 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     func addSong(notification: NSNotification){
         let songDictionary = notification.userInfo!
         print(songDictionary)
+        let song = songDictionary["songitem"] as! MPMediaItem
+        songData = song
+        alarmToneLabel.text = song.title
     }
     
 }
