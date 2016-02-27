@@ -92,6 +92,14 @@
                                             <rect key="frame" x="55" y="254" width="290" height="29"/>
                                         </variation>
                                     </segmentedControl>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Alarm Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Ij-r5-cwY">
+                                        <rect key="frame" x="51" y="329" width="499" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
+                                            <rect key="frame" x="20" y="328" width="361" height="30"/>
+                                        </variation>
+                                    </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0n3-l1-DNr">
                                         <rect key="frame" x="56" y="403" width="325" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -127,14 +135,43 @@
                                             <rect key="frame" x="218" y="37" width="127" height="139"/>
                                         </variation>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Alarm Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Ij-r5-cwY">
-                                        <rect key="frame" x="51" y="329" width="499" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
-                                            <rect key="frame" x="20" y="328" width="361" height="30"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Akg-hL-aOt">
+                                        <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="widthClass=compact" fixedFrame="YES">
+                                            <rect key="frame" x="20" y="482" width="42" height="21"/>
                                         </variation>
-                                    </textField>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Song" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qRi-5N-pWI">
+                                        <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="widthClass=compact" fixedFrame="YES">
+                                            <rect key="frame" x="181" y="377" width="40" height="21"/>
+                                        </variation>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repeat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZpZ-cs-aFi">
+                                        <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="widthClass=compact" fixedFrame="YES">
+                                            <rect key="frame" x="173" y="448" width="54" height="21"/>
+                                        </variation>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a5Q-bv-orC">
+                                        <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <state key="normal" title="Button"/>
+                                        <variation key="widthClass=compact" fixedFrame="YES">
+                                            <rect key="frame" x="335" y="478" width="46" height="30"/>
+                                        </variation>
+                                        <connections>
+                                            <segue destination="7SW-c2-A0L" kind="show" id="hwV-Nk-ktO"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="wyW-xR-uCw" secondAttribute="trailing" constant="55" id="7qc-3o-4XT"/>
@@ -158,6 +195,12 @@
                                     <constraint firstAttribute="trailing" secondItem="kZZ-L4-zsi" secondAttribute="trailing" constant="19" id="wpc-1j-81J"/>
                                 </constraints>
                                 <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="Akg-hL-aOt"/>
+                                        <exclude reference="qRi-5N-pWI"/>
+                                        <exclude reference="ZpZ-cs-aFi"/>
+                                        <exclude reference="a5Q-bv-orC"/>
+                                    </mask>
                                     <mask key="constraints">
                                         <exclude reference="VwT-Xh-bxj"/>
                                         <exclude reference="g2J-9b-0wF"/>
@@ -182,6 +225,12 @@
                                 </variation>
                                 <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
                                     <rect key="frame" x="0.0" y="64" width="400" height="536"/>
+                                    <mask key="subviews">
+                                        <include reference="Akg-hL-aOt"/>
+                                        <include reference="qRi-5N-pWI"/>
+                                        <include reference="ZpZ-cs-aFi"/>
+                                        <include reference="a5Q-bv-orC"/>
+                                    </mask>
                                     <mask key="constraints">
                                         <include reference="VwT-Xh-bxj"/>
                                         <include reference="g2J-9b-0wF"/>
@@ -240,7 +289,9 @@
                     <connections>
                         <outlet property="alarmAMPMSegmentedControl" destination="gco-kS-UUj" id="FLm-W4-CEm"/>
                         <outlet property="alarmNameTextField" destination="6Ij-r5-cwY" id="6bD-VT-nmn"/>
+                        <outlet property="alarmRepeatLabel" destination="Akg-hL-aOt" id="kh6-Da-6mJ"/>
                         <outlet property="alarmToneLabel" destination="0n3-l1-DNr" id="G0f-BJ-ob1"/>
+                        <outlet property="chooseRepeatButton" destination="a5Q-bv-orC" id="A3i-R5-E3u"/>
                         <outlet property="chooseToneButton" destination="kZZ-L4-zsi" id="yEv-80-rUU"/>
                         <outlet property="hourTextLabel" destination="QBI-et-wYX" id="qlf-YW-3qF"/>
                         <outlet property="minuteTextLabel" destination="wyW-xR-uCw" id="zFd-u8-R72"/>
@@ -251,7 +302,7 @@
             </objects>
             <point key="canvasLocation" x="1314" y="376"/>
         </scene>
-        <!--Songs Table View Controller-->
+        <!--Songs-->
         <scene sceneID="0aX-iR-nPL">
             <objects>
                 <tableViewController id="Rwp-vg-Bn3" customClass="SongsTableViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
@@ -295,10 +346,37 @@
                             <outlet property="delegate" destination="Rwp-vg-Bn3" id="pIN-YA-XAj"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Songs" id="vlJ-rP-Pe6"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NYt-ip-PPL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2064" y="376"/>
+        </scene>
+        <!--Repeat-->
+        <scene sceneID="JLe-Yi-Ehz">
+            <objects>
+                <tableViewController id="7SW-c2-A0L" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="qlB-Nm-Ivz">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="G0h-Bh-QMl">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G0h-Bh-QMl" id="cFJ-ma-ewn">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="7SW-c2-A0L" id="A3y-lw-4f7"/>
+                            <outlet property="delegate" destination="7SW-c2-A0L" id="pBe-Cu-UDh"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Repeat" id="Zfz-EV-bJz"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z6w-zi-uh0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2064" y="1159"/>
         </scene>
         <!--Edit Alarm-->
         <scene sceneID="UI6-pV-Gho">

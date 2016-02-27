@@ -174,6 +174,10 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     @IBOutlet weak var chooseToneButton: UIButton!
     @IBOutlet weak var alarmToneLabel: UILabel!
     
+    
+    @IBOutlet weak var alarmRepeatLabel: UILabel!
+    @IBOutlet weak var chooseRepeatButton: UIButton!
+    
     @IBOutlet weak var scrollView: UIScrollView!
     
     let hourPicker = UIPickerView()

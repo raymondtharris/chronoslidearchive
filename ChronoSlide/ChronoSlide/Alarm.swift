@@ -17,6 +17,7 @@ struct Alarm {
     var alarmName: String
     var alarmSound: MPMediaItem? = nil
     var alarmNotification: UILocalNotification? = nil
+    var alarmRepeat: String = "None"
     
     init(){
         self.alarmMinute = 30
