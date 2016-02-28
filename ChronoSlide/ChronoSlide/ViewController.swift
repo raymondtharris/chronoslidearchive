@@ -15,6 +15,7 @@ import MediaPlayer
 let AddingNewAlarmNotification:String = "AddingNewAlarmNotification"
 let DeletingAlarmNotification:String = "DeletingAlarmNotification"
 let UpdatingAlarmNotification:String = "UpdatingAlarmNotification"
+let RepeatMacros = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Everyday", "Weekly", "Montly"]
 
 class AlarmTableViewController: UITableViewController {
     @IBOutlet weak var settingsButton: UIBarButtonItem!
@@ -178,6 +179,8 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     @IBOutlet weak var alarmRepeatLabel: UILabel!
     @IBOutlet weak var chooseRepeatButton: UIButton!
     
+    @IBOutlet weak var alarmRepeatTitleLabel: UILabel!
+    
     @IBOutlet weak var scrollView: UIScrollView!
     
     let hourPicker = UIPickerView()
@@ -201,6 +204,10 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         hourTextLabel.inputView = hourPicker
         minuteTextLabel.inputView = minutePicker
         scrollView.contentSize.height = 800
+        
+        alarmRepeatLabel.hidden = true
+        alarmRepeatTitleLabel.hidden = true
+        chooseRepeatButton.hidden = true
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addSong:", name: AddingSongNotification, object: nil)
         

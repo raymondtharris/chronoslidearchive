@@ -150,16 +150,7 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="widthClass=compact" fixedFrame="YES">
-                                            <rect key="frame" x="181" y="377" width="40" height="21"/>
-                                        </variation>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repeat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZpZ-cs-aFi">
-                                        <rect key="frame" x="-42" y="-21" width="42" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                        <variation key="widthClass=compact" fixedFrame="YES">
-                                            <rect key="frame" x="173" y="448" width="54" height="21"/>
+                                            <rect key="frame" x="20" y="377" width="40" height="21"/>
                                         </variation>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a5Q-bv-orC">
@@ -172,6 +163,15 @@
                                             <segue destination="7SW-c2-A0L" kind="show" id="hwV-Nk-ktO"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repeat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZpZ-cs-aFi">
+                                        <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="widthClass=compact" fixedFrame="YES">
+                                            <rect key="frame" x="20" y="447" width="54" height="21"/>
+                                        </variation>
+                                    </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="wyW-xR-uCw" secondAttribute="trailing" constant="55" id="7qc-3o-4XT"/>
@@ -198,8 +198,8 @@
                                     <mask key="subviews">
                                         <exclude reference="Akg-hL-aOt"/>
                                         <exclude reference="qRi-5N-pWI"/>
-                                        <exclude reference="ZpZ-cs-aFi"/>
                                         <exclude reference="a5Q-bv-orC"/>
+                                        <exclude reference="ZpZ-cs-aFi"/>
                                     </mask>
                                     <mask key="constraints">
                                         <exclude reference="VwT-Xh-bxj"/>
@@ -228,8 +228,8 @@
                                     <mask key="subviews">
                                         <include reference="Akg-hL-aOt"/>
                                         <include reference="qRi-5N-pWI"/>
-                                        <include reference="ZpZ-cs-aFi"/>
                                         <include reference="a5Q-bv-orC"/>
+                                        <include reference="ZpZ-cs-aFi"/>
                                     </mask>
                                     <mask key="constraints">
                                         <include reference="VwT-Xh-bxj"/>
@@ -290,6 +290,7 @@
                         <outlet property="alarmAMPMSegmentedControl" destination="gco-kS-UUj" id="FLm-W4-CEm"/>
                         <outlet property="alarmNameTextField" destination="6Ij-r5-cwY" id="6bD-VT-nmn"/>
                         <outlet property="alarmRepeatLabel" destination="Akg-hL-aOt" id="kh6-Da-6mJ"/>
+                        <outlet property="alarmRepeatTitleLabel" destination="ZpZ-cs-aFi" id="YO4-ae-Z9g"/>
                         <outlet property="alarmToneLabel" destination="0n3-l1-DNr" id="G0f-BJ-ob1"/>
                         <outlet property="chooseRepeatButton" destination="a5Q-bv-orC" id="A3i-R5-E3u"/>
                         <outlet property="chooseToneButton" destination="kZZ-L4-zsi" id="yEv-80-rUU"/>
@@ -372,7 +373,9 @@
                             <outlet property="delegate" destination="7SW-c2-A0L" id="pBe-Cu-UDh"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Repeat" id="Zfz-EV-bJz"/>
+                    <navigationItem key="navigationItem" title="Repeat" id="Zfz-EV-bJz">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="957-1t-i4b"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z6w-zi-uh0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
