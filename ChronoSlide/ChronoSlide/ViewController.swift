@@ -15,7 +15,7 @@ import MediaPlayer
 let AddingNewAlarmNotification:String = "AddingNewAlarmNotification"
 let DeletingAlarmNotification:String = "DeletingAlarmNotification"
 let UpdatingAlarmNotification:String = "UpdatingAlarmNotification"
-let RepeatMacros = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Everyday", "Weekly", "Montly"]
+let RepeatMacros = ["None", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Everyday", "Weekly", "Montly"]
 
 class AlarmTableViewController: UITableViewController {
     @IBOutlet weak var settingsButton: UIBarButtonItem!
@@ -471,5 +471,19 @@ class SongTableCellView: UITableViewCell {
     var previewState: Bool = false
     
     
+}
+
+class AlarmRepeatTableViewController: UITableViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("", forIndexPath: indexPath)
+        return cell
+    }
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return RepeatMacros.count
+    }
 }
 

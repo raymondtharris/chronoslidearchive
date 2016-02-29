@@ -17,7 +17,8 @@ struct Alarm {
     var alarmName: String
     var alarmSound: MPMediaItem? = nil
     var alarmNotification: UILocalNotification? = nil
-    var alarmRepeat: String = "None"
+    var alarmRepeat: [repeatType] = [.None]
+    var alarmRepeats: Bool = false
     
     init(){
         self.alarmMinute = 30
@@ -55,3 +56,16 @@ struct Alarm {
 }
 
 
+enum repeatType {
+    case Monday
+    case Tuesday
+    case Wednesday
+    case Thursday
+    case Friday
+    case Saturday
+    case Sunday
+    case Everyday
+    case Weekly
+    case Monthly
+    case None
+}
