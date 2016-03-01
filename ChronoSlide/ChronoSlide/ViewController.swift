@@ -474,16 +474,27 @@ class SongTableCellView: UITableViewCell {
 }
 
 class AlarmRepeatTableViewController: UITableViewController {
+    
+    @IBOutlet weak var repeatDoneButton: UIBarButtonItem!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        repeatDoneButton.enabled = false
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("", forIndexPath: indexPath) as! RepeatTableCellView
+        cell.repeatTypeLabel.text = RepeatMacros[indexPath.row]
         return cell
     }
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return RepeatMacros.count
     }
+
+}
+
+class RepeatTableCellView: UITableViewCell {
+    @IBOutlet weak var repeatTypeLabel: UILabel!
 }
 
