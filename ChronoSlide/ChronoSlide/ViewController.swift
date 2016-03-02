@@ -476,7 +476,7 @@ class SongTableCellView: UITableViewCell {
 class AlarmRepeatTableViewController: UITableViewController {
     
     @IBOutlet weak var repeatDoneButton: UIBarButtonItem!
-    
+    var selectedRepeats: [repeatType] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -492,6 +492,21 @@ class AlarmRepeatTableViewController: UITableViewController {
         return RepeatMacros.count
     }
 
+    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! RepeatTableCellView
+        if selectedCell.accessoryType == UITableViewCellAccessoryType.None {
+            
+        } else {
+            selectedCell.accessoryType = UITableViewCellAccessoryType.None
+        }
+    }
+    
+    func calculateOtherRepeats(tappedOption: RepeatTableCellView){
+        switch (tappedOption.repeatTypeLabel.text!) {
+        default:
+            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
+        }
+    }
 }
 
 class RepeatTableCellView: UITableViewCell {
