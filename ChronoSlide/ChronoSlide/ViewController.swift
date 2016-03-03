@@ -15,7 +15,8 @@ import MediaPlayer
 let AddingNewAlarmNotification:String = "AddingNewAlarmNotification"
 let DeletingAlarmNotification:String = "DeletingAlarmNotification"
 let UpdatingAlarmNotification:String = "UpdatingAlarmNotification"
-let RepeatMacros = ["None", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Everyday", "Weekly", "Montly"]
+let RepeatMacros = [repeatType.None, repeatType.Monday, repeatType.Tuesday, repeatType.Wednesday, repeatType.Thursday, repeatType.Friday, repeatType.Saturday, repeatType.Sunday, repeatType.Everyday, repeatType.Weekly, repeatType.Monthly]
+
 
 class AlarmTableViewController: UITableViewController {
     @IBOutlet weak var settingsButton: UIBarButtonItem!
@@ -485,7 +486,7 @@ class AlarmRepeatTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("", forIndexPath: indexPath) as! RepeatTableCellView
-        cell.repeatTypeLabel.text = RepeatMacros[indexPath.row]
+        cell.repeatTypeLabel.text = RepeatMacros[indexPath.row].description
         return cell
     }
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -501,8 +502,11 @@ class AlarmRepeatTableViewController: UITableViewController {
         }
     }
     
-    func calculateOtherRepeats(tappedOption: RepeatTableCellView){
-        switch (tappedOption.repeatTypeLabel.text!) {
+    func calculateOtherRepeats(tappedOption: RepeatTableCellView, row: Int){
+        let tapped = RepeatMacros[row]
+        switch (tapped) {
+        case .Everyday:
+            break
         default:
             tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
         }

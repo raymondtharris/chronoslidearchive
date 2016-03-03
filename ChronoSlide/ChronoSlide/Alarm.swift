@@ -56,7 +56,7 @@ struct Alarm {
 }
 
 
-enum repeatType {
+enum repeatType: CustomStringConvertible {
     case Monday
     case Tuesday
     case Wednesday
@@ -68,4 +68,21 @@ enum repeatType {
     case Weekly
     case Monthly
     case None
+    
+    var description: String {
+        switch self {
+        case .Monday: return "Monday";
+        case .Tuesday: return "Tuesday";
+        case .Wednesday: return "Wednesday";
+        case .Thursday: return "Thursday";
+        case .Friday: return "Friday";
+        case .Saturday: return "Saturday";
+        case .Sunday: return "Sunday";
+        case .Everyday: return "Everyday";
+        case .Weekly: return "Weekly";
+        case .Monthly: return "Monthly";
+        case .None: return "None:";
+        }
+        
+    }
 }
