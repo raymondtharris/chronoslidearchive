@@ -92,7 +92,7 @@
                                             <rect key="frame" x="55" y="254" width="290" height="29"/>
                                         </variation>
                                     </segmentedControl>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Alarm Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Ij-r5-cwY">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Alarm Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Ij-r5-cwY">
                                         <rect key="frame" x="51" y="329" width="499" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -100,7 +100,7 @@
                                             <rect key="frame" x="20" y="328" width="361" height="30"/>
                                         </variation>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0n3-l1-DNr">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0n3-l1-DNr">
                                         <rect key="frame" x="56" y="403" width="325" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -109,7 +109,7 @@
                                             <rect key="frame" x="20" y="406" width="267" height="21"/>
                                         </variation>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kZZ-L4-zsi">
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kZZ-L4-zsi">
                                         <rect key="frame" x="56" y="453" width="46" height="30"/>
                                         <state key="normal" title="Button"/>
                                         <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
@@ -202,9 +202,6 @@
                                         <exclude reference="ZpZ-cs-aFi"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <exclude reference="VwT-Xh-bxj"/>
-                                        <exclude reference="g2J-9b-0wF"/>
-                                        <exclude reference="rF0-P7-v4B"/>
                                         <exclude reference="7qc-3o-4XT"/>
                                         <exclude reference="U7G-xX-RYO"/>
                                         <exclude reference="mIj-gK-y2I"/>
@@ -213,6 +210,9 @@
                                         <exclude reference="ZV4-Kp-t3O"/>
                                         <exclude reference="eZi-WL-ICX"/>
                                         <exclude reference="r4v-YT-dEW"/>
+                                        <exclude reference="VwT-Xh-bxj"/>
+                                        <exclude reference="g2J-9b-0wF"/>
+                                        <exclude reference="rF0-P7-v4B"/>
                                         <exclude reference="FJd-UH-CAE"/>
                                         <exclude reference="NV6-Gn-Fae"/>
                                         <exclude reference="bDB-VW-Pu3"/>
@@ -232,9 +232,6 @@
                                         <include reference="ZpZ-cs-aFi"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <include reference="VwT-Xh-bxj"/>
-                                        <include reference="g2J-9b-0wF"/>
-                                        <include reference="rF0-P7-v4B"/>
                                         <include reference="7qc-3o-4XT"/>
                                         <include reference="U7G-xX-RYO"/>
                                         <include reference="mIj-gK-y2I"/>
@@ -243,6 +240,9 @@
                                         <include reference="ZV4-Kp-t3O"/>
                                         <include reference="eZi-WL-ICX"/>
                                         <include reference="r4v-YT-dEW"/>
+                                        <include reference="VwT-Xh-bxj"/>
+                                        <include reference="g2J-9b-0wF"/>
+                                        <include reference="rF0-P7-v4B"/>
                                         <include reference="FJd-UH-CAE"/>
                                         <include reference="NV6-Gn-Fae"/>
                                         <include reference="bDB-VW-Pu3"/>
@@ -313,10 +313,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AlarmSongCell" rowHeight="76" id="u8d-1E-x6t" customClass="SongTableCellView" customModule="ChronoSlide" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="57"/>
+                                <rect key="frame" x="0.0" y="92" width="600" height="76"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u8d-1E-x6t" id="kic-tj-Xks">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="56"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="75"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R1e-53-vyd">
@@ -358,12 +358,15 @@
             <objects>
                 <tableViewController id="7SW-c2-A0L" customClass="AlarmRepeatTableViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="qlB-Nm-Ivz">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="G0h-Bh-QMl" customClass="RepeatTableCellView" customModule="ChronoSlide" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G0h-Bh-QMl" id="cFJ-ma-ewn">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="490-iu-x9t">

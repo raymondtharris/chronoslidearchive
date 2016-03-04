@@ -496,7 +496,7 @@ class AlarmRepeatTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! RepeatTableCellView
         if selectedCell.accessoryType == UITableViewCellAccessoryType.None {
-            
+            calculateOtherRepeats(selectedCell, row: indexPath.row)
         } else {
             selectedCell.accessoryType = UITableViewCellAccessoryType.None
         }
@@ -505,15 +505,35 @@ class AlarmRepeatTableViewController: UITableViewController {
     func calculateOtherRepeats(tappedOption: RepeatTableCellView, row: Int){
         let tapped = RepeatMacros[row]
         switch (tapped) {
+        case .None:
+            selectedRepeats = [.None]
+            
+            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
+            break
+        case .Weekly:
+            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
+            break
+        case .Monthly:
+            break
         case .Everyday:
             break
         default:
+            if selectedRepeats.contains(repeatType.Monthly) || selectedRepeats.contains(repeatType.Weekly) {
+                
+            }
             tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
         }
     }
+    
+    
 }
 
 class RepeatTableCellView: UITableViewCell {
     @IBOutlet weak var repeatTypeLabel: UILabel!
+    var isChecked: Bool = false
+    
+  
+    
+    
 }
 

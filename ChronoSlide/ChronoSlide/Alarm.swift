@@ -56,7 +56,7 @@ struct Alarm {
 }
 
 
-enum repeatType: CustomStringConvertible {
+enum repeatType: CustomStringConvertible, Equatable {
     case Monday
     case Tuesday
     case Wednesday
@@ -84,5 +84,9 @@ enum repeatType: CustomStringConvertible {
         case .None: return "None:";
         }
         
+    }
+    
+    func ||(){
+    
     }
 }
