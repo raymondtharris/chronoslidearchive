@@ -85,8 +85,5 @@ enum repeatType: CustomStringConvertible, Equatable {
         }
         
     }
-    
-    func ||(){
-    
-    }
+
 }

@@ -507,24 +507,38 @@ class AlarmRepeatTableViewController: UITableViewController {
         switch (tapped) {
         case .None:
             selectedRepeats = [.None]
-            
+            clearTableView()
             tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
             break
         case .Weekly:
+            selectedRepeats = [.Weekly]
+            self.tableView.cellForRowAtIndexPath(NSIndexPath(index: 0))
             tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
             break
         case .Monthly:
             break
         case .Everyday:
+            if selectedRepeats.count > 0 {
+                clearTableView()
+            }
+            selectedRepeats = [.Everyday]
+            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
             break
         default:
-            if selectedRepeats.contains(repeatType.Monthly) || selectedRepeats.contains(repeatType.Weekly) {
-                
+            if selectedRepeats.contains(repeatType.Monthly) || selectedRepeats.contains(repeatType.Weekly) || selectedRepeats.contains(repeatType.Everyday) {
+                clearTableView()
             }
             tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
         }
     }
     
+    func clearTableView(){
+        for anIndex in 0..<RepeatMacros.count {
+            let current =  self.tableView.cellForRowAtIndexPath(NSIndexPath(index: anIndex)) as! RepeatTableCellView
+            current.accessoryType = UITableViewCellAccessoryType.None
+        }
+        
+    }
     
 }
 
