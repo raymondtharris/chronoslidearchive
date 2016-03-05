@@ -15,7 +15,7 @@ import MediaPlayer
 let AddingNewAlarmNotification:String = "AddingNewAlarmNotification"
 let DeletingAlarmNotification:String = "DeletingAlarmNotification"
 let UpdatingAlarmNotification:String = "UpdatingAlarmNotification"
-let RepeatMacros = [repeatType.None, repeatType.Monday, repeatType.Tuesday, repeatType.Wednesday, repeatType.Thursday, repeatType.Friday, repeatType.Saturday, repeatType.Sunday, repeatType.Everyday, repeatType.Weekly, repeatType.Monthly]
+let RepeatMacros = [repeatType.None, repeatType.Monday, repeatType.Tuesday, repeatType.Wednesday, repeatType.Thursday, repeatType.Friday, repeatType.Saturday, repeatType.Sunday, repeatType.Everyday]
 
 
 class AlarmTableViewController: UITableViewController {
@@ -510,13 +510,6 @@ class AlarmRepeatTableViewController: UITableViewController {
             clearTableView()
             tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
             break
-        case .Weekly:
-            selectedRepeats = [.Weekly]
-            self.tableView.cellForRowAtIndexPath(NSIndexPath(index: 0))
-            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
-            break
-        case .Monthly:
-            break
         case .Everyday:
             if selectedRepeats.count > 0 {
                 clearTableView()
@@ -525,8 +518,11 @@ class AlarmRepeatTableViewController: UITableViewController {
             tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
             break
         default:
-            if selectedRepeats.contains(repeatType.Monthly) || selectedRepeats.contains(repeatType.Weekly) || selectedRepeats.contains(repeatType.Everyday) {
+            if selectedRepeats.contains(repeatType.None) || selectedRepeats.contains(repeatType.Everyday) {
                 clearTableView()
+                selectedRepeats = [tapped]
+            } else{
+                selectedRepeats.append(tapped)
             }
             tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
         }
