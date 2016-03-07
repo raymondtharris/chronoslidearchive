@@ -164,6 +164,7 @@ class AlarmTableViewController: UITableViewController {
 }
 
 let AddingSongNotification:String = "AddingSongNotification"
+let AddingRepeatsNotification:String = "AddingRepeatsNotification"
 
 
 class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
@@ -193,6 +194,7 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     var minuteData = [String]()
     
     var songData: MPMediaItem?
+    var repeatData: [repeatType] = [.None]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -211,6 +213,7 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         chooseRepeatButton.hidden = true
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addSong:", name: AddingSongNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addRepeat:", name: AddingRepeatsNotification, object: nil)
         
     }
     
@@ -276,6 +279,19 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         alarmToneLabel.text = song.title
     }
     
+    func addRepeat(notification: NSNotification){
+        let repeatsDictionary = notification.userInfo!
+        let repeats = repeatsDictionary["repeats"] as! [repeatType]
+        repeatData = repeats
+    }
+    
+    func determineRepeatLabel(){
+        if repeatData.count > 1 {
+            alarmRepeatLabel.text = "Custom"
+        } else {
+            alarmRepeatLabel.text = "Every " + repeatData[0].description
+        }
+    }
 }
 
 class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
@@ -481,7 +497,7 @@ class AlarmRepeatTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        repeatDoneButton.enabled = false
+        repeatDoneButton.enabled = true
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -535,6 +551,14 @@ class AlarmRepeatTableViewController: UITableViewController {
         }
         
     }
+    
+    
+    @IBAction func commitRepeats(sender: AnyObject) {
+        let repeatDictionary = ["repeats": selectedRepeats as! AnyObject]
+        NSNotificationCenter.defaultCenter().postNotificationName(AddingRepeatsNotification, object: self, userInfo: repeatDictionary )
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
     
 }
 

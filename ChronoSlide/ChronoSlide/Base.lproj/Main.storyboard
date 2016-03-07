@@ -401,7 +401,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Repeat" id="Zfz-EV-bJz">
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="957-1t-i4b"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="957-1t-i4b">
+                            <connections>
+                                <action selector="commitRepeats:" destination="7SW-c2-A0L" id="7Bj-de-2jV"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="repeatDoneButton" destination="957-1t-i4b" id="Vgj-jH-m0p"/>
