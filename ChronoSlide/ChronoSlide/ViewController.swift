@@ -287,10 +287,27 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     func determineRepeatLabel(){
         if repeatData.count > 1 {
-            alarmRepeatLabel.text = "Custom"
+            let labelString = buildRepeatString()
+            alarmRepeatLabel.text = "Every " + labelString
+        } else if repeatData[0] == .Everyday {
+            alarmRepeatLabel.text = "Everyday"
         } else {
             alarmRepeatLabel.text = "Every " + repeatData[0].description
         }
+    }
+    
+    func buildRepeatString() -> String{
+        var str = ""
+        var index = 0
+        for repeatItem in repeatData {
+            if index == repeatData.count {
+                str = str + " " + repeatItem.description
+            } else {
+                str = str + " " + repeatItem.description + ","
+             }
+            index = index + 1
+        }
+        return str
     }
 }
 
