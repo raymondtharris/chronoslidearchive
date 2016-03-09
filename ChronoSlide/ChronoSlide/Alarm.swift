@@ -53,6 +53,10 @@ struct Alarm {
         alarmSound = newSound
     }
     
+    mutating func setAlarmNotification(newNotification: UILocalNotification) {
+        alarmNotification = newNotification
+    }
+    
 }
 
 

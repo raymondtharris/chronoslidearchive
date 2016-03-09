@@ -83,11 +83,27 @@ class AlarmTableViewController: UITableViewController {
         if song.title != nil {
             createdAlarm.alarmSound = song
         }
+        
+        let notificationDate = createNotificationDate(Int(alarmDictionary["alarmHour"] as! String)!, alarmMinute: Int(alarmDictionary["alarmMinute"] as! String)!, alarmRepeats: alarmDictionary["repeats"] as! [repeatType])
+        
+        // set notification.
+        
         print(createdAlarm.alarmHour.description + ": " + createdAlarm.alarmMinute.description)
         ChronoAlarms.append(createdAlarm)
         let tableView = self.view as! UITableView
         tableView.reloadData()
     }
+    
+    func createNotificationDate(alarmHour: Int, alarmMinute: Int, alarmRepeats: [repeatType]) -> NSDate?{
+        let cal = NSCalendar.currentCalendar()
+        let calComponents = NSDateComponents()
+        calComponents.hour = alarmHour
+        calComponents.minute = alarmMinute
+        calComponents.second = 0
+        let returnDate = cal.dateFromComponents(calComponents)
+        return returnDate
+    }
+    
     
     func deletingAlarm(notification: NSNotification){
         let removeDictionary = notification.userInfo!
@@ -98,6 +114,8 @@ class AlarmTableViewController: UITableViewController {
         let tableView = self.view as! UITableView
         tableView.reloadData()
     }
+    
+    
     
     func updatingAlarm(notification: NSNotification){
         let updateDictionary = notification.userInfo!
