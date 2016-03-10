@@ -87,6 +87,11 @@ class AlarmTableViewController: UITableViewController {
         let notificationDate = createNotificationDate(Int(alarmDictionary["alarmHour"] as! String)!, alarmMinute: Int(alarmDictionary["alarmMinute"] as! String)!, alarmRepeats: alarmDictionary["repeats"] as! [repeatType])
         
         // set notification.
+        let notification = UILocalNotification()
+        notification.alertBody = createdAlarm.alarmName
+        notification.alertTitle = "Alarm"
+        notification.fireDate = notificationDate
+        
         
         print(createdAlarm.alarmHour.description + ": " + createdAlarm.alarmMinute.description)
         ChronoAlarms.append(createdAlarm)
