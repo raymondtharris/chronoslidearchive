@@ -368,12 +368,15 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     var hourData = [String]()
     var minuteData = [String]()
     
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         buildArrays()
         updateAlarmButton.enabled = false
         hourTextLabel.text = alarmToEdit.alarmHour.description
         minuteTextLabel.text = alarmToEdit.alarmMinute.description
+        scrollView.contentSize.height = 800
     }
     
     @IBAction func updateAlarm(sender: AnyObject) {
