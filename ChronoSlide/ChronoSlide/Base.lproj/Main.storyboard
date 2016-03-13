@@ -470,21 +470,55 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="widthClass=compact" fixedFrame="YES">
-                                            <rect key="frame" x="23" y="385" width="265" height="21"/>
+                                            <rect key="frame" x="27" y="424" width="265" height="21"/>
                                         </variation>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="306-YL-VA8">
                                         <rect key="frame" x="496" y="450" width="46" height="30"/>
                                         <state key="normal" title="Button"/>
                                         <variation key="widthClass=compact" fixedFrame="YES">
-                                            <rect key="frame" x="323" y="381" width="46" height="30"/>
+                                            <rect key="frame" x="327" y="420" width="46" height="30"/>
+                                        </variation>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Song" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="et6-7w-jpi">
+                                        <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="widthClass=compact" fixedFrame="YES">
+                                            <rect key="frame" x="27" y="384" width="71" height="21"/>
+                                        </variation>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repeat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C0e-Wz-crv">
+                                        <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="widthClass=compact" fixedFrame="YES">
+                                            <rect key="frame" x="27" y="474" width="65" height="21"/>
+                                        </variation>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mII-1I-GBj">
+                                        <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="widthClass=compact" fixedFrame="YES">
+                                            <rect key="frame" x="27" y="517" width="265" height="21"/>
+                                        </variation>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vSF-yg-aCO">
+                                        <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <state key="normal" title="Button"/>
+                                        <variation key="widthClass=compact" fixedFrame="YES">
+                                            <rect key="frame" x="327" y="513" width="46" height="30"/>
                                         </variation>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rEt-Yr-gKF">
                                         <rect key="frame" x="105" y="530" width="390" height="45"/>
                                         <state key="normal" title="Remove Alarm"/>
                                         <variation key="widthClass=compact" fixedFrame="YES">
-                                            <rect key="frame" x="23" y="443" width="346" height="45"/>
+                                            <rect key="frame" x="27" y="595" width="346" height="45"/>
                                         </variation>
                                         <connections>
                                             <action selector="removeAlarm:" destination="JsC-fF-64p" eventType="touchUpInside" id="RlP-PL-Xqj"/>
@@ -499,11 +533,15 @@
                                         <exclude reference="x8B-3C-UDW"/>
                                         <exclude reference="TJo-Yu-HXB"/>
                                         <exclude reference="306-YL-VA8"/>
+                                        <exclude reference="et6-7w-jpi"/>
+                                        <exclude reference="C0e-Wz-crv"/>
+                                        <exclude reference="mII-1I-GBj"/>
+                                        <exclude reference="vSF-yg-aCO"/>
                                         <exclude reference="rEt-Yr-gKF"/>
                                     </mask>
                                 </variation>
                                 <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="64" width="400" height="536"/>
+                                    <rect key="frame" x="0.0" y="64" width="400" height="736"/>
                                     <mask key="subviews">
                                         <include reference="vvL-mY-VPj"/>
                                         <include reference="mer-S3-Lei"/>
@@ -511,6 +549,10 @@
                                         <include reference="x8B-3C-UDW"/>
                                         <include reference="TJo-Yu-HXB"/>
                                         <include reference="306-YL-VA8"/>
+                                        <include reference="et6-7w-jpi"/>
+                                        <include reference="C0e-Wz-crv"/>
+                                        <include reference="mII-1I-GBj"/>
+                                        <include reference="vSF-yg-aCO"/>
                                         <include reference="rEt-Yr-gKF"/>
                                     </mask>
                                 </variation>
@@ -535,11 +577,19 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="400" height="800"/>
                     <connections>
+                        <outlet property="RepeatSectionLabel" destination="C0e-Wz-crv" id="N3y-dW-Ody"/>
+                        <outlet property="SongSectionLabel" destination="et6-7w-jpi" id="2Gk-nX-Nnr"/>
                         <outlet property="alarmAMPMSegmentControl" destination="3dt-B1-v9S" id="Tds-yn-Vva"/>
                         <outlet property="alarmNameLabel" destination="x8B-3C-UDW" id="407-61-Zyc"/>
+                        <outlet property="alarmRepeatLabel" destination="mII-1I-GBj" id="hxg-tL-av9"/>
+                        <outlet property="alarmSongLabel" destination="TJo-Yu-HXB" id="eze-vr-ZxR"/>
                         <outlet property="alarmSoundLabel" destination="TJo-Yu-HXB" id="Add-X5-d1x"/>
                         <outlet property="alarmToneChooseButton" destination="306-YL-VA8" id="1Sh-YR-gYd"/>
+                        <outlet property="chooseRepeatButton" destination="vSF-yg-aCO" id="IMQ-Ms-6N3"/>
+                        <outlet property="chooseSongButton" destination="306-YL-VA8" id="Svm-Sy-aCa"/>
                         <outlet property="hourTextLabel" destination="vvL-mY-VPj" id="sHh-X6-bJt"/>
                         <outlet property="minuteTextLabel" destination="mer-S3-Lei" id="zyA-W6-ach"/>
                         <outlet property="scrollView" destination="AQ8-JQ-6SM" id="qeG-Pu-R8e"/>

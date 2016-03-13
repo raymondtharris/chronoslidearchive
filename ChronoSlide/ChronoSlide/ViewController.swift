@@ -368,6 +368,16 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     var hourData = [String]()
     var minuteData = [String]()
     
+    @IBOutlet weak var SongSectionLabel: UILabel!
+    @IBOutlet weak var alarmSongLabel: UILabel!
+    @IBOutlet weak var chooseSongButton: UIButton!
+    
+    @IBOutlet weak var RepeatSectionLabel: UILabel!
+    @IBOutlet weak var alarmRepeatLabel: UILabel!
+    
+    @IBOutlet weak var chooseRepeatButton: UIButton!
+    
+    
     @IBOutlet weak var scrollView: UIScrollView!
     
     override func viewDidLoad() {
