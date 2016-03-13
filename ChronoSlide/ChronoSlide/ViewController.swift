@@ -442,6 +442,15 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
+    
+    @IBAction func chooseSong(sender: AnyObject) {
+    }
+    
+    
+    @IBOutlet weak var chooseRepeats: UIButton!
+    
+    
+    
 }
 
 

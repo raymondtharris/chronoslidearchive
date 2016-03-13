@@ -303,7 +303,7 @@
             </objects>
             <point key="canvasLocation" x="1314" y="376"/>
         </scene>
-        <!--Songs-->
+        <!--Choose Song-->
         <scene sceneID="0aX-iR-nPL">
             <objects>
                 <tableViewController id="Rwp-vg-Bn3" customClass="SongsTableViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
@@ -347,13 +347,65 @@
                             <outlet property="delegate" destination="Rwp-vg-Bn3" id="pIN-YA-XAj"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Songs" id="vlJ-rP-Pe6"/>
+                    <navigationItem key="navigationItem" title="Choose Song" id="vlJ-rP-Pe6"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NYt-ip-PPL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2064" y="376"/>
         </scene>
-        <!--Repeat-->
+        <!--Choose Song-->
+        <scene sceneID="iNn-af-lo5">
+            <objects>
+                <tableViewController id="33U-IR-xsl" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="L78-0Y-Eq8">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="kS5-GD-ost">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kS5-GD-ost" id="Sgy-Z5-zbz">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="33U-IR-xsl" id="SFk-0p-2B7"/>
+                            <outlet property="delegate" destination="33U-IR-xsl" id="Dra-hB-Ffg"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Choose Song" id="JTr-my-AlC"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EAX-54-5Su" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1287" y="1347"/>
+        </scene>
+        <!--Choose Repeat-->
+        <scene sceneID="iFx-Bc-PVg">
+            <objects>
+                <tableViewController id="tNh-xU-MO1" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="HJz-6v-Wqr">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="c12-Gi-56b">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="c12-Gi-56b" id="g3p-xf-Ks4">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="tNh-xU-MO1" id="uEH-hi-gwV"/>
+                            <outlet property="delegate" destination="tNh-xU-MO1" id="hzR-6W-735"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Choose Repeat" id="uga-mi-MNE"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pXr-AS-Jn2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1287" y="2215"/>
+        </scene>
+        <!--Choose Repeat-->
         <scene sceneID="JLe-Yi-Ehz">
             <objects>
                 <tableViewController id="7SW-c2-A0L" customClass="AlarmRepeatTableViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
@@ -400,7 +452,7 @@
                             <outlet property="delegate" destination="7SW-c2-A0L" id="pBe-Cu-UDh"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Repeat" id="Zfz-EV-bJz">
+                    <navigationItem key="navigationItem" title="Choose Repeat" id="Zfz-EV-bJz">
                         <barButtonItem key="rightBarButtonItem" title="Done" id="957-1t-i4b">
                             <connections>
                                 <action selector="commitRepeats:" destination="7SW-c2-A0L" id="7Bj-de-2jV"/>
@@ -479,6 +531,10 @@
                                         <variation key="widthClass=compact" fixedFrame="YES">
                                             <rect key="frame" x="327" y="420" width="46" height="30"/>
                                         </variation>
+                                        <connections>
+                                            <action selector="chooseSong:" destination="JsC-fF-64p" eventType="touchUpInside" id="uOJ-Lz-E91"/>
+                                            <segue destination="33U-IR-xsl" kind="show" id="bAb-Yj-Paa"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Song" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="et6-7w-jpi">
                                         <rect key="frame" x="-42" y="-21" width="42" height="21"/>
@@ -513,6 +569,9 @@
                                         <variation key="widthClass=compact" fixedFrame="YES">
                                             <rect key="frame" x="327" y="513" width="46" height="30"/>
                                         </variation>
+                                        <connections>
+                                            <segue destination="tNh-xU-MO1" kind="show" id="MUI-Rh-eWf"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rEt-Yr-gKF">
                                         <rect key="frame" x="105" y="530" width="390" height="45"/>
@@ -589,6 +648,7 @@
                         <outlet property="alarmSoundLabel" destination="TJo-Yu-HXB" id="Add-X5-d1x"/>
                         <outlet property="alarmToneChooseButton" destination="306-YL-VA8" id="1Sh-YR-gYd"/>
                         <outlet property="chooseRepeatButton" destination="vSF-yg-aCO" id="IMQ-Ms-6N3"/>
+                        <outlet property="chooseRepeats" destination="vSF-yg-aCO" id="4Cb-se-JkI"/>
                         <outlet property="chooseSongButton" destination="306-YL-VA8" id="Svm-Sy-aCa"/>
                         <outlet property="hourTextLabel" destination="vvL-mY-VPj" id="sHh-X6-bJt"/>
                         <outlet property="minuteTextLabel" destination="mer-S3-Lei" id="zyA-W6-ach"/>
@@ -598,7 +658,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cEN-k3-pSB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="934.5" y="1297"/>
+            <point key="canvasLocation" x="489" y="1333"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Qb7-pR-elC">
