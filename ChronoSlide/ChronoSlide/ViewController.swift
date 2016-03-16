@@ -730,4 +730,83 @@ class EditSongTableCellView: UITableViewCell {
     
 }
 
+class EditAlarmRepeatTableViewController: UITableViewController {
+    
+    @IBOutlet weak var repeatDoneButton: UIBarButtonItem!
+    var selectedRepeats: [repeatType] = []
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        repeatDoneButton.enabled = true
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("", forIndexPath: indexPath) as! RepeatTableCellView
+        cell.repeatTypeLabel.text = RepeatMacros[indexPath.row].description
+        return cell
+    }
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return RepeatMacros.count
+    }
+    
+    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! RepeatTableCellView
+        if selectedCell.accessoryType == UITableViewCellAccessoryType.None {
+            calculateOtherRepeats(selectedCell, row: indexPath.row)
+        } else {
+            selectedCell.accessoryType = UITableViewCellAccessoryType.None
+        }
+    }
+    
+    func calculateOtherRepeats(tappedOption: RepeatTableCellView, row: Int){
+        let tapped = RepeatMacros[row]
+        switch (tapped) {
+        case .None:
+            selectedRepeats = [.None]
+            clearTableView()
+            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
+            break
+        case .Everyday:
+            if selectedRepeats.count > 0 {
+                clearTableView()
+            }
+            selectedRepeats = [.Everyday]
+            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
+            break
+        default:
+            if selectedRepeats.contains(repeatType.None) || selectedRepeats.contains(repeatType.Everyday) {
+                clearTableView()
+                selectedRepeats = [tapped]
+            } else{
+                selectedRepeats.append(tapped)
+            }
+            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
+        }
+    }
+    
+    func clearTableView(){
+        for anIndex in 0..<RepeatMacros.count {
+            let current =  self.tableView.cellForRowAtIndexPath(NSIndexPath(index: anIndex)) as! RepeatTableCellView
+            current.accessoryType = UITableViewCellAccessoryType.None
+        }
+        
+    }
+    
+    
+    @IBAction func commitRepeats(sender: AnyObject) {
+        let repeatDictionary = ["repeats": selectedRepeats as! AnyObject]
+        NSNotificationCenter.defaultCenter().postNotificationName(AddingRepeatsNotification, object: self, userInfo: repeatDictionary )
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    
+}
 
+class EditRepeatTableCellView: UITableViewCell {
+    @IBOutlet weak var repeatTypeLabel: UILabel!
+    var isChecked: Bool = false
+    
+    
+    
+    
+}
