@@ -568,7 +568,7 @@ class AlarmRepeatTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("", forIndexPath: indexPath) as! RepeatTableCellView
+        let cell = tableView.dequeueReusableCellWithIdentifier("AlarmRepeatCellView", forIndexPath: indexPath) as! RepeatTableCellView
         cell.repeatTypeLabel.text = RepeatMacros[indexPath.row].description
         return cell
     }
@@ -738,10 +738,11 @@ class EditAlarmRepeatTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         repeatDoneButton.enabled = true
+        loadRepeats()
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("", forIndexPath: indexPath) as! RepeatTableCellView
+        let cell = tableView.dequeueReusableCellWithIdentifier("EditAlarmRepeatCellView", forIndexPath: indexPath) as! RepeatTableCellView
         cell.repeatTypeLabel.text = RepeatMacros[indexPath.row].description
         return cell
     }
@@ -756,6 +757,10 @@ class EditAlarmRepeatTableViewController: UITableViewController {
         } else {
             selectedCell.accessoryType = UITableViewCellAccessoryType.None
         }
+    }
+    
+    func loadRepeats(){
+        //for repeats found in selected repeats array remark them for the view.
     }
     
     func calculateOtherRepeats(tappedOption: RepeatTableCellView, row: Int){
