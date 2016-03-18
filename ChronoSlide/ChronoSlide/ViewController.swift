@@ -751,7 +751,7 @@ class EditAlarmRepeatTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! RepeatTableCellView
+        let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! EditRepeatTableCellView
         if selectedCell.accessoryType == UITableViewCellAccessoryType.None {
             calculateOtherRepeats(selectedCell, row: indexPath.row)
         } else {
@@ -761,9 +761,47 @@ class EditAlarmRepeatTableViewController: UITableViewController {
     
     func loadRepeats(){
         //for repeats found in selected repeats array remark them for the view.
+        for aRepeat in selectedRepeats{
+            switch (aRepeat) {
+            case .None:
+                addCheckmarck(0)
+                break
+            case .Monday:
+                addCheckmarck(1)
+                break
+            case .Tuesday:
+                addCheckmarck(2)
+                break
+            case .Wednesday:
+                addCheckmarck(3)
+                break
+            case .Thursday:
+                addCheckmarck(4)
+                break
+            case .Friday:
+                addCheckmarck(5)
+                break
+            case .Saturday:
+                addCheckmarck(6)
+                break
+            case .Sunday:
+                addCheckmarck(7)
+                break
+            case .Everyday:
+                addCheckmarck(8)
+                break
+            default:
+                break
+            }
+        }
+    }
+    func addCheckmarck(forIndex: Int){
+        let indexPath = NSIndexPath(index: forIndex)
+        let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! EditRepeatTableCellView
+        cell.accessoryType = UITableViewCellAccessoryType.Checkmark
     }
     
-    func calculateOtherRepeats(tappedOption: RepeatTableCellView, row: Int){
+    func calculateOtherRepeats(tappedOption: EditRepeatTableCellView, row: Int){
         let tapped = RepeatMacros[row]
         switch (tapped) {
         case .None:
