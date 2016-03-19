@@ -15,6 +15,8 @@ import MediaPlayer
 let AddingNewAlarmNotification:String = "AddingNewAlarmNotification"
 let DeletingAlarmNotification:String = "DeletingAlarmNotification"
 let UpdatingAlarmNotification:String = "UpdatingAlarmNotification"
+
+
 let RepeatMacros = [repeatType.None, repeatType.Monday, repeatType.Tuesday, repeatType.Wednesday, repeatType.Thursday, repeatType.Friday, repeatType.Saturday, repeatType.Sunday, repeatType.Everyday]
 
 
@@ -30,6 +32,7 @@ class AlarmTableViewController: UITableViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addingNewAlarm:", name: AddingNewAlarmNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "deletingAlarm:", name: DeletingAlarmNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatingAlarm", name: UpdatingAlarmNotification, object: nil)
+        
         animator = UIDynamicAnimator(referenceView: self.view)
     }
     
@@ -242,7 +245,6 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addSong:", name: AddingSongNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "addRepeat:", name: AddingRepeatsNotification, object: nil)
-        
     }
     
     func buildArrays(){
@@ -337,7 +339,12 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         }
         return str
     }
+    
+
 }
+
+let UpdatingRepeatsNotification:String = "UpdatingRepeatsNotification"
+
 
 class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
@@ -387,11 +394,14 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         hourTextLabel.text = alarmToEdit.alarmHour.description
         minuteTextLabel.text = alarmToEdit.alarmMinute.description
         scrollView.contentSize.height = 800
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateRepeat:", name: UpdatingRepeatsNotification, object: nil)
+
     }
     
     @IBAction func updateAlarm(sender: AnyObject) {
         let updateDictionary = ["alarmHour": hourTextLabel.text!, "alarmMinute": minuteTextLabel.text!, "alarmName": alarmNameLabel.text!, "alarmAMPM": alarmAMPMSegmentControl.description, "alarmSound": alarmToEdit.alarmSound!]
         NSNotificationCenter.defaultCenter().postNotificationName(UpdatingAlarmNotification, object: self, userInfo: updateDictionary)
+        
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
@@ -449,7 +459,9 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     
     @IBOutlet weak var chooseRepeats: UIButton!
     
-    
+    func updateRepeat(notification: NSNotification){
+        
+    }
     
 }
 
@@ -742,7 +754,7 @@ class EditAlarmRepeatTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("EditAlarmRepeatCellView", forIndexPath: indexPath) as! RepeatTableCellView
+        let cell = tableView.dequeueReusableCellWithIdentifier("EditAlarmRepeatCellView", forIndexPath: indexPath) as! EditRepeatTableCellView
         cell.repeatTypeLabel.text = RepeatMacros[indexPath.row].description
         return cell
     }
@@ -829,7 +841,7 @@ class EditAlarmRepeatTableViewController: UITableViewController {
     
     func clearTableView(){
         for anIndex in 0..<RepeatMacros.count {
-            let current =  self.tableView.cellForRowAtIndexPath(NSIndexPath(index: anIndex)) as! RepeatTableCellView
+            let current =  self.tableView.cellForRowAtIndexPath(NSIndexPath(index: anIndex)) as! EditRepeatTableCellView
             current.accessoryType = UITableViewCellAccessoryType.None
         }
         
@@ -838,7 +850,7 @@ class EditAlarmRepeatTableViewController: UITableViewController {
     
     @IBAction func commitRepeats(sender: AnyObject) {
         let repeatDictionary = ["repeats": selectedRepeats as! AnyObject]
-        NSNotificationCenter.defaultCenter().postNotificationName(AddingRepeatsNotification, object: self, userInfo: repeatDictionary )
+        NSNotificationCenter.defaultCenter().postNotificationName(UpdatingRepeatsNotification, object: self, userInfo: repeatDictionary )
         self.navigationController?.popViewControllerAnimated(true)
     }
     
