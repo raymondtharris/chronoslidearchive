@@ -70,7 +70,7 @@
         <!--New Alarm-->
         <scene sceneID="lf2-wF-dWw">
             <objects>
-                <viewController id="Pa5-M4-Xtu" customClass="NewAlarmViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Pa5-M4-Xtu" customClass="AddAlarmViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SSB-6G-bh9"/>
                         <viewControllerLayoutGuide type="bottom" id="Qp1-6R-OKc"/>
@@ -312,7 +312,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AlarmSongCell" rowHeight="76" id="u8d-1E-x6t" customClass="SongTableCellView" customModule="ChronoSlide" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AlarmSongCell" rowHeight="76" id="u8d-1E-x6t" customClass="AddSongTableCellView" customModule="ChronoSlide" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="76"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u8d-1E-x6t" id="kic-tj-Xks">
@@ -464,7 +464,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AlarmRepeatCellView" id="G0h-Bh-QMl" customClass="RepeatTableCellView" customModule="ChronoSlide" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AlarmRepeatCellView" id="G0h-Bh-QMl" customClass="AddRepeatTableCellView" customModule="ChronoSlide" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G0h-Bh-QMl" id="cFJ-ma-ewn">

@@ -10,15 +10,13 @@ import UIKit
 import MediaPlayer
 
 
+let RepeatMacros = [repeatType.None, repeatType.Monday, repeatType.Tuesday, repeatType.Wednesday, repeatType.Thursday, repeatType.Friday, repeatType.Saturday, repeatType.Sunday, repeatType.Everyday]
 
+// MARK: - ALARMS
 
 let AddingNewAlarmNotification:String = "AddingNewAlarmNotification"
 let DeletingAlarmNotification:String = "DeletingAlarmNotification"
 let UpdatingAlarmNotification:String = "UpdatingAlarmNotification"
-
-
-let RepeatMacros = [repeatType.None, repeatType.Monday, repeatType.Tuesday, repeatType.Wednesday, repeatType.Thursday, repeatType.Friday, repeatType.Saturday, repeatType.Sunday, repeatType.Everyday]
-
 
 class AlarmTableViewController: UITableViewController {
     @IBOutlet weak var settingsButton: UIBarButtonItem!
@@ -194,11 +192,13 @@ class AlarmTableViewController: UITableViewController {
     
 }
 
+//MARK: - ADD ALARMS
+
 let AddingSongNotification:String = "AddingSongNotification"
 let AddingRepeatsNotification:String = "AddingRepeatsNotification"
 
 
-class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
     @IBOutlet weak var hourTextLabel: UITextField!
     @IBOutlet weak var minuteTextLabel: UITextField!
@@ -343,7 +343,199 @@ class NewAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
 
 }
 
+
+class AlarmTableCellView: UITableViewCell {
+    
+    @IBOutlet weak var alamTimeLabel: UILabel!
+    @IBOutlet weak var alarmOptionsLabel: UILabel!
+    var springNode: UIAttachmentBehavior?
+    var boundingBox: UICollisionBehavior?
+    var cellElasticity: UIDynamicItemBehavior?
+    var cellPush: UIPushBehavior?
+    var cellAnimator: UIDynamicAnimator?
+}
+
+
+
+class AddSongsTableViewController: UITableViewController {
+    let mediaLibrary: MPMediaLibrary = MPMediaLibrary.defaultMediaLibrary()
+    var songArray:[MPMediaItem] = [MPMediaItem]()
+    let mediaPlayer: MPMusicPlayerController = MPMusicPlayerController()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        loadSongLibrary()
+    }
+    
+    func loadSongLibrary(){
+        songArray = MPMediaQuery.songsQuery().items!
+        print(songArray.count)
+    }
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("AlarmSongCell", forIndexPath: indexPath) as! AddSongTableCellView
+        cell.alarmSongTextLabel.text = songArray[indexPath.row].title!
+        cell.alarmSongImageView.image = songArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
+        cell.alarmSongImageView.userInteractionEnabled = true
+        
+        // Choose Song Gesture
+        let chooseGesture = UITapGestureRecognizer.init(target: self, action: "chooseSong:")
+        self.view.addGestureRecognizer(chooseGesture)
+        
+        // Previe wSong Gesutre
+        let previewGesture = UITapGestureRecognizer.init(target: self, action: "togglePreview:")
+        cell.alarmSongImageView.addGestureRecognizer(previewGesture)
+        
+        return cell
+    }
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return songArray.count
+    }
+    
+    func togglePreview(gestureRecognizer: UIGestureRecognizer){
+        print("toggle Preview")
+        let location = gestureRecognizer.locationInView(self.tableView)
+        let indexPath = self.tableView.indexPathForRowAtPoint(location)
+        let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AddSongTableCellView
+        print(songArray[indexPath!.row].title)
+        print(tappedCell)
+        previewSong(songArray[indexPath!.row])
+    }
+    
+    func chooseSong(gestureRecognizer: UIGestureRecognizer){
+        print("Choose Song")
+        let location = gestureRecognizer.locationInView(self.tableView)
+        let indexPath = self.tableView.indexPathForRowAtPoint(location)
+        let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AddSongTableCellView
+        print(songArray[indexPath!.row].albumTitle)
+        print(tappedCell)
+        let songDictionary = ["songItem": songArray[indexPath!.row]]
+        NSNotificationCenter.defaultCenter().postNotificationName(AddingSongNotification, object: self, userInfo: songDictionary)
+        self.navigationController?.popViewControllerAnimated(true)
+        
+    }
+    
+    func previewSong(songItem: MPMediaItem){
+        
+        if mediaPlayer.nowPlayingItem != nil{
+            //print(mediaPlayer.nowPlayingItem?.title!)
+            if mediaPlayer.nowPlayingItem! == songItem {
+                if mediaPlayer.playbackState == .Playing {
+                    mediaPlayer.pause()
+                } else {
+                    mediaPlayer.play()
+                }
+                
+            } else {
+                mediaPlayer.pause()
+                let newQueue = MPMediaItemCollection(items: [songItem])
+                mediaPlayer.setQueueWithItemCollection(newQueue)
+                mediaPlayer.play()
+            }
+            
+        }
+        
+        
+    }
+    
+}
+
+class AddSongTableCellView: UITableViewCell {
+    @IBOutlet weak var alarmSongTextLabel: UILabel!
+    @IBOutlet weak var alarmSongImageView: UIImageView!
+    
+    var previewState: Bool = false
+    
+    
+}
+
+class AddAlarmRepeatTableViewController: UITableViewController {
+    
+    @IBOutlet weak var repeatDoneButton: UIBarButtonItem!
+    var selectedRepeats: [repeatType] = []
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        repeatDoneButton.enabled = true
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("AlarmRepeatCellView", forIndexPath: indexPath) as! AddRepeatTableCellView
+        cell.repeatTypeLabel.text = RepeatMacros[indexPath.row].description
+        return cell
+    }
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return RepeatMacros.count
+    }
+
+    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! AddRepeatTableCellView
+        if selectedCell.accessoryType == UITableViewCellAccessoryType.None {
+            calculateOtherRepeats(selectedCell, row: indexPath.row)
+        } else {
+            selectedCell.accessoryType = UITableViewCellAccessoryType.None
+        }
+    }
+    
+    func calculateOtherRepeats(tappedOption: AddRepeatTableCellView, row: Int){
+        let tapped = RepeatMacros[row]
+        switch (tapped) {
+        case .None:
+            selectedRepeats = [.None]
+            clearTableView()
+            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
+            break
+        case .Everyday:
+            if selectedRepeats.count > 0 {
+                clearTableView()
+            }
+            selectedRepeats = [.Everyday]
+            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
+            break
+        default:
+            if selectedRepeats.contains(repeatType.None) || selectedRepeats.contains(repeatType.Everyday) {
+                clearTableView()
+                selectedRepeats = [tapped]
+            } else{
+                selectedRepeats.append(tapped)
+            }
+            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
+        }
+    }
+    
+    func clearTableView(){
+        for anIndex in 0..<RepeatMacros.count {
+            let current =  self.tableView.cellForRowAtIndexPath(NSIndexPath(index: anIndex)) as! AddRepeatTableCellView
+            current.accessoryType = UITableViewCellAccessoryType.None
+        }
+        
+    }
+    
+    
+    @IBAction func commitRepeats(sender: AnyObject) {
+        let repeatDictionary = ["repeats": selectedRepeats as! AnyObject]
+        NSNotificationCenter.defaultCenter().postNotificationName(AddingRepeatsNotification, object: self, userInfo: repeatDictionary )
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    
+}
+
+class AddRepeatTableCellView: UITableViewCell {
+    @IBOutlet weak var repeatTypeLabel: UILabel!
+    var isChecked: Bool = false
+    
+  
+    
+    
+}
+
+
+
+
+
+// MARK: - EDIT ALARMS
+
 let UpdatingRepeatsNotification:String = "UpdatingRepeatsNotification"
+let UpdatingSongNotification:String = "UpdatingSongNotification"
 
 
 class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
@@ -395,7 +587,8 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         minuteTextLabel.text = alarmToEdit.alarmMinute.description
         scrollView.contentSize.height = 800
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateRepeat:", name: UpdatingRepeatsNotification, object: nil)
-
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateSong:", name: UpdatingSongNotification, object: nil)
+        
     }
     
     @IBAction func updateAlarm(sender: AnyObject) {
@@ -445,7 +638,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
             return minuteData[row]
         }
     }
-
+    
     @IBAction func removeAlarm(sender: AnyObject) {
         let dataDictionary = ["index": editRow.description]
         NSNotificationCenter.defaultCenter().postNotificationName(DeletingAlarmNotification, object: self, userInfo: dataDictionary as [NSObject : AnyObject])
@@ -466,190 +659,6 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
 }
 
 
-class AlarmTableCellView: UITableViewCell {
-    
-    @IBOutlet weak var alamTimeLabel: UILabel!
-    @IBOutlet weak var alarmOptionsLabel: UILabel!
-    var springNode: UIAttachmentBehavior?
-    var boundingBox: UICollisionBehavior?
-    var cellElasticity: UIDynamicItemBehavior?
-    var cellPush: UIPushBehavior?
-    var cellAnimator: UIDynamicAnimator?
-}
-
-
-
-class SongsTableViewController: UITableViewController {
-    let mediaLibrary: MPMediaLibrary = MPMediaLibrary.defaultMediaLibrary()
-    var songArray:[MPMediaItem] = [MPMediaItem]()
-    let mediaPlayer: MPMusicPlayerController = MPMusicPlayerController()
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        loadSongLibrary()
-    }
-    
-    func loadSongLibrary(){
-        songArray = MPMediaQuery.songsQuery().items!
-        print(songArray.count)
-    }
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("AlarmSongCell", forIndexPath: indexPath) as! SongTableCellView
-        cell.alarmSongTextLabel.text = songArray[indexPath.row].title!
-        cell.alarmSongImageView.image = songArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
-        cell.alarmSongImageView.userInteractionEnabled = true
-        
-        // Choose Song Gesture
-        let chooseGesture = UITapGestureRecognizer.init(target: self, action: "chooseSong:")
-        self.view.addGestureRecognizer(chooseGesture)
-        
-        // Previe wSong Gesutre
-        let previewGesture = UITapGestureRecognizer.init(target: self, action: "togglePreview:")
-        cell.alarmSongImageView.addGestureRecognizer(previewGesture)
-        
-        return cell
-    }
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return songArray.count
-    }
-    
-    func togglePreview(gestureRecognizer: UIGestureRecognizer){
-        print("toggle Preview")
-        let location = gestureRecognizer.locationInView(self.tableView)
-        let indexPath = self.tableView.indexPathForRowAtPoint(location)
-        let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! SongTableCellView
-        print(songArray[indexPath!.row].title)
-        print(tappedCell)
-        previewSong(songArray[indexPath!.row])
-    }
-    
-    func chooseSong(gestureRecognizer: UIGestureRecognizer){
-        print("Choose Song")
-        let location = gestureRecognizer.locationInView(self.tableView)
-        let indexPath = self.tableView.indexPathForRowAtPoint(location)
-        let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! SongTableCellView
-        print(songArray[indexPath!.row].albumTitle)
-        print(tappedCell)
-        let songDictionary = ["songItem": songArray[indexPath!.row]]
-        NSNotificationCenter.defaultCenter().postNotificationName(AddingSongNotification, object: self, userInfo: songDictionary)
-        self.navigationController?.popViewControllerAnimated(true)
-        
-    }
-    
-    func previewSong(songItem: MPMediaItem){
-        
-        if mediaPlayer.nowPlayingItem != nil{
-            //print(mediaPlayer.nowPlayingItem?.title!)
-            if mediaPlayer.nowPlayingItem! == songItem {
-                if mediaPlayer.playbackState == .Playing {
-                    mediaPlayer.pause()
-                } else {
-                    mediaPlayer.play()
-                }
-                
-            } else {
-                mediaPlayer.pause()
-                let newQueue = MPMediaItemCollection(items: [songItem])
-                mediaPlayer.setQueueWithItemCollection(newQueue)
-                mediaPlayer.play()
-            }
-            
-        }
-        
-        
-    }
-    
-}
-
-class SongTableCellView: UITableViewCell {
-    @IBOutlet weak var alarmSongTextLabel: UILabel!
-    @IBOutlet weak var alarmSongImageView: UIImageView!
-    
-    var previewState: Bool = false
-    
-    
-}
-
-class AlarmRepeatTableViewController: UITableViewController {
-    
-    @IBOutlet weak var repeatDoneButton: UIBarButtonItem!
-    var selectedRepeats: [repeatType] = []
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        repeatDoneButton.enabled = true
-    }
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("AlarmRepeatCellView", forIndexPath: indexPath) as! RepeatTableCellView
-        cell.repeatTypeLabel.text = RepeatMacros[indexPath.row].description
-        return cell
-    }
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return RepeatMacros.count
-    }
-
-    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! RepeatTableCellView
-        if selectedCell.accessoryType == UITableViewCellAccessoryType.None {
-            calculateOtherRepeats(selectedCell, row: indexPath.row)
-        } else {
-            selectedCell.accessoryType = UITableViewCellAccessoryType.None
-        }
-    }
-    
-    func calculateOtherRepeats(tappedOption: RepeatTableCellView, row: Int){
-        let tapped = RepeatMacros[row]
-        switch (tapped) {
-        case .None:
-            selectedRepeats = [.None]
-            clearTableView()
-            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
-            break
-        case .Everyday:
-            if selectedRepeats.count > 0 {
-                clearTableView()
-            }
-            selectedRepeats = [.Everyday]
-            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
-            break
-        default:
-            if selectedRepeats.contains(repeatType.None) || selectedRepeats.contains(repeatType.Everyday) {
-                clearTableView()
-                selectedRepeats = [tapped]
-            } else{
-                selectedRepeats.append(tapped)
-            }
-            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
-        }
-    }
-    
-    func clearTableView(){
-        for anIndex in 0..<RepeatMacros.count {
-            let current =  self.tableView.cellForRowAtIndexPath(NSIndexPath(index: anIndex)) as! RepeatTableCellView
-            current.accessoryType = UITableViewCellAccessoryType.None
-        }
-        
-    }
-    
-    
-    @IBAction func commitRepeats(sender: AnyObject) {
-        let repeatDictionary = ["repeats": selectedRepeats as! AnyObject]
-        NSNotificationCenter.defaultCenter().postNotificationName(AddingRepeatsNotification, object: self, userInfo: repeatDictionary )
-        self.navigationController?.popViewControllerAnimated(true)
-    }
-    
-    
-}
-
-class RepeatTableCellView: UITableViewCell {
-    @IBOutlet weak var repeatTypeLabel: UILabel!
-    var isChecked: Bool = false
-    
-  
-    
-    
-}
-
 
 
 class EditSongsTableViewController: UITableViewController {
@@ -666,7 +675,7 @@ class EditSongsTableViewController: UITableViewController {
         print(songArray.count)
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("EditAlarmSongCell", forIndexPath: indexPath) as! SongTableCellView
+        let cell = tableView.dequeueReusableCellWithIdentifier("EditAlarmSongCell", forIndexPath: indexPath) as! EditSongTableCellView
         cell.alarmSongTextLabel.text = songArray[indexPath.row].title!
         cell.alarmSongImageView.image = songArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
         cell.alarmSongImageView.userInteractionEnabled = true
@@ -689,7 +698,7 @@ class EditSongsTableViewController: UITableViewController {
         print("toggle Preview")
         let location = gestureRecognizer.locationInView(self.tableView)
         let indexPath = self.tableView.indexPathForRowAtPoint(location)
-        let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! SongTableCellView
+        let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! EditSongTableCellView
         print(songArray[indexPath!.row].title)
         print(tappedCell)
         previewSong(songArray[indexPath!.row])
@@ -699,11 +708,11 @@ class EditSongsTableViewController: UITableViewController {
         print("Choose Song")
         let location = gestureRecognizer.locationInView(self.tableView)
         let indexPath = self.tableView.indexPathForRowAtPoint(location)
-        let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! SongTableCellView
+        let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! EditSongTableCellView
         print(songArray[indexPath!.row].albumTitle)
         print(tappedCell)
         let songDictionary = ["songItem": songArray[indexPath!.row]]
-        NSNotificationCenter.defaultCenter().postNotificationName(AddingSongNotification, object: self, userInfo: songDictionary)
+        NSNotificationCenter.defaultCenter().postNotificationName(UpdatingSongNotification, object: self, userInfo: songDictionary)
         self.navigationController?.popViewControllerAnimated(true)
         
     }
@@ -741,6 +750,8 @@ class EditSongTableCellView: UITableViewCell {
     
     
 }
+
+
 
 class EditAlarmRepeatTableViewController: UITableViewController {
     
@@ -862,6 +873,7 @@ class EditRepeatTableCellView: UITableViewCell {
     var isChecked: Bool = false
     
     
-    
-    
 }
+
+
+
