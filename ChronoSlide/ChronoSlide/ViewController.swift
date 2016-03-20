@@ -371,7 +371,7 @@ class AddSongsTableViewController: UITableViewController {
         print(songArray.count)
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("AlarmSongCell", forIndexPath: indexPath) as! AddSongTableCellView
+        let cell = tableView.dequeueReusableCellWithIdentifier("AddAlarmSongCell", forIndexPath: indexPath) as! AddSongTableCellView
         cell.alarmSongTextLabel.text = songArray[indexPath.row].title!
         cell.alarmSongImageView.image = songArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
         cell.alarmSongImageView.userInteractionEnabled = true
@@ -458,7 +458,7 @@ class AddAlarmRepeatTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("AlarmRepeatCellView", forIndexPath: indexPath) as! AddRepeatTableCellView
+        let cell = tableView.dequeueReusableCellWithIdentifier("AddAlarmRepeatCellView", forIndexPath: indexPath) as! AddRepeatTableCellView
         cell.repeatTypeLabel.text = RepeatMacros[indexPath.row].description
         return cell
     }
@@ -522,10 +522,6 @@ class AddAlarmRepeatTableViewController: UITableViewController {
 class AddRepeatTableCellView: UITableViewCell {
     @IBOutlet weak var repeatTypeLabel: UILabel!
     var isChecked: Bool = false
-    
-  
-    
-    
 }
 
 

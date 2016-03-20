@@ -312,7 +312,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AlarmSongCell" rowHeight="76" id="u8d-1E-x6t" customClass="AddSongTableCellView" customModule="ChronoSlide" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddAlarmSongCell" rowHeight="76" id="u8d-1E-x6t" customClass="AddSongTableCellView" customModule="ChronoSlide" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="76"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u8d-1E-x6t" id="kic-tj-Xks">
@@ -356,12 +356,12 @@
         <!--Choose Song-->
         <scene sceneID="iNn-af-lo5">
             <objects>
-                <tableViewController id="33U-IR-xsl" sceneMemberID="viewController">
+                <tableViewController id="33U-IR-xsl" customClass="EditSongsTableViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="76" sectionHeaderHeight="28" sectionFooterHeight="28" id="L78-0Y-Eq8">
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="76" id="kS5-GD-ost">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="76" id="kS5-GD-ost" customClass="EditSongTableCellView" customModule="ChronoSlide" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kS5-GD-ost" id="Sgy-Z5-zbz">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -395,6 +395,10 @@
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="alarmSongImageView" destination="q1a-y1-bkr" id="fgh-65-3Li"/>
+                                    <outlet property="alarmSongTextLabel" destination="e3z-dY-afx" id="TOG-Jj-WZd"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -411,12 +415,12 @@
         <!--Choose Repeat-->
         <scene sceneID="iFx-Bc-PVg">
             <objects>
-                <tableViewController id="tNh-xU-MO1" sceneMemberID="viewController">
+                <tableViewController id="tNh-xU-MO1" customClass="EditAlarmRepeatTableViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="HJz-6v-Wqr">
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditAlarmRepeatCellView" id="c12-Gi-56b">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EditAlarmRepeatCellView" id="c12-Gi-56b" customClass="EditRepeatTableCellView" customModule="ChronoSlide" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="c12-Gi-56b" id="g3p-xf-Ks4">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -442,6 +446,9 @@
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="repeatTypeLabel" destination="10w-4Z-ssv" id="GcD-bI-sgO"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -449,7 +456,21 @@
                             <outlet property="delegate" destination="tNh-xU-MO1" id="hzR-6W-735"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Choose Repeat" id="uga-mi-MNE"/>
+                    <navigationItem key="navigationItem" title="Choose Repeat" id="uga-mi-MNE">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="l3L-vu-5sx">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="NXv-zk-ou8">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="commitRepeats:" destination="tNh-xU-MO1" eventType="touchUpInside" id="Nu0-Ot-Bko"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="repeatDoneButton" destination="l3L-vu-5sx" id="j7P-GF-9SP"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pXr-AS-Jn2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -458,13 +479,13 @@
         <!--Choose Repeat-->
         <scene sceneID="JLe-Yi-Ehz">
             <objects>
-                <tableViewController id="7SW-c2-A0L" customClass="AlarmRepeatTableViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="7SW-c2-A0L" customClass="AddAlarmRepeatTableViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="qlB-Nm-Ivz">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AlarmRepeatCellView" id="G0h-Bh-QMl" customClass="AddRepeatTableCellView" customModule="ChronoSlide" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddAlarmRepeatCellView" id="G0h-Bh-QMl" customClass="AddRepeatTableCellView" customModule="ChronoSlide" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G0h-Bh-QMl" id="cFJ-ma-ewn">
