@@ -27,9 +27,9 @@ class AlarmTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addingNewAlarm:", name: AddingNewAlarmNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "deletingAlarm:", name: DeletingAlarmNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatingAlarm", name: UpdatingAlarmNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AlarmTableViewController.addingNewAlarm(_:)), name: AddingNewAlarmNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AlarmTableViewController.deletingAlarm(_:)), name: DeletingAlarmNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AlarmTableViewController.updatingAlarm(_:)), name: UpdatingAlarmNotification, object: nil)
         
         animator = UIDynamicAnimator(referenceView: self.view)
     }
@@ -64,7 +64,7 @@ class AlarmTableViewController: UITableViewController {
         //animator?.addBehavior(chronoAlarmCell.cellElasticity!)
         
         // Gesture
-        let gesture = UISwipeGestureRecognizer.init(target: self, action: "toggleAlarm:")
+        let gesture = UISwipeGestureRecognizer.init(target: self, action: #selector(AlarmTableViewController.toggleAlarm(_:)))
         gesture.direction = UISwipeGestureRecognizerDirection.Left
         self.view.addGestureRecognizer(gesture)
         return chronoAlarmCell
@@ -243,8 +243,8 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         alarmRepeatTitleLabel.hidden = true
         chooseRepeatButton.hidden = true
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addSong:", name: AddingSongNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addRepeat:", name: AddingRepeatsNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AddAlarmViewController.addSong(_:)), name: AddingSongNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AddAlarmViewController.addRepeat(_:)), name: AddingRepeatsNotification, object: nil)
     }
     
     func buildArrays(){
@@ -377,11 +377,11 @@ class AddSongsTableViewController: UITableViewController {
         cell.alarmSongImageView.userInteractionEnabled = true
         
         // Choose Song Gesture
-        let chooseGesture = UITapGestureRecognizer.init(target: self, action: "chooseSong:")
+        let chooseGesture = UITapGestureRecognizer.init(target: self, action: #selector(AddSongsTableViewController.chooseSong(_:)))
         self.view.addGestureRecognizer(chooseGesture)
         
         // Previe wSong Gesutre
-        let previewGesture = UITapGestureRecognizer.init(target: self, action: "togglePreview:")
+        let previewGesture = UITapGestureRecognizer.init(target: self, action: #selector(AddSongsTableViewController.togglePreview(_:)))
         cell.alarmSongImageView.addGestureRecognizer(previewGesture)
         
         return cell
@@ -582,8 +582,8 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         hourTextLabel.text = alarmToEdit.alarmHour.description
         minuteTextLabel.text = alarmToEdit.alarmMinute.description
         scrollView.contentSize.height = 800
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateRepeat:", name: UpdatingRepeatsNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateSong:", name: UpdatingSongNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditAlarmViewController.updateRepeat(_:)), name: UpdatingRepeatsNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditAlarmViewController.updateSong(_:)), name: UpdatingSongNotification, object: nil)
         
     }
     
@@ -652,6 +652,10 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         
     }
     
+    func updateSong(notification: NSNotification){
+        
+    }
+    
 }
 
 
@@ -677,11 +681,11 @@ class EditSongsTableViewController: UITableViewController {
         cell.alarmSongImageView.userInteractionEnabled = true
         
         // Choose Song Gesture
-        let chooseGesture = UITapGestureRecognizer.init(target: self, action: "chooseSong:")
+        let chooseGesture = UITapGestureRecognizer.init(target: self, action: #selector(AddSongsTableViewController.chooseSong(_:)))
         self.view.addGestureRecognizer(chooseGesture)
         
         // Previe wSong Gesutre
-        let previewGesture = UITapGestureRecognizer.init(target: self, action: "togglePreview:")
+        let previewGesture = UITapGestureRecognizer.init(target: self, action: #selector(AddSongsTableViewController.togglePreview(_:)))
         cell.alarmSongImageView.addGestureRecognizer(previewGesture)
         
         return cell
