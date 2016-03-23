@@ -239,12 +239,32 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         minuteTextLabel.inputView = minutePicker
         scrollView.contentSize.height = 800
         
+        //TODO: InputAccessoryView
+        buildToolbar(toolbar)
+        hourPicker.inputAccessoryView?.addSubview(toolbar)
+        minutePicker.inputAccessoryView?.addSubview(toolbar)
+        
         alarmRepeatLabel.hidden = true
         alarmRepeatTitleLabel.hidden = true
         chooseRepeatButton.hidden = true
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AddAlarmViewController.addSong(_:)), name: AddingSongNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AddAlarmViewController.addRepeat(_:)), name: AddingRepeatsNotification, object: nil)
+    }
+    
+    func buildToolbar(toolbar: UIToolbar){
+        
+        let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self, action: Selector(self.doneButtonAction()))
+        let items = [spacer, doneButton]
+        toolbar.items = items
+        
+        
+        toolbar.sizeToFit()
+    }
+    
+    func doneButtonAction(){
+        
     }
     
     func buildArrays(){
