@@ -219,7 +219,8 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     let hourPicker = UIPickerView()
     let minutePicker = UIPickerView()
     
-    let toolbar = UIToolbar()
+    var toolbar = UIToolbar()
+    var toolbar2 = UIToolbar()
     
     var hourData = [String]()
     var minuteData = [String]()
@@ -240,9 +241,10 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         scrollView.contentSize.height = 800
         
         //TODO: InputAccessoryView
-        buildToolbar(toolbar)
-        hourPicker.inputAccessoryView?.addSubview(toolbar)
-        minutePicker.inputAccessoryView?.addSubview(toolbar)
+        toolbar = buildToolbar()
+        toolbar2 = buildToolbar()
+        hourPicker.addSubview(toolbar)
+        minutePicker.addSubview(toolbar2)
         
         alarmRepeatLabel.hidden = true
         alarmRepeatTitleLabel.hidden = true
@@ -252,15 +254,16 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AddAlarmViewController.addRepeat(_:)), name: AddingRepeatsNotification, object: nil)
     }
     
-    func buildToolbar(toolbar: UIToolbar){
-        
+    func buildToolbar() -> UIToolbar{
+        let aToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320  , height: 50))
         let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self, action: Selector(self.doneButtonAction()))
         let items = [spacer, doneButton]
-        toolbar.items = items
+        aToolbar.items = items
         
         
-        toolbar.sizeToFit()
+        aToolbar.sizeToFit()
+        return aToolbar
     }
     
     func doneButtonAction(){
