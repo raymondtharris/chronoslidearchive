@@ -256,9 +256,11 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     func buildToolbar() -> UIToolbar{
         let aToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320  , height: 50))
+        let previousButton = UIBarButtonItem(title: "Prev", style: UIBarButtonItemStyle.Done, target: self, action: Selector(self.prevButtonAction()))
+        let nextButton = UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Done, target: self, action: Selector(self.nextButtonAction()))
         let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self, action: Selector(self.doneButtonAction()))
-        let items = [spacer, doneButton]
+        let items = [previousButton, nextButton, spacer, doneButton]
         aToolbar.items = items
         
         
@@ -267,6 +269,13 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     func doneButtonAction(){
+        self.hourPicker.resignFirstResponder()
+    }
+    
+    func nextButtonAction(){
+        
+    }
+    func prevButtonAction(){
         
     }
     
