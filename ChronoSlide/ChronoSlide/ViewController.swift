@@ -12,6 +12,10 @@ import MediaPlayer
 
 let RepeatMacros = [repeatType.None, repeatType.Monday, repeatType.Tuesday, repeatType.Wednesday, repeatType.Thursday, repeatType.Friday, repeatType.Saturday, repeatType.Sunday, repeatType.Everyday]
 
+protocol pickerToolbar {
+    func toolbar() -> UIToolbar
+}
+
 // MARK: - ALARMS
 
 let AddingNewAlarmNotification:String = "AddingNewAlarmNotification"

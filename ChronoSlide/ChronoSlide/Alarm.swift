@@ -69,8 +69,8 @@ enum repeatType: CustomStringConvertible, Equatable {
     case Saturday
     case Sunday
     case Everyday
-    case Weekly
-    case Monthly
+    //case Weekly
+    //case Monthly
     case None
     
     var description: String {
@@ -83,8 +83,8 @@ enum repeatType: CustomStringConvertible, Equatable {
         case .Saturday: return "Saturday";
         case .Sunday: return "Sunday";
         case .Everyday: return "Everyday";
-        case .Weekly: return "Weekly";
-        case .Monthly: return "Monthly";
+       // case .Weekly: return "Weekly";
+       // case .Monthly: return "Monthly";
         case .None: return "None:";
         }
         

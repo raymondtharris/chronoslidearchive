@@ -11,4 +11,5 @@ import UIKit
 
 class ChronoSwipeGesture: UIGestureRecognizer{
     var velocity: CGVector?
+    var force:CGVector?
 }
