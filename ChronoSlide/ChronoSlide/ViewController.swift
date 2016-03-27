@@ -202,7 +202,7 @@ let AddingSongNotification:String = "AddingSongNotification"
 let AddingRepeatsNotification:String = "AddingRepeatsNotification"
 
 
-class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate  {
     
     @IBOutlet weak var hourTextLabel: UITextField!
     @IBOutlet weak var minuteTextLabel: UITextField!
@@ -220,11 +220,10 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     @IBOutlet weak var scrollView: UIScrollView!
     
-    let hourPicker = UIPickerView()
-    let minutePicker = UIPickerView()
+    var hourPicker = UIPickerView()
+    var minutePicker = UIPickerView()
     
     var toolbar = UIToolbar()
-    var toolbar2 = UIToolbar()
     
     var hourData = [String]()
     var minuteData = [String]()
@@ -241,14 +240,15 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         hourPicker.dataSource = self
         minutePicker.dataSource = self
         hourTextLabel.inputView = hourPicker
+        
         minuteTextLabel.inputView = minutePicker
         scrollView.contentSize.height = 800
         
-        //TODO: InputAccessoryView
+        
         toolbar = buildToolbar()
-        toolbar2 = buildToolbar()
-        hourPicker.addSubview(toolbar)
-        minutePicker.addSubview(toolbar2)
+        hourTextLabel.inputAccessoryView = toolbar
+        minuteTextLabel.inputAccessoryView = toolbar
+        
         
         alarmRepeatLabel.hidden = true
         alarmRepeatTitleLabel.hidden = true
@@ -259,28 +259,30 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     func buildToolbar() -> UIToolbar{
-        let aToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320  , height: 50))
-        let previousButton = UIBarButtonItem(title: "Prev", style: UIBarButtonItemStyle.Done, target: self, action: Selector(self.prevButtonAction()))
-        let nextButton = UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Done, target: self, action: Selector(self.nextButtonAction()))
+        let aToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: (self.navigationController?.view.frame.size.width)!  , height: 50))
+        let previousButton = UIBarButtonItem(title: "Prev", style: UIBarButtonItemStyle.Done, target: self, action: #selector(AddAlarmViewController.prevButtonAction))
+        let nextButton = UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Done, target: self, action: #selector(AddAlarmViewController.nextButtonAction))
         let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self, action: Selector(self.doneButtonAction()))
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done , target: self, action: #selector(AddAlarmViewController.doneButtonAction(_:)))
         let items = [previousButton, nextButton, spacer, doneButton]
         aToolbar.items = items
         
         
-        aToolbar.sizeToFit()
+        //aToolbar.sizeToFit()
         return aToolbar
     }
     
-    func doneButtonAction(){
-        self.hourPicker.resignFirstResponder()
+    //TODO: InputAccessoryView Button actions
+    
+    func doneButtonAction(sender: AnyObject){
+        print("done")
     }
     
     func nextButtonAction(){
-        
+        print("next")
     }
     func prevButtonAction(){
-        
+        print("prev")
     }
     
     func buildArrays(){
