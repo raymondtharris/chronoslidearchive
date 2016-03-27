@@ -202,7 +202,7 @@ let AddingSongNotification:String = "AddingSongNotification"
 let AddingRepeatsNotification:String = "AddingRepeatsNotification"
 
 
-class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate  {
+class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate  {
     
     @IBOutlet weak var hourTextLabel: UITextField!
     @IBOutlet weak var minuteTextLabel: UITextField!
@@ -231,6 +231,8 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     var songData: MPMediaItem?
     var repeatData: [repeatType] = [.None]
     
+    var currentTextField = UITextField()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         buildArrays()
@@ -240,7 +242,6 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         hourPicker.dataSource = self
         minutePicker.dataSource = self
         hourTextLabel.inputView = hourPicker
-        
         minuteTextLabel.inputView = minutePicker
         scrollView.contentSize.height = 800
         
@@ -248,6 +249,9 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         toolbar = buildToolbar()
         hourTextLabel.inputAccessoryView = toolbar
         minuteTextLabel.inputAccessoryView = toolbar
+        hourTextLabel.delegate = self
+        minuteTextLabel.delegate = self
+        alarmNameTextField.delegate = self
         
         
         alarmRepeatLabel.hidden = true
@@ -260,28 +264,35 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     func buildToolbar() -> UIToolbar{
         let aToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: (self.navigationController?.view.frame.size.width)!  , height: 50))
-        let previousButton = UIBarButtonItem(title: "Prev", style: UIBarButtonItemStyle.Done, target: self, action: #selector(AddAlarmViewController.prevButtonAction))
-        let nextButton = UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Done, target: self, action: #selector(AddAlarmViewController.nextButtonAction))
+        let previousButton = UIBarButtonItem(title: "Prev", style: UIBarButtonItemStyle.Done, target: self, action: #selector(AddAlarmViewController.prevButtonAction(_:)))
+        let nextButton = UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Done, target: self, action: #selector(AddAlarmViewController.nextButtonAction(_:)))
         let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done , target: self, action: #selector(AddAlarmViewController.doneButtonAction(_:)))
         let items = [previousButton, nextButton, spacer, doneButton]
         aToolbar.items = items
         
-        
         //aToolbar.sizeToFit()
         return aToolbar
     }
     
+    func textFieldDidBeginEditing(textField: UITextField) {
+        //print("edit")
+        self.currentTextField = textField
+    }
+    
+    
     //TODO: InputAccessoryView Button actions
     
     func doneButtonAction(sender: AnyObject){
-        print("done")
+        //print("done")
+        
+        currentTextField.resignFirstResponder()
     }
     
-    func nextButtonAction(){
+    func nextButtonAction(sender: AnyObject){
         print("next")
     }
-    func prevButtonAction(){
+    func prevButtonAction(sender: AnyObject){
         print("prev")
     }
     
@@ -850,8 +861,6 @@ class EditAlarmRepeatTableViewController: UITableViewController {
                 break
             case .Everyday:
                 addCheckmarck(8)
-                break
-            default:
                 break
             }
         }
