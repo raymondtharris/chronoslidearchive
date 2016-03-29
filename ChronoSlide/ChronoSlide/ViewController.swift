@@ -249,6 +249,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         toolbar = buildToolbar()
         hourTextLabel.inputAccessoryView = toolbar
         minuteTextLabel.inputAccessoryView = toolbar
+        alarmNameTextField.inputAccessoryView = toolbar
         hourTextLabel.delegate = self
         minuteTextLabel.delegate = self
         alarmNameTextField.delegate = self
@@ -310,10 +311,10 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         print("next")
         switch currentTextField {
         case hourTextLabel:
-            currentTextField = minuteTextLabel
+            minuteTextLabel.becomeFirstResponder()
             break
         case minuteTextLabel:
-            currentTextField = alarmNameTextField
+            alarmNameTextField.becomeFirstResponder()
             break
         case alarmNameTextField:
             break
@@ -327,10 +328,10 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         case hourTextLabel:
             break
         case minuteTextLabel:
-            currentTextField = hourTextLabel
+            hourTextLabel.becomeFirstResponder()
             break
         case alarmNameTextField:
-            currentTextField = minuteTextLabel
+            minuteTextLabel.becomeFirstResponder()
             break
         default:
             break
