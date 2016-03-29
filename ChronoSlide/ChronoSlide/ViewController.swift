@@ -278,6 +278,23 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     func textFieldDidBeginEditing(textField: UITextField) {
         //print("edit")
         self.currentTextField = textField
+        
+        switch currentTextField {
+        case hourTextLabel:
+            toolbar.items![0].enabled = false
+            toolbar.items![1].enabled = true
+            break
+        case minuteTextLabel:
+            toolbar.items![0].enabled = true
+            toolbar.items![1].enabled = true
+            break
+        case alarmNameTextField:
+            toolbar.items![0].enabled = true
+            toolbar.items![1].enabled = false
+            break
+        default:
+            break
+        }
     }
     
     
@@ -291,9 +308,33 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     func nextButtonAction(sender: AnyObject){
         print("next")
+        switch currentTextField {
+        case hourTextLabel:
+            currentTextField = minuteTextLabel
+            break
+        case minuteTextLabel:
+            currentTextField = alarmNameTextField
+            break
+        case alarmNameTextField:
+            break
+        default:
+            break
+        }
     }
     func prevButtonAction(sender: AnyObject){
         print("prev")
+        switch currentTextField {
+        case hourTextLabel:
+            break
+        case minuteTextLabel:
+            currentTextField = hourTextLabel
+            break
+        case alarmNameTextField:
+            currentTextField = minuteTextLabel
+            break
+        default:
+            break
+        }
     }
     
     func buildArrays(){
