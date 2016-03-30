@@ -85,7 +85,7 @@ enum repeatType: CustomStringConvertible, Equatable {
         case .Everyday: return "Everyday";
        // case .Weekly: return "Weekly";
        // case .Monthly: return "Monthly";
-        case .None: return "None:";
+        case .None: return "None";
         }
         
     }

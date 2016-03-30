@@ -204,8 +204,8 @@ let AddingRepeatsNotification:String = "AddingRepeatsNotification"
 
 class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate  {
     
-    @IBOutlet weak var hourTextLabel: UITextField!
-    @IBOutlet weak var minuteTextLabel: UITextField!
+    @IBOutlet weak var hourTextField: UITextField!
+    @IBOutlet weak var minuteTextField: UITextField!
     @IBOutlet weak var alarmAMPMSegmentedControl: UISegmentedControl!
     @IBOutlet weak var alarmNameTextField: UITextField!
     
@@ -241,23 +241,23 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         minutePicker.delegate = self
         hourPicker.dataSource = self
         minutePicker.dataSource = self
-        hourTextLabel.inputView = hourPicker
-        minuteTextLabel.inputView = minutePicker
+        hourTextField.inputView = hourPicker
+        minuteTextField.inputView = minutePicker
         scrollView.contentSize.height = 800
         
         
         toolbar = buildToolbar()
-        hourTextLabel.inputAccessoryView = toolbar
-        minuteTextLabel.inputAccessoryView = toolbar
+        hourTextField.inputAccessoryView = toolbar
+        minuteTextField.inputAccessoryView = toolbar
         alarmNameTextField.inputAccessoryView = toolbar
-        hourTextLabel.delegate = self
-        minuteTextLabel.delegate = self
+        hourTextField.delegate = self
+        minuteTextField.delegate = self
         alarmNameTextField.delegate = self
         
         
-        alarmRepeatLabel.hidden = true
-        alarmRepeatTitleLabel.hidden = true
-        chooseRepeatButton.hidden = true
+        //alarmRepeatLabel.hidden = true
+        //alarmRepeatTitleLabel.hidden = true
+        //chooseRepeatButton.hidden = true
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AddAlarmViewController.addSong(_:)), name: AddingSongNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AddAlarmViewController.addRepeat(_:)), name: AddingRepeatsNotification, object: nil)
@@ -281,11 +281,11 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         self.currentTextField = textField
         
         switch currentTextField {
-        case hourTextLabel:
+        case hourTextField:
             toolbar.items![0].enabled = false
             toolbar.items![1].enabled = true
             break
-        case minuteTextLabel:
+        case minuteTextField:
             toolbar.items![0].enabled = true
             toolbar.items![1].enabled = true
             break
@@ -310,10 +310,10 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     func nextButtonAction(sender: AnyObject){
         print("next")
         switch currentTextField {
-        case hourTextLabel:
-            minuteTextLabel.becomeFirstResponder()
+        case hourTextField:
+            minuteTextField.becomeFirstResponder()
             break
-        case minuteTextLabel:
+        case minuteTextField:
             alarmNameTextField.becomeFirstResponder()
             break
         case alarmNameTextField:
@@ -325,13 +325,13 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     func prevButtonAction(sender: AnyObject){
         print("prev")
         switch currentTextField {
-        case hourTextLabel:
+        case hourTextField:
             break
-        case minuteTextLabel:
-            hourTextLabel.becomeFirstResponder()
+        case minuteTextField:
+            hourTextField.becomeFirstResponder()
             break
         case alarmNameTextField:
-            minuteTextLabel.becomeFirstResponder()
+            minuteTextField.becomeFirstResponder()
             break
         default:
             break
@@ -354,7 +354,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     @IBAction func commitNewAlarm(sender: AnyObject) {
         print(alarmAMPMSegmentedControl.description)
         
-        let alarmDicationary = ["alarmHour": hourTextLabel.text!, "alarmMinute": minuteTextLabel.text!, "alarmName": "test alarm", "alarmAMPM": alarmAMPMSegmentedControl.description, "alarmSong": songData!] //Need to fix cast or make a wrapper for values.
+        let alarmDicationary = ["alarmHour": hourTextField.text!, "alarmMinute": minuteTextField.text!, "alarmName": "test alarm", "alarmAMPM": alarmAMPMSegmentedControl.description, "alarmSong": songData!] //Need to fix cast or make a wrapper for values.
         NSNotificationCenter.defaultCenter().postNotificationName(AddingNewAlarmNotification, object: self, userInfo: alarmDicationary as [NSObject : AnyObject])
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
@@ -378,9 +378,9 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == hourPicker{
-            hourTextLabel.text = hourData[row]
+            hourTextField.text = hourData[row]
         } else {
-            minuteTextLabel.text = minuteData[row]
+            minuteTextField.text = minuteData[row]
         }
     }
     
