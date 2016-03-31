@@ -152,6 +152,28 @@
                                             </mask>
                                         </variation>
                                     </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wyW-xR-uCw">
+                                        <rect key="frame" x="155" y="77" width="127" height="139"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="127" id="CuP-OH-ddj"/>
+                                            <constraint firstAttribute="height" constant="139" id="HNH-it-G05"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="31"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="CuP-OH-ddj"/>
+                                                <exclude reference="HNH-it-G05"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="widthClass=compact" misplaced="YES">
+                                            <rect key="frame" x="218" y="37" width="127" height="139"/>
+                                            <mask key="constraints">
+                                                <include reference="CuP-OH-ddj"/>
+                                                <include reference="HNH-it-G05"/>
+                                            </mask>
+                                        </variation>
+                                    </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Akg-hL-aOt">
                                         <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -189,14 +211,6 @@
                                             <rect key="frame" x="20" y="455" width="54" height="21"/>
                                         </variation>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wyW-xR-uCw">
-                                        <rect key="frame" x="155" y="77" width="127" height="139"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="31"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <variation key="widthClass=compact" misplaced="YES">
-                                            <rect key="frame" x="218" y="37" width="127" height="139"/>
-                                        </variation>
-                                    </textField>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="qRi-5N-pWI" firstAttribute="top" secondItem="6Ij-r5-cwY" secondAttribute="bottom" constant="19" id="5Gh-Rd-Ljr"/>
@@ -210,7 +224,6 @@
                                     <constraint firstItem="6Ij-r5-cwY" firstAttribute="top" secondItem="gco-kS-UUj" secondAttribute="bottom" constant="46" id="SFo-WP-Amy"/>
                                     <constraint firstItem="6Ij-r5-cwY" firstAttribute="leading" secondItem="Djj-I4-zcU" secondAttribute="leading" constant="20" id="Tnw-d2-GV8"/>
                                     <constraint firstItem="QBI-et-wYX" firstAttribute="leading" secondItem="gco-kS-UUj" secondAttribute="leading" id="Uli-Np-hz0"/>
-                                    <constraint firstItem="wyW-xR-uCw" firstAttribute="top" secondItem="Djj-I4-zcU" secondAttribute="top" constant="37" id="Xqp-7H-h8a"/>
                                     <constraint firstItem="QBI-et-wYX" firstAttribute="baseline" secondItem="wyW-xR-uCw" secondAttribute="baseline" id="cEu-2e-h6a"/>
                                     <constraint firstItem="0n3-l1-DNr" firstAttribute="leading" secondItem="ZpZ-cs-aFi" secondAttribute="leading" id="cyq-zE-Myf"/>
                                     <constraint firstItem="kZZ-L4-zsi" firstAttribute="leading" secondItem="a5Q-bv-orC" secondAttribute="leading" id="dft-XK-FmN"/>
@@ -221,6 +234,7 @@
                                     <constraint firstItem="QBI-et-wYX" firstAttribute="leading" secondItem="Djj-I4-zcU" secondAttribute="leading" constant="55" id="hw5-wG-0jR"/>
                                     <constraint firstItem="qRi-5N-pWI" firstAttribute="leading" secondItem="0n3-l1-DNr" secondAttribute="leading" id="j14-0x-EJH"/>
                                     <constraint firstItem="gco-kS-UUj" firstAttribute="top" secondItem="QBI-et-wYX" secondAttribute="bottom" constant="78" id="kts-Cw-ONF"/>
+                                    <constraint firstItem="wyW-xR-uCw" firstAttribute="top" secondItem="Djj-I4-zcU" secondAttribute="top" constant="101" id="nPQ-Iy-QSq"/>
                                     <constraint firstItem="0n3-l1-DNr" firstAttribute="baseline" secondItem="kZZ-L4-zsi" secondAttribute="baseline" id="ndt-a1-ggP"/>
                                     <constraint firstItem="kZZ-L4-zsi" firstAttribute="leading" secondItem="0n3-l1-DNr" secondAttribute="trailing" constant="48" id="olm-UV-Cbd"/>
                                     <constraint firstItem="6Ij-r5-cwY" firstAttribute="leading" secondItem="qRi-5N-pWI" secondAttribute="leading" id="ooh-G9-2U1"/>
@@ -242,7 +256,7 @@
                                         <exclude reference="grI-X3-vPR"/>
                                         <exclude reference="hw5-wG-0jR"/>
                                         <exclude reference="GwY-Tp-zSC"/>
-                                        <exclude reference="Xqp-7H-h8a"/>
+                                        <exclude reference="nPQ-Iy-QSq"/>
                                         <exclude reference="pQ3-s0-xa6"/>
                                         <exclude reference="EUR-D2-xg1"/>
                                         <exclude reference="kts-Cw-ONF"/>
@@ -280,7 +294,7 @@
                                         <include reference="grI-X3-vPR"/>
                                         <include reference="hw5-wG-0jR"/>
                                         <include reference="GwY-Tp-zSC"/>
-                                        <include reference="Xqp-7H-h8a"/>
+                                        <include reference="nPQ-Iy-QSq"/>
                                         <include reference="pQ3-s0-xa6"/>
                                         <include reference="EUR-D2-xg1"/>
                                         <include reference="kts-Cw-ONF"/>

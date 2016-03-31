@@ -561,10 +561,15 @@ class AddAlarmRepeatTableViewController: UITableViewController {
         let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! AddRepeatTableCellView
         if selectedCell.accessoryType == UITableViewCellAccessoryType.None {
             calculateOtherRepeats(selectedCell, row: indexPath.row)
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
         } else {
             selectedCell.accessoryType = UITableViewCellAccessoryType.None
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
+        self.tableView.reloadData()
     }
+    
+ 
     
     func calculateOtherRepeats(tappedOption: AddRepeatTableCellView, row: Int){
         let tapped = RepeatMacros[row]
@@ -589,12 +594,17 @@ class AddAlarmRepeatTableViewController: UITableViewController {
                 selectedRepeats.append(tapped)
             }
             tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
+            let noneOption = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! AddRepeatTableCellView
+            noneOption.accessoryType = UITableViewCellAccessoryType.None
         }
     }
     
     func clearTableView(){
-        for anIndex in 0..<RepeatMacros.count {
-            let current =  self.tableView.cellForRowAtIndexPath(NSIndexPath(index: anIndex)) as! AddRepeatTableCellView
+        let view = self.tableView
+        for anIndex in 0..<RepeatMacros.count  {
+            //print(anIndex)
+            let current =  view.cellForRowAtIndexPath(NSIndexPath(forRow: anIndex, inSection: 0)) as! AddRepeatTableCellView
+            
             current.accessoryType = UITableViewCellAccessoryType.None
         }
         
