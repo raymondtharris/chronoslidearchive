@@ -575,6 +575,7 @@ class AddAlarmRepeatTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
         let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! AddRepeatTableCellView
+        selectedCell.selectionStyle = UITableViewCellSelectionStyle.None
         if selectedCell.accessoryType == UITableViewCellAccessoryType.None {
             calculateOtherRepeats(selectedCell, row: indexPath.row)
             //tableView.deselectRowAtIndexPath(indexPath, animated: true)
