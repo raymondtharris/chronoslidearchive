@@ -76,7 +76,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Qp1-6R-OKc"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Jqe-3U-Zws">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Djj-I4-zcU">
@@ -179,25 +179,16 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
-                                        <variation key="widthClass=compact" misplaced="YES">
-                                            <rect key="frame" x="20" y="496" width="42" height="21"/>
-                                        </variation>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Song" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qRi-5N-pWI">
                                         <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
-                                        <variation key="widthClass=compact" misplaced="YES">
-                                            <rect key="frame" x="20" y="377" width="40" height="21"/>
-                                        </variation>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a5Q-bv-orC">
                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                         <state key="normal" title="Button"/>
-                                        <variation key="widthClass=compact" misplaced="YES">
-                                            <rect key="frame" x="335" y="492" width="46" height="30"/>
-                                        </variation>
                                         <connections>
                                             <segue destination="7SW-c2-A0L" kind="show" id="hwV-Nk-ktO"/>
                                         </connections>
@@ -207,9 +198,6 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
-                                        <variation key="widthClass=compact" misplaced="YES">
-                                            <rect key="frame" x="20" y="455" width="54" height="21"/>
-                                        </variation>
                                     </label>
                                 </subviews>
                                 <constraints>
@@ -250,34 +238,34 @@
                                         <exclude reference="ZpZ-cs-aFi"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <exclude reference="Uli-Np-hz0"/>
-                                        <exclude reference="cEu-2e-h6a"/>
-                                        <exclude reference="exZ-AH-Lqb"/>
-                                        <exclude reference="grI-X3-vPR"/>
-                                        <exclude reference="hw5-wG-0jR"/>
+                                        <exclude reference="S9H-tR-rer"/>
+                                        <exclude reference="PBs-ja-Jib"/>
+                                        <exclude reference="fqp-fe-wki"/>
+                                        <exclude reference="FEA-1D-gei"/>
+                                        <exclude reference="tDC-mW-pKD"/>
+                                        <exclude reference="5Gh-Rd-Ljr"/>
+                                        <exclude reference="j14-0x-EJH"/>
                                         <exclude reference="GwY-Tp-zSC"/>
                                         <exclude reference="nPQ-Iy-QSq"/>
                                         <exclude reference="pQ3-s0-xa6"/>
                                         <exclude reference="EUR-D2-xg1"/>
                                         <exclude reference="kts-Cw-ONF"/>
                                         <exclude reference="y7M-sK-hP8"/>
+                                        <exclude reference="Uli-Np-hz0"/>
+                                        <exclude reference="cEu-2e-h6a"/>
+                                        <exclude reference="exZ-AH-Lqb"/>
+                                        <exclude reference="grI-X3-vPR"/>
+                                        <exclude reference="hw5-wG-0jR"/>
                                         <exclude reference="Jna-8b-NGQ"/>
                                         <exclude reference="SFo-WP-Amy"/>
                                         <exclude reference="Tnw-d2-GV8"/>
                                         <exclude reference="h5z-h6-GZ1"/>
                                         <exclude reference="ooh-G9-2U1"/>
-                                        <exclude reference="5Gh-Rd-Ljr"/>
-                                        <exclude reference="j14-0x-EJH"/>
                                         <exclude reference="GXr-sD-ItN"/>
                                         <exclude reference="cyq-zE-Myf"/>
                                         <exclude reference="ndt-a1-ggP"/>
-                                        <exclude reference="FEA-1D-gei"/>
-                                        <exclude reference="tDC-mW-pKD"/>
-                                        <exclude reference="PBs-ja-Jib"/>
-                                        <exclude reference="fqp-fe-wki"/>
                                         <exclude reference="dft-XK-FmN"/>
                                         <exclude reference="olm-UV-Cbd"/>
-                                        <exclude reference="S9H-tR-rer"/>
                                     </mask>
                                 </variation>
                                 <variation key="widthClass=compact">
@@ -288,34 +276,34 @@
                                         <include reference="ZpZ-cs-aFi"/>
                                     </mask>
                                     <mask key="constraints">
-                                        <include reference="Uli-Np-hz0"/>
-                                        <include reference="cEu-2e-h6a"/>
-                                        <include reference="exZ-AH-Lqb"/>
-                                        <include reference="grI-X3-vPR"/>
-                                        <include reference="hw5-wG-0jR"/>
+                                        <include reference="S9H-tR-rer"/>
+                                        <include reference="PBs-ja-Jib"/>
+                                        <include reference="fqp-fe-wki"/>
+                                        <include reference="FEA-1D-gei"/>
+                                        <include reference="tDC-mW-pKD"/>
+                                        <include reference="5Gh-Rd-Ljr"/>
+                                        <include reference="j14-0x-EJH"/>
                                         <include reference="GwY-Tp-zSC"/>
                                         <include reference="nPQ-Iy-QSq"/>
                                         <include reference="pQ3-s0-xa6"/>
                                         <include reference="EUR-D2-xg1"/>
                                         <include reference="kts-Cw-ONF"/>
                                         <include reference="y7M-sK-hP8"/>
+                                        <include reference="Uli-Np-hz0"/>
+                                        <include reference="cEu-2e-h6a"/>
+                                        <include reference="exZ-AH-Lqb"/>
+                                        <include reference="grI-X3-vPR"/>
+                                        <include reference="hw5-wG-0jR"/>
                                         <include reference="Jna-8b-NGQ"/>
                                         <include reference="SFo-WP-Amy"/>
                                         <include reference="Tnw-d2-GV8"/>
                                         <include reference="h5z-h6-GZ1"/>
                                         <include reference="ooh-G9-2U1"/>
-                                        <include reference="5Gh-Rd-Ljr"/>
-                                        <include reference="j14-0x-EJH"/>
                                         <include reference="GXr-sD-ItN"/>
                                         <include reference="cyq-zE-Myf"/>
                                         <include reference="ndt-a1-ggP"/>
-                                        <include reference="FEA-1D-gei"/>
-                                        <include reference="tDC-mW-pKD"/>
-                                        <include reference="PBs-ja-Jib"/>
-                                        <include reference="fqp-fe-wki"/>
                                         <include reference="dft-XK-FmN"/>
                                         <include reference="olm-UV-Cbd"/>
-                                        <include reference="S9H-tR-rer"/>
                                     </mask>
                                 </variation>
                             </scrollView>
@@ -375,15 +363,15 @@
             <objects>
                 <tableViewController id="Rwp-vg-Bn3" customClass="SongsTableViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="76" sectionHeaderHeight="28" sectionFooterHeight="28" id="JyE-ee-NV0">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddAlarmSongCell" rowHeight="76" id="u8d-1E-x6t" customClass="AddSongTableCellView" customModule="ChronoSlide" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="76"/>
+                                <rect key="frame" x="0.0" y="92" width="400" height="76"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u8d-1E-x6t" id="kic-tj-Xks">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="75"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="400" height="75"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R1e-53-vyd">
@@ -554,15 +542,15 @@
             <objects>
                 <tableViewController id="7SW-c2-A0L" customClass="AddAlarmRepeatTableViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="qlB-Nm-Ivz">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddAlarmRepeatCellView" id="G0h-Bh-QMl" customClass="AddRepeatTableCellView" customModule="ChronoSlide" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="92" width="400" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G0h-Bh-QMl" id="cFJ-ma-ewn">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="400" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="490-iu-x9t">

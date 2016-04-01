@@ -556,20 +556,37 @@ class AddAlarmRepeatTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return RepeatMacros.count
     }
-
+/*
     override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! AddRepeatTableCellView
         if selectedCell.accessoryType == UITableViewCellAccessoryType.None {
             calculateOtherRepeats(selectedCell, row: indexPath.row)
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            //tableView.deselectRowAtIndexPath(indexPath, animated: true)
         } else {
             selectedCell.accessoryType = UITableViewCellAccessoryType.None
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            //tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
+        self.tableView(tableView, willDeselectRowAtIndexPath: indexPath)
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        self.tableView(tableView, didDeselectRowAtIndexPath: indexPath)
         self.tableView.reloadData()
     }
+  */  
     
- 
+    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! AddRepeatTableCellView
+        if selectedCell.accessoryType == UITableViewCellAccessoryType.None {
+            calculateOtherRepeats(selectedCell, row: indexPath.row)
+            //tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        } else {
+            selectedCell.accessoryType = UITableViewCellAccessoryType.None
+            //tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        }
+        //self.tableView(tableView, willDeselectRowAtIndexPath: indexPath)
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        //self.tableView(tableView, didDeselectRowAtIndexPath: indexPath)
+        return indexPath
+    }
     
     func calculateOtherRepeats(tappedOption: AddRepeatTableCellView, row: Int){
         let tapped = RepeatMacros[row]
