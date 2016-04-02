@@ -36,6 +36,9 @@ class AlarmTableViewController: UITableViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AlarmTableViewController.updatingAlarm(_:)), name: UpdatingAlarmNotification, object: nil)
         
         animator = UIDynamicAnimator(referenceView: self.view)
+        
+        self.navigationController?.view.tintColor = UIColor(red: 0.93, green: 0.17, blue: 0.17, alpha: 1.0)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor(red: 0.93, green: 0.17, blue: 0.17, alpha: 1.0)]
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -471,7 +474,7 @@ class AddSongsTableViewController: UITableViewController {
         let chooseGesture = UITapGestureRecognizer.init(target: self, action: #selector(AddSongsTableViewController.chooseSong(_:)))
         self.view.addGestureRecognizer(chooseGesture)
         
-        // Previe wSong Gesutre
+        // Preview Song Gesutre
         let previewGesture = UITapGestureRecognizer.init(target: self, action: #selector(AddSongsTableViewController.togglePreview(_:)))
         cell.alarmSongImageView.addGestureRecognizer(previewGesture)
         
@@ -628,10 +631,10 @@ class AddAlarmRepeatTableViewController: UITableViewController {
         
     }
     
-    
+    //TODO: - FIX Casting 
     @IBAction func commitRepeats(sender: AnyObject) {
-        let repeatDictionary = ["repeats": selectedRepeats as! AnyObject]
-        NSNotificationCenter.defaultCenter().postNotificationName(AddingRepeatsNotification, object: self, userInfo: repeatDictionary )
+        //let repeatDictionary = ["repeats" as NSObject: selectedRepeats as! AnyObject]
+        NSNotificationCenter.defaultCenter().postNotificationName(AddingRepeatsNotification, object: self, userInfo: (selectedRepeats as! AnyObject as! [NSObject : AnyObject]) )
         self.navigationController?.popViewControllerAnimated(true)
     }
     

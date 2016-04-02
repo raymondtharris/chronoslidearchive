@@ -361,7 +361,7 @@
         <!--Choose Song-->
         <scene sceneID="0aX-iR-nPL">
             <objects>
-                <tableViewController id="Rwp-vg-Bn3" customClass="SongsTableViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Rwp-vg-Bn3" customClass="AddSongsTableViewController" customModule="ChronoSlide" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="76" sectionHeaderHeight="28" sectionFooterHeight="28" id="JyE-ee-NV0">
                         <rect key="frame" x="0.0" y="0.0" width="400" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
