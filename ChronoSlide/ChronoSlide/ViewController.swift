@@ -8,6 +8,7 @@
 
 import UIKit
 import MediaPlayer
+import Foundation
 
 
 let RepeatMacros = [repeatType.None, repeatType.Monday, repeatType.Tuesday, repeatType.Wednesday, repeatType.Thursday, repeatType.Friday, repeatType.Saturday, repeatType.Sunday, repeatType.Everyday]
@@ -405,8 +406,44 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     func addRepeat(notification: NSNotification){
         let repeatsDictionary = notification.userInfo!
-        let repeats = repeatsDictionary["repeats"] as! [repeatType]
+        let repeatStrings = repeatsDictionary["repeats"] as! [String]
+        var repeats:[repeatType] = [repeatType]()
+        for aString in repeatStrings{
+            switch aString {
+            case "None":
+                repeats.append(repeatType.None)
+                break
+            case "Monday":
+                repeats.append(repeatType.Monday)
+                break
+            case "Tuesday":
+                repeats.append(repeatType.Tuesday)
+                break
+            case "Wednesday":
+                repeats.append(repeatType.Wednesday)
+                break
+            case "Thursday":
+                repeats.append(repeatType.Thursday)
+                break
+            case "Friday":
+                repeats.append(repeatType.Friday)
+                break
+            case "Saturday":
+                repeats.append(repeatType.Saturday)
+                break
+            case "Sunday":
+                repeats.append(repeatType.Sunday)
+                break
+            case "Everyday":
+                repeats.append(repeatType.Everyday)
+                break
+            default:
+                break
+            }
+        }
         repeatData = repeats
+        print(repeatData)
+        determineRepeatLabel()
     }
     
     func determineRepeatLabel(){
@@ -424,7 +461,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         var str = ""
         var index = 0
         for repeatItem in repeatData {
-            if index == repeatData.count {
+            if index == repeatData.count - 1 {
                 str = str + " " + repeatItem.description
             } else {
                 str = str + " " + repeatItem.description + ","
@@ -631,10 +668,14 @@ class AddAlarmRepeatTableViewController: UITableViewController {
         
     }
     
-    //TODO: - FIX Casting 
+    //TODO: - FIX Casting
     @IBAction func commitRepeats(sender: AnyObject) {
-        //let repeatDictionary = ["repeats" as NSObject: selectedRepeats as! AnyObject]
-        NSNotificationCenter.defaultCenter().postNotificationName(AddingRepeatsNotification, object: self, userInfo: (selectedRepeats as! AnyObject as! [NSObject : AnyObject]) )
+        let temp: NSMutableArray = NSMutableArray()
+        for aRepeat in selectedRepeats{
+            temp.addObject(aRepeat.description)
+        }
+        let repeatDictionary = ["repeats" as NSString: temp]
+        NSNotificationCenter.defaultCenter().postNotificationName(AddingRepeatsNotification, object: self, userInfo: repeatDictionary)
         self.navigationController?.popViewControllerAnimated(true)
     }
     
