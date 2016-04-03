@@ -460,18 +460,20 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     func buildRepeatString() -> String{
         var str = ""
         var index = 0
+        if repeatData.count == 2 {
+            str = repeatData[0].description + " & " + repeatData[1].description
+            return str
+        }
         for repeatItem in repeatData {
             if index == repeatData.count - 1 {
                 str = str + " " + repeatItem.description
             } else {
                 str = str + " " + repeatItem.description + ","
-             }
+            }
             index = index + 1
         }
         return str
     }
-    
-
 }
 
 
