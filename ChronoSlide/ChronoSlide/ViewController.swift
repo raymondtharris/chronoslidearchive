@@ -82,18 +82,54 @@ class AlarmTableViewController: UITableViewController {
         return ChronoAlarms.count
     }
     
-    
+    //TODO: Fix up adding
 
     func addingNewAlarm(notification: NSNotification){
         let alarmDictionary = notification.userInfo!
         
         var createdAlarm = Alarm(newMinute: Int(alarmDictionary["alarmMinute"] as! String)!, newHour: Int(alarmDictionary["alarmHour"] as! String)!, newName: alarmDictionary["alarmName"]as! String)
         let song = alarmDictionary["songItem"] as! MPMediaItem
+        let repeatDescriptions: [String] =  alarmDictionary["repeats"] as! [String]
         if song.title != nil {
             createdAlarm.alarmSound = song
         }
+        var repeats = [repeatType]()
+        for aString in repeatDescriptions{
+            switch aString {
+            case "None":
+                repeats.append(repeatType.None)
+                break
+            case "Monday":
+                repeats.append(repeatType.Monday)
+                break
+            case "Tuesday":
+                repeats.append(repeatType.Tuesday)
+                break
+            case "Wednesday":
+                repeats.append(repeatType.Wednesday)
+                break
+            case "Thursday":
+                repeats.append(repeatType.Thursday)
+                break
+            case "Friday":
+                repeats.append(repeatType.Friday)
+                break
+            case "Saturday":
+                repeats.append(repeatType.Saturday)
+                break
+            case "Sunday":
+                repeats.append(repeatType.Sunday)
+                break
+            case "Everyday":
+                repeats.append(repeatType.Everyday)
+                break
+            default:
+                break
+            }
+        }
         
-        let notificationDate = createNotificationDate(Int(alarmDictionary["alarmHour"] as! String)!, alarmMinute: Int(alarmDictionary["alarmMinute"] as! String)!, alarmRepeats: alarmDictionary["repeats"] as! [repeatType])
+        
+        let notificationDate = createNotificationDate(Int(alarmDictionary["alarmHour"] as! String)!, alarmMinute: Int(alarmDictionary["alarmMinute"] as! String)!, alarmRepeats: repeats)
         
         // setup notification.
         let notification = UILocalNotification()
@@ -357,8 +393,11 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     @IBAction func commitNewAlarm(sender: AnyObject) {
         print(alarmAMPMSegmentedControl.description)
-        
-        let alarmDicationary = ["alarmHour": hourTextField.text!, "alarmMinute": minuteTextField.text!, "alarmName": "test alarm", "alarmAMPM": alarmAMPMSegmentedControl.description, "alarmSong": songData!] //Need to fix cast or make a wrapper for values.
+        var repeatDescriptions: [String] = [String]()
+        for aRepeat in repeatData {
+            repeatDescriptions.append(aRepeat.description)
+        }
+        let alarmDicationary = ["alarmHour": hourTextField.text!, "alarmMinute": minuteTextField.text!, "alarmName": "test alarm", "alarmAMPM": alarmAMPMSegmentedControl.description, "alarmSong": songData!, "alarmRepeat": repeatDescriptions] //Need to fix cast or make a wrapper for values.
         NSNotificationCenter.defaultCenter().postNotificationName(AddingNewAlarmNotification, object: self, userInfo: alarmDicationary as [NSObject : AnyObject])
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
@@ -397,9 +436,11 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     func addSong(notification: NSNotification){
+        //print("received")
         let songDictionary = notification.userInfo!
-        print(songDictionary)
-        let song = songDictionary["songitem"] as! MPMediaItem
+        //print(songDictionary)
+        let song = songDictionary["songItem"] as! MPMediaItem
+        //print("get")
         songData = song
         alarmToneLabel.text = song.title
     }
@@ -669,9 +710,9 @@ class AddAlarmRepeatTableViewController: UITableViewController {
         }
         
     }
-    
-    //TODO: - FIX Casting
+    // TODO: - SORT REPEATS
     @IBAction func commitRepeats(sender: AnyObject) {
+        
         let temp: NSMutableArray = NSMutableArray()
         for aRepeat in selectedRepeats{
             temp.addObject(aRepeat.description)
