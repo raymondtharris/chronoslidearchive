@@ -57,6 +57,14 @@ struct Alarm {
         alarmNotification = newNotification
     }
     
+    mutating func setAlarmRepeat(newRepeat: [repeatType]){
+        alarmRepeat = newRepeat
+    }
+    
+    mutating func setAlarmRepeats(doesRepeat: Bool){
+        alarmRepeats = doesRepeat
+    }
+    
 }
 
 

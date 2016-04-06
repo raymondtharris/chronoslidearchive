@@ -86,7 +86,7 @@ class AlarmTableViewController: UITableViewController {
 
     func addingNewAlarm(notification: NSNotification){
         let alarmDictionary = notification.userInfo!
-        
+        print("received")
         var createdAlarm = Alarm(newMinute: Int(alarmDictionary["alarmMinute"] as! String)!, newHour: Int(alarmDictionary["alarmHour"] as! String)!, newName: alarmDictionary["alarmName"]as! String)
         let song = alarmDictionary["songItem"] as! MPMediaItem
         let repeatDescriptions: [String] =  alarmDictionary["repeats"] as! [String]
@@ -128,6 +128,7 @@ class AlarmTableViewController: UITableViewController {
             }
         }
         
+        createdAlarm.setAlarmRepeat(repeats)
         
         let notificationDate = createNotificationDate(Int(alarmDictionary["alarmHour"] as! String)!, alarmMinute: Int(alarmDictionary["alarmMinute"] as! String)!, alarmRepeats: repeats)
         
@@ -141,7 +142,7 @@ class AlarmTableViewController: UITableViewController {
         
         //conenct notification
         createdAlarm.alarmNotification = notification
-        UIApplication.sharedApplication().scheduleLocalNotification(createdAlarm.alarmNotification!)
+        //UIApplication.sharedApplication().scheduleLocalNotification(createdAlarm.alarmNotification!)
         
         print(createdAlarm.alarmHour.description + ": " + createdAlarm.alarmMinute.description)
         ChronoAlarms.append(createdAlarm)
@@ -392,12 +393,13 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     @IBAction func commitNewAlarm(sender: AnyObject) {
-        print(alarmAMPMSegmentedControl.description)
+        let selectedIndex = alarmAMPMSegmentedControl.selectedSegmentIndex
+        print(alarmAMPMSegmentedControl.titleForSegmentAtIndex(selectedIndex)!)
         var repeatDescriptions: [String] = [String]()
         for aRepeat in repeatData {
             repeatDescriptions.append(aRepeat.description)
         }
-        let alarmDicationary = ["alarmHour": hourTextField.text!, "alarmMinute": minuteTextField.text!, "alarmName": "test alarm", "alarmAMPM": alarmAMPMSegmentedControl.description, "alarmSong": songData!, "alarmRepeat": repeatDescriptions] //Need to fix cast or make a wrapper for values.
+        let alarmDicationary = ["alarmHour": hourTextField.text!, "alarmMinute": minuteTextField.text!, "alarmName": "test alarm", "alarmAMPM": alarmAMPMSegmentedControl.titleForSegmentAtIndex(selectedIndex)!, "alarmSong": songData!, "alarmRepeat": repeatDescriptions] //Need to fix cast or make a wrapper for values.
         NSNotificationCenter.defaultCenter().postNotificationName(AddingNewAlarmNotification, object: self, userInfo: alarmDicationary as [NSObject : AnyObject])
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
