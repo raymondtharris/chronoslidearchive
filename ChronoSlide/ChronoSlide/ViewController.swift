@@ -981,6 +981,7 @@ class EditAlarmRepeatTableViewController: UITableViewController {
         return RepeatMacros.count
     }
     
+    /*
     override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! EditRepeatTableCellView
         if selectedCell.accessoryType == UITableViewCellAccessoryType.None {
@@ -989,6 +990,24 @@ class EditAlarmRepeatTableViewController: UITableViewController {
             selectedCell.accessoryType = UITableViewCellAccessoryType.None
         }
     }
+ */
+    
+    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! EditRepeatTableCellView
+        selectedCell.selectionStyle = UITableViewCellSelectionStyle.None
+        if selectedCell.accessoryType == UITableViewCellAccessoryType.None {
+            calculateOtherRepeats(selectedCell, row: indexPath.row)
+            //tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        } else {
+            selectedCell.accessoryType = UITableViewCellAccessoryType.None
+            //tableView.deselectRowAtIndexPath(indexPath, animated: false)
+        }
+        //self.tableView(tableView, willDeselectRowAtIndexPath: indexPath)
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        //self.tableView(tableView, didDeselectRowAtIndexPath: indexPath)
+        return indexPath
+    }
+    
     
     func loadRepeats(){
         //for repeats found in selected repeats array remark them for the view.
@@ -1053,20 +1072,28 @@ class EditAlarmRepeatTableViewController: UITableViewController {
                 selectedRepeats.append(tapped)
             }
             tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
+            let noneOption = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! AddRepeatTableCellView
+            noneOption.accessoryType = UITableViewCellAccessoryType.None
         }
     }
     
     func clearTableView(){
-        for anIndex in 0..<RepeatMacros.count {
-            let current =  self.tableView.cellForRowAtIndexPath(NSIndexPath(index: anIndex)) as! EditRepeatTableCellView
+        let view = self.tableView
+        for anIndex in 0..<RepeatMacros.count  {
+            //print(anIndex)
+            let current =  view.cellForRowAtIndexPath(NSIndexPath(forRow: anIndex, inSection: 0)) as! AddRepeatTableCellView
+            
             current.accessoryType = UITableViewCellAccessoryType.None
         }
-        
     }
     
     
     @IBAction func commitRepeats(sender: AnyObject) {
-        let repeatDictionary = ["repeats": selectedRepeats as! AnyObject]
+        let temp: NSMutableArray = NSMutableArray()
+        for aRepeat in selectedRepeats{
+            temp.addObject(aRepeat.description)
+        }
+        let repeatDictionary = ["repeats" as NSString: temp]
         NSNotificationCenter.defaultCenter().postNotificationName(UpdatingRepeatsNotification, object: self, userInfo: repeatDictionary )
         self.navigationController?.popViewControllerAnimated(true)
     }
