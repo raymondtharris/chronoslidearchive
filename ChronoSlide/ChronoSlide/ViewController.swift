@@ -517,6 +517,8 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         }
         return str
     }
+    
+    
 }
 
 
@@ -532,6 +534,8 @@ class AlarmTableCellView: UITableViewCell {
 }
 
 
+//TODO: - ADD ChosenSongView
+//TODO: - ADD Search to Tableview
 
 class AddSongsTableViewController: UITableViewController {
     let mediaLibrary: MPMediaLibrary = MPMediaLibrary.defaultMediaLibrary()
@@ -864,6 +868,16 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "EditRepetSegue" {
+            let destController = segue.destinationViewController as! EditAlarmRepeatTableViewController
+            destController.selectedRepeats = alarmToEdit.alarmRepeat
+        } else if segue.identifier == "EditSongSegue" {
+            let destController = segue.destinationViewController as! EditSongsTableViewController
+            destController.chosenSong = alarmToEdit.alarmSound!
+        }
+    }
+    
 }
 
 
@@ -873,6 +887,8 @@ class EditSongsTableViewController: UITableViewController {
     let mediaLibrary: MPMediaLibrary = MPMediaLibrary.defaultMediaLibrary()
     var songArray:[MPMediaItem] = [MPMediaItem]()
     let mediaPlayer: MPMusicPlayerController = MPMusicPlayerController()
+    var chosenSong: MPMediaItem = MPMediaItem()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadSongLibrary()
@@ -892,7 +908,7 @@ class EditSongsTableViewController: UITableViewController {
         let chooseGesture = UITapGestureRecognizer.init(target: self, action: #selector(AddSongsTableViewController.chooseSong(_:)))
         self.view.addGestureRecognizer(chooseGesture)
         
-        // Previe wSong Gesutre
+        // Preview Song Gesutre
         let previewGesture = UITapGestureRecognizer.init(target: self, action: #selector(AddSongsTableViewController.togglePreview(_:)))
         cell.alarmSongImageView.addGestureRecognizer(previewGesture)
         
@@ -1014,36 +1030,36 @@ class EditAlarmRepeatTableViewController: UITableViewController {
         for aRepeat in selectedRepeats{
             switch (aRepeat) {
             case .None:
-                addCheckmarck(0)
+                addCheckmark(0)
                 break
             case .Monday:
-                addCheckmarck(1)
+                addCheckmark(1)
                 break
             case .Tuesday:
-                addCheckmarck(2)
+                addCheckmark(2)
                 break
             case .Wednesday:
-                addCheckmarck(3)
+                addCheckmark(3)
                 break
             case .Thursday:
-                addCheckmarck(4)
+                addCheckmark(4)
                 break
             case .Friday:
-                addCheckmarck(5)
+                addCheckmark(5)
                 break
             case .Saturday:
-                addCheckmarck(6)
+                addCheckmark(6)
                 break
             case .Sunday:
-                addCheckmarck(7)
+                addCheckmark(7)
                 break
             case .Everyday:
-                addCheckmarck(8)
+                addCheckmark(8)
                 break
             }
         }
     }
-    func addCheckmarck(forIndex: Int){
+    func addCheckmark(forIndex: Int){
         let indexPath = NSIndexPath(index: forIndex)
         let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! EditRepeatTableCellView
         cell.accessoryType = UITableViewCellAccessoryType.Checkmark

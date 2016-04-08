@@ -665,7 +665,7 @@
                                         </variation>
                                         <connections>
                                             <action selector="chooseSong:" destination="JsC-fF-64p" eventType="touchUpInside" id="uOJ-Lz-E91"/>
-                                            <segue destination="33U-IR-xsl" kind="show" id="bAb-Yj-Paa"/>
+                                            <segue destination="33U-IR-xsl" kind="show" identifier="EditSongSegue" id="bAb-Yj-Paa"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Song" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="et6-7w-jpi">
@@ -702,7 +702,7 @@
                                             <rect key="frame" x="327" y="513" width="46" height="30"/>
                                         </variation>
                                         <connections>
-                                            <segue destination="tNh-xU-MO1" kind="show" id="MUI-Rh-eWf"/>
+                                            <segue destination="tNh-xU-MO1" kind="show" identifier="EditRepeatSegue" id="MUI-Rh-eWf"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rEt-Yr-gKF">
