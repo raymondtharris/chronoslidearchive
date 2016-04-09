@@ -176,10 +176,11 @@ class AlarmTableViewController: UITableViewController {
     func updatingAlarm(notification: NSNotification){
         let updateDictionary = notification.userInfo!
         
-        let rowIndex = Int(updateDictionary["index"] as! String)!
+        let rowIndex = Int(updateDictionary["alarmIndex"] as! String)!
         ChronoAlarms[rowIndex].setAlarmHour(Int(updateDictionary["alarmHour"] as! String)!)
         ChronoAlarms[rowIndex].setAlarmMinute(Int(updateDictionary["alarmMinute"] as! String)!)
         ChronoAlarms[rowIndex].setAlarmName(updateDictionary["alarmHour"] as! String)
+        ChronoAlarms[rowIndex].setAlarmSound(updateDictionary["alarmSound"] as! MPMediaItem)
         
         
         let tableView = self.view as! UITableView
@@ -800,7 +801,13 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     }
     
     @IBAction func updateAlarm(sender: AnyObject) {
-        let updateDictionary = ["alarmHour": hourTextLabel.text!, "alarmMinute": minuteTextLabel.text!, "alarmName": alarmNameLabel.text!, "alarmAMPM": alarmAMPMSegmentControl.description, "alarmSound": alarmToEdit.alarmSound!]
+        var repeatDescriptions: [String] = [String]()
+        for aRepeat in alarmToEdit.alarmRepeat {
+            repeatDescriptions.append(aRepeat.description)
+        }
+        
+        let selectedIndex = alarmAMPMSegmentControl.selectedSegmentIndex
+        let updateDictionary = ["alarmHour": hourTextLabel.text!, "alarmMinute": minuteTextLabel.text!, "alarmName": alarmNameLabel.text!, "alarmAMPM": alarmAMPMSegmentControl.titleForSegmentAtIndex(selectedIndex)!, "alarmSound": alarmToEdit.alarmSound!, "alarmIndex": editRow, "alarmRepeat": repeatDescriptions]
         NSNotificationCenter.defaultCenter().postNotificationName(UpdatingAlarmNotification, object: self, userInfo: updateDictionary)
         
         self.navigationController?.popToRootViewControllerAnimated(true)
