@@ -540,23 +540,46 @@ class AlarmTableCellView: UITableViewCell {
 
 class AddSongsTableViewController: UITableViewController {
     let mediaLibrary: MPMediaLibrary = MPMediaLibrary.defaultMediaLibrary()
-    var songArray:[MPMediaItem] = [MPMediaItem]()
+    var songArray:[MPMediaItem] = MPMediaQuery().items!
     let mediaPlayer: MPMusicPlayerController = MPMusicPlayerController()
+    var filteredSongArray:[MPMediaItem] = [MPMediaItem]()
+    let searchbarController = UISearchController(searchResultsController: nil)
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadSongLibrary()
+        //loadSongLibrary()
+        
+        searchbarController.searchResultsUpdater = self
+        searchbarController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        tableView.tableHeaderView = searchbarController.searchBar
+        tableView.setContentOffset(CGPoint(x: 0, y: searchbarController.searchBar.frame.size.height), animated: false)
+        
+    }
+    
+    func filterSongs(searchString: String){
+        //print(searchString)
+        filteredSongArray = songArray.filter { song in
+            return (song.title!.lowercaseString.containsString(searchString.lowercaseString))
+        }
+        tableView.reloadData()
     }
     
     func loadSongLibrary(){
         songArray = MPMediaQuery.songsQuery().items!
-        print(songArray.count)
+        //print(songArray.count)
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("AddAlarmSongCell", forIndexPath: indexPath) as! AddSongTableCellView
-        cell.alarmSongTextLabel.text = songArray[indexPath.row].title!
-        cell.alarmSongImageView.image = songArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
+        if searchbarController.active && searchbarController.searchBar.text != "" {
+            cell.alarmSongTextLabel.text = filteredSongArray[indexPath.row].title!
+            cell.alarmSongImageView.image = filteredSongArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
+        } else {
+            cell.alarmSongTextLabel.text = songArray[indexPath.row].title!
+            cell.alarmSongImageView.image = songArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
+        }
         cell.alarmSongImageView.userInteractionEnabled = true
-        
+
         // Choose Song Gesture
         let chooseGesture = UITapGestureRecognizer.init(target: self, action: #selector(AddSongsTableViewController.chooseSong(_:)))
         self.view.addGestureRecognizer(chooseGesture)
@@ -568,6 +591,10 @@ class AddSongsTableViewController: UITableViewController {
         return cell
     }
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchbarController.active && searchbarController.searchBar.text != "" {
+            //print(filteredSongArray.count)
+            return filteredSongArray.count
+        }
         return songArray.count
     }
     
@@ -617,6 +644,12 @@ class AddSongsTableViewController: UITableViewController {
         
     }
     
+}
+
+extension AddSongsTableViewController: UISearchResultsUpdating {
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        filterSongs(searchController.searchBar.text!)
+    }
 }
 
 class AddSongTableCellView: UITableViewCell {
