@@ -603,9 +603,13 @@ class AddSongsTableViewController: UITableViewController {
         let location = gestureRecognizer.locationInView(self.tableView)
         let indexPath = self.tableView.indexPathForRowAtPoint(location)
         let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AddSongTableCellView
-        print(songArray[indexPath!.row].title)
+        //print(songArray[indexPath!.row].title)
         print(tappedCell)
+        if searchbarController.active && searchbarController.searchBar.text != "" {
+            previewSong(filteredSongArray[indexPath!.row])
+        } else {
         previewSong(songArray[indexPath!.row])
+        }
     }
     
     func chooseSong(gestureRecognizer: UIGestureRecognizer){
@@ -615,7 +619,12 @@ class AddSongsTableViewController: UITableViewController {
         let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AddSongTableCellView
         print(songArray[indexPath!.row].albumTitle)
         print(tappedCell)
-        let songDictionary = ["songItem": songArray[indexPath!.row]]
+        var songDictionary:[String: MPMediaItem]
+        if searchbarController.active && searchbarController.searchBar.text != "" {
+            songDictionary = ["songItem": filteredSongArray[indexPath!.row]]
+        } else {
+            songDictionary = ["songItem": songArray[indexPath!.row]]
+        }
         NSNotificationCenter.defaultCenter().postNotificationName(AddingSongNotification, object: self, userInfo: songDictionary)
         self.navigationController?.popViewControllerAnimated(true)
         
