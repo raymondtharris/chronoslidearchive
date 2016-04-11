@@ -536,7 +536,6 @@ class AlarmTableCellView: UITableViewCell {
 
 
 //TODO: - ADD ChosenSongView
-//TODO: - ADD Search to Tableview
 
 class AddSongsTableViewController: UITableViewController {
     let mediaLibrary: MPMediaLibrary = MPMediaLibrary.defaultMediaLibrary()
@@ -547,8 +546,6 @@ class AddSongsTableViewController: UITableViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        //loadSongLibrary()
-        
         searchbarController.searchResultsUpdater = self
         searchbarController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
@@ -934,13 +931,27 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
 
 class EditSongsTableViewController: UITableViewController {
     let mediaLibrary: MPMediaLibrary = MPMediaLibrary.defaultMediaLibrary()
-    var songArray:[MPMediaItem] = [MPMediaItem]()
+    var songArray:[MPMediaItem] = MPMediaQuery().items!
     let mediaPlayer: MPMusicPlayerController = MPMusicPlayerController()
     var chosenSong: MPMediaItem = MPMediaItem()
+    var filteredSongArray:[MPMediaItem] = [MPMediaItem]()
+    let searchbarController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadSongLibrary()
+        searchbarController.searchResultsUpdater = self
+        searchbarController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        tableView.tableHeaderView = searchbarController.searchBar
+        tableView.setContentOffset(CGPoint(x: 0, y: searchbarController.searchBar.frame.size.height), animated: false)
+    }
+    
+    func filterSongs(searchString: String){
+        //print(searchString)
+        filteredSongArray = songArray.filter { song in
+            return (song.title!.lowercaseString.containsString(searchString.lowercaseString))
+        }
+        tableView.reloadData()
     }
     
     func loadSongLibrary(){
@@ -949,8 +960,14 @@ class EditSongsTableViewController: UITableViewController {
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("EditAlarmSongCell", forIndexPath: indexPath) as! EditSongTableCellView
-        cell.alarmSongTextLabel.text = songArray[indexPath.row].title!
-        cell.alarmSongImageView.image = songArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
+        
+        if searchbarController.active && searchbarController.searchBar.text != "" {
+            cell.alarmSongTextLabel.text = filteredSongArray[indexPath.row].title!
+            cell.alarmSongImageView.image = filteredSongArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
+        } else {
+            cell.alarmSongTextLabel.text = songArray[indexPath.row].title!
+            cell.alarmSongImageView.image = songArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
+        }
         cell.alarmSongImageView.userInteractionEnabled = true
         
         // Choose Song Gesture
@@ -964,6 +981,10 @@ class EditSongsTableViewController: UITableViewController {
         return cell
     }
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchbarController.active && searchbarController.searchBar.text != "" {
+            //print(filteredSongArray.count)
+            return filteredSongArray.count
+        }
         return songArray.count
     }
     
@@ -974,7 +995,11 @@ class EditSongsTableViewController: UITableViewController {
         let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! EditSongTableCellView
         print(songArray[indexPath!.row].title)
         print(tappedCell)
-        previewSong(songArray[indexPath!.row])
+        if searchbarController.active && searchbarController.searchBar.text != "" {
+            previewSong(filteredSongArray[indexPath!.row])
+        } else {
+            previewSong(songArray[indexPath!.row])
+        }
     }
     
     func chooseSong(gestureRecognizer: UIGestureRecognizer){
@@ -984,7 +1009,12 @@ class EditSongsTableViewController: UITableViewController {
         let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! EditSongTableCellView
         print(songArray[indexPath!.row].albumTitle)
         print(tappedCell)
-        let songDictionary = ["songItem": songArray[indexPath!.row]]
+        var songDictionary:[String: MPMediaItem]
+        if searchbarController.active && searchbarController.searchBar.text != "" {
+            songDictionary = ["songItem": filteredSongArray[indexPath!.row]]
+        } else {
+            songDictionary = ["songItem": songArray[indexPath!.row]]
+        }
         NSNotificationCenter.defaultCenter().postNotificationName(UpdatingSongNotification, object: self, userInfo: songDictionary)
         self.navigationController?.popViewControllerAnimated(true)
         
@@ -1014,6 +1044,13 @@ class EditSongsTableViewController: UITableViewController {
     }
     
 }
+
+extension EditSongsTableViewController: UISearchResultsUpdating {
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        filterSongs(searchController.searchBar.text!)
+    }
+}
+
 
 class EditSongTableCellView: UITableViewCell {
     @IBOutlet weak var alarmSongTextLabel: UILabel!
