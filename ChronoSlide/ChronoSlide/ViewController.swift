@@ -543,6 +543,7 @@ class AddSongsTableViewController: UITableViewController {
     let mediaPlayer: MPMusicPlayerController = MPMusicPlayerController()
     var filteredSongArray:[MPMediaItem] = [MPMediaItem]()
     let searchbarController = UISearchController(searchResultsController: nil)
+    var selectedCellView: AddSongTableCellView = AddSongTableCellView()
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -551,6 +552,11 @@ class AddSongsTableViewController: UITableViewController {
         definesPresentationContext = true
         tableView.tableHeaderView = searchbarController.searchBar
         tableView.setContentOffset(CGPoint(x: 0, y: searchbarController.searchBar.frame.size.height), animated: false)
+        
+        selectedCellView = AddSongTableCellView(frame: CGRect(x: 0, y: (self.navigationController?.view.frame.height)!, width: self.view.frame.width, height: 50))
+        
+        self.navigationController?.view.addSubview(selectedCellView)
+        self.navigationController?.view.bringSubviewToFront(selectedCellView)
         
     }
     
