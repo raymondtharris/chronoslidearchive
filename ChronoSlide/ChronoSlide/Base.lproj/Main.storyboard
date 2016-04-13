@@ -775,6 +775,7 @@
                         <outlet property="SongSectionLabel" destination="et6-7w-jpi" id="2Gk-nX-Nnr"/>
                         <outlet property="alarmAMPMSegmentControl" destination="3dt-B1-v9S" id="Tds-yn-Vva"/>
                         <outlet property="alarmNameLabel" destination="x8B-3C-UDW" id="407-61-Zyc"/>
+                        <outlet property="alarmNameTextField" destination="x8B-3C-UDW" id="2hV-io-EZN"/>
                         <outlet property="alarmRepeatLabel" destination="mII-1I-GBj" id="hxg-tL-av9"/>
                         <outlet property="alarmSongLabel" destination="TJo-Yu-HXB" id="eze-vr-ZxR"/>
                         <outlet property="alarmSoundLabel" destination="TJo-Yu-HXB" id="Add-X5-d1x"/>
@@ -782,8 +783,8 @@
                         <outlet property="chooseRepeatButton" destination="vSF-yg-aCO" id="IMQ-Ms-6N3"/>
                         <outlet property="chooseRepeats" destination="vSF-yg-aCO" id="4Cb-se-JkI"/>
                         <outlet property="chooseSongButton" destination="306-YL-VA8" id="Svm-Sy-aCa"/>
-                        <outlet property="hourTextLabel" destination="vvL-mY-VPj" id="sHh-X6-bJt"/>
-                        <outlet property="minuteTextLabel" destination="mer-S3-Lei" id="zyA-W6-ach"/>
+                        <outlet property="hourTextField" destination="vvL-mY-VPj" id="Rkj-3e-GvI"/>
+                        <outlet property="minuteTextField" destination="mer-S3-Lei" id="gKa-oi-GJs"/>
                         <outlet property="scrollView" destination="AQ8-JQ-6SM" id="qeG-Pu-R8e"/>
                         <outlet property="updateAlarmButton" destination="Y1p-vm-8X5" id="CHt-es-CTK"/>
                     </connections>

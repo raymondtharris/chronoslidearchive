@@ -555,8 +555,10 @@ class AddSongsTableViewController: UITableViewController {
         
         selectedCellView = AddSongTableCellView(frame: CGRect(x: 0, y: (self.navigationController?.view.frame.height)!, width: self.view.frame.width, height: 50))
         
-        self.navigationController?.view.addSubview(selectedCellView)
-        self.navigationController?.view.bringSubviewToFront(selectedCellView)
+        
+        
+        self.navigationController?.navigationBar.addSubview(selectedCellView)
+        //self.navigationController?.view.bringSubviewToFront(selectedCellView)
         
     }
     
@@ -792,13 +794,13 @@ let UpdatingRepeatsNotification:String = "UpdatingRepeatsNotification"
 let UpdatingSongNotification:String = "UpdatingSongNotification"
 
 
-class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var updateAlarmButton: UIBarButtonItem!
     
     
-    @IBOutlet weak var hourTextLabel: UITextField!
-    @IBOutlet weak var minuteTextLabel: UITextField!
+    @IBOutlet weak var hourTextField: UITextField!
+    @IBOutlet weak var minuteTextField: UITextField!
     
     @IBOutlet weak var alarmAMPMSegmentControl: UISegmentedControl!
     @IBOutlet weak var alarmNameLabel: UITextField!
@@ -808,6 +810,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     
     @IBOutlet weak var alarmToneChooseButton: UIButton!
     
+    @IBOutlet weak var alarmNameTextField: UITextField!
     //Load Alarm Data
     
     var alarmToEdit: Alarm = Alarm()
@@ -816,7 +819,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     let hourPicker = UIPickerView()
     let minutePicker = UIPickerView()
     
-    let toolbar = UIToolbar()
+    var toolbar = UIToolbar()
     
     var hourData = [String]()
     var minuteData = [String]()
@@ -837,12 +840,42 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         super.viewDidLoad()
         buildArrays()
         updateAlarmButton.enabled = false
-        hourTextLabel.text = alarmToEdit.alarmHour.description
-        minuteTextLabel.text = alarmToEdit.alarmMinute.description
+        hourTextField.text = alarmToEdit.alarmHour.description
+        minuteTextField.text = alarmToEdit.alarmMinute.description
         scrollView.contentSize.height = 800
+        
+        hourPicker.delegate = self
+        minutePicker.delegate = self
+        hourPicker.dataSource = self
+        minutePicker.dataSource = self
+        hourTextField.inputView = hourPicker
+        minuteTextField.inputView = minutePicker
+        
+        
+        toolbar = buildToolbar()
+        hourTextField.inputAccessoryView = toolbar
+        minuteTextField.inputAccessoryView = toolbar
+        alarmNameTextField.inputAccessoryView = toolbar
+        hourTextField.delegate = self
+        minuteTextField.delegate = self
+        alarmNameTextField.delegate = self
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditAlarmViewController.updateRepeat(_:)), name: UpdatingRepeatsNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditAlarmViewController.updateSong(_:)), name: UpdatingSongNotification, object: nil)
         
+    }
+    
+    func buildToolbar() -> UIToolbar{
+        let aToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: (self.navigationController?.view.frame.size.width)!  , height: 50))
+        let previousButton = UIBarButtonItem(title: "Prev", style: UIBarButtonItemStyle.Done, target: self, action: #selector(AddAlarmViewController.prevButtonAction(_:)))
+        let nextButton = UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Done, target: self, action: #selector(AddAlarmViewController.nextButtonAction(_:)))
+        let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done , target: self, action: #selector(AddAlarmViewController.doneButtonAction(_:)))
+        let items = [previousButton, nextButton, spacer, doneButton]
+        aToolbar.items = items
+        
+        //aToolbar.sizeToFit()
+        return aToolbar
     }
     
     @IBAction func updateAlarm(sender: AnyObject) {
@@ -852,7 +885,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         }
         
         let selectedIndex = alarmAMPMSegmentControl.selectedSegmentIndex
-        let updateDictionary = ["alarmHour": hourTextLabel.text!, "alarmMinute": minuteTextLabel.text!, "alarmName": alarmNameLabel.text!, "alarmAMPM": alarmAMPMSegmentControl.titleForSegmentAtIndex(selectedIndex)!, "alarmSound": alarmToEdit.alarmSound!, "alarmIndex": editRow, "alarmRepeat": repeatDescriptions]
+        let updateDictionary = ["alarmHour": hourTextField.text!, "alarmMinute": minuteTextField.text!, "alarmName": alarmNameTextField.text!, "alarmAMPM": alarmAMPMSegmentControl.titleForSegmentAtIndex(selectedIndex)!, "alarmSound": alarmToEdit.alarmSound!, "alarmIndex": editRow, "alarmRepeat": repeatDescriptions]
         NSNotificationCenter.defaultCenter().postNotificationName(UpdatingAlarmNotification, object: self, userInfo: updateDictionary)
         
         self.navigationController?.popToRootViewControllerAnimated(true)
@@ -885,9 +918,9 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == hourPicker{
-            hourTextLabel.text = hourData[row]
+            hourTextField.text = hourData[row]
         } else {
-            minuteTextLabel.text = minuteData[row]
+            minuteTextField.text = minuteData[row]
         }
     }
     
