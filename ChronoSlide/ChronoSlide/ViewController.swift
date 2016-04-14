@@ -246,8 +246,8 @@ let AddingRepeatsNotification:String = "AddingRepeatsNotification"
 
 class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate  {
     
-    @IBOutlet weak var hourTextField: UITextField!
-    @IBOutlet weak var minuteTextField: UITextField!
+    @IBOutlet weak var alarmTimeTextField: UITextField!
+
     @IBOutlet weak var alarmAMPMSegmentedControl: UISegmentedControl!
     @IBOutlet weak var alarmNameTextField: UITextField!
     
@@ -262,7 +262,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     @IBOutlet weak var scrollView: UIScrollView!
     
-    var hourPicker = UIPickerView()
+    var timePicker = UIPickerView()
     var minutePicker = UIPickerView()
     
     var toolbar = UIToolbar()
@@ -275,25 +275,27 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     var currentTextField = UITextField()
     
+    var hourValue: String = "00"
+    var minuteValue: String = "00"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         buildArrays()
         
-        hourPicker.delegate = self
+        timePicker.delegate = self
         minutePicker.delegate = self
-        hourPicker.dataSource = self
+        timePicker.dataSource = self
         minutePicker.dataSource = self
-        hourTextField.inputView = hourPicker
-        minuteTextField.inputView = minutePicker
+        alarmTimeTextField.inputView = timePicker
         scrollView.contentSize.height = 800
         
         
         toolbar = buildToolbar()
-        hourTextField.inputAccessoryView = toolbar
-        minuteTextField.inputAccessoryView = toolbar
+        alarmTimeTextField.inputAccessoryView = toolbar
         alarmNameTextField.inputAccessoryView = toolbar
-        hourTextField.delegate = self
-        minuteTextField.delegate = self
+        alarmTimeTextField.delegate = self
+        //hourTextField.delegate = self
+        //minuteTextField.delegate = self
         alarmNameTextField.delegate = self
         
         
@@ -323,12 +325,8 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         self.currentTextField = textField
         
         switch currentTextField {
-        case hourTextField:
+        case alarmTimeTextField:
             toolbar.items![0].enabled = false
-            toolbar.items![1].enabled = true
-            break
-        case minuteTextField:
-            toolbar.items![0].enabled = true
             toolbar.items![1].enabled = true
             break
         case alarmNameTextField:
@@ -352,10 +350,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     func nextButtonAction(sender: AnyObject){
         print("next")
         switch currentTextField {
-        case hourTextField:
-            minuteTextField.becomeFirstResponder()
-            break
-        case minuteTextField:
+        case alarmTimeTextField:
             alarmNameTextField.becomeFirstResponder()
             break
         case alarmNameTextField:
@@ -367,13 +362,10 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     func prevButtonAction(sender: AnyObject){
         print("prev")
         switch currentTextField {
-        case hourTextField:
-            break
-        case minuteTextField:
-            hourTextField.becomeFirstResponder()
+        case alarmTimeTextField:
             break
         case alarmNameTextField:
-            minuteTextField.becomeFirstResponder()
+            alarmTimeTextField.becomeFirstResponder()
             break
         default:
             break
@@ -400,7 +392,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         for aRepeat in repeatData {
             repeatDescriptions.append(aRepeat.description)
         }
-        let alarmDicationary = ["alarmHour": hourTextField.text!, "alarmMinute": minuteTextField.text!, "alarmName": "test alarm", "alarmAMPM": alarmAMPMSegmentedControl.titleForSegmentAtIndex(selectedIndex)!, "alarmSong": songData!, "alarmRepeat": repeatDescriptions] //Need to fix cast or make a wrapper for values.
+        let alarmDicationary = ["alarmHour": hourValue, "alarmMinute": minuteValue, "alarmName": "test alarm", "alarmAMPM": alarmAMPMSegmentedControl.titleForSegmentAtIndex(selectedIndex)!, "alarmSong": songData!, "alarmRepeat": repeatDescriptions] //Need to fix cast or make a wrapper for values.
         NSNotificationCenter.defaultCenter().postNotificationName(AddingNewAlarmNotification, object: self, userInfo: alarmDicationary as [NSObject : AnyObject])
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
@@ -412,30 +404,55 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        return 1
+        return 2
     }
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == hourPicker{
+        if component == 0 {
             return hourData.count
         } else {
             return minuteData.count
         }
+        
+        /*if pickerView == hourPicker{
+            return hourData.count
+        } else {
+            return minuteData.count
+        }
+         */
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView == hourPicker{
+        if component == 0 {
+            timeStringBuild(hourData[row], minute: minuteValue)
+        } else {
+            timeStringBuild(hourValue, minute: minuteData[row])
+        }
+        /*if pickerView == hourPicker{
             hourTextField.text = hourData[row]
         } else {
             minuteTextField.text = minuteData[row]
         }
+         */
     }
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView == hourPicker{
+        if component == 0 {
             return hourData[row]
         } else {
             return minuteData[row]
         }
+        /*if pickerView == hourPicker{
+            return hourData[row]
+        } else {
+            return minuteData[row]
+        }
+        */
+    }
+    
+    
+    //TODO: - Finish Function
+    func timeStringBuild(hour:String, minute:String){
+        
     }
     
     func addSong(notification: NSNotification){
