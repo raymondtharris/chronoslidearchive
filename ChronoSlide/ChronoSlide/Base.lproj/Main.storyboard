@@ -88,26 +88,17 @@
                                             <segment title="AM"/>
                                             <segment title="PM"/>
                                         </segments>
-                                        <variation key="widthClass=compact" misplaced="YES">
-                                            <rect key="frame" x="55" y="254" width="290" height="29"/>
-                                        </variation>
                                     </segmentedControl>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Alarm Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Ij-r5-cwY">
                                         <rect key="frame" x="51" y="329" width="499" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
-                                        <variation key="widthClass=compact" misplaced="YES">
-                                            <rect key="frame" x="20" y="328" width="361" height="30"/>
-                                        </variation>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0n3-l1-DNr">
                                         <rect key="frame" x="56" y="403" width="325" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
-                                        <variation key="widthClass=compact" misplaced="YES">
-                                            <rect key="frame" x="20" y="410" width="267" height="21"/>
-                                        </variation>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kZZ-L4-zsi">
                                         <rect key="frame" x="56" y="453" width="46" height="30"/>
@@ -120,8 +111,7 @@
                                                 <exclude reference="gLf-N0-GLt"/>
                                             </mask>
                                         </variation>
-                                        <variation key="widthClass=compact" misplaced="YES">
-                                            <rect key="frame" x="335" y="406" width="46" height="30"/>
+                                        <variation key="widthClass=compact">
                                             <mask key="constraints">
                                                 <include reference="gLf-N0-GLt"/>
                                             </mask>
@@ -134,7 +124,9 @@
                                         <rect key="frame" x="318" y="77" width="127" height="139"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="139" id="EfZ-ed-ErR"/>
-                                            <constraint firstAttribute="width" constant="127" id="Rxy-0c-T4o"/>
+                                            <constraint firstAttribute="width" constant="127" id="Rxy-0c-T4o">
+                                                <variation key="widthClass=compact" constant="290"/>
+                                            </constraint>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="31"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -144,8 +136,7 @@
                                                 <exclude reference="Rxy-0c-T4o"/>
                                             </mask>
                                         </variation>
-                                        <variation key="widthClass=compact" misplaced="YES">
-                                            <rect key="frame" x="55" y="37" width="290" height="139"/>
+                                        <variation key="widthClass=compact">
                                             <mask key="constraints">
                                                 <include reference="EfZ-ed-ErR"/>
                                                 <include reference="Rxy-0c-T4o"/>
@@ -157,16 +148,25 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
+                                        <variation key="widthClass=compact" misplaced="YES">
+                                            <rect key="frame" x="20" y="560" width="42" height="21"/>
+                                        </variation>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Song" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qRi-5N-pWI">
                                         <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
+                                        <variation key="widthClass=compact" misplaced="YES">
+                                            <rect key="frame" x="20" y="441" width="40" height="21"/>
+                                        </variation>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a5Q-bv-orC">
                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                         <state key="normal" title="Button"/>
+                                        <variation key="widthClass=compact" misplaced="YES">
+                                            <rect key="frame" x="335" y="556" width="46" height="30"/>
+                                        </variation>
                                         <connections>
                                             <segue destination="7SW-c2-A0L" kind="show" id="hwV-Nk-ktO"/>
                                         </connections>
@@ -176,6 +176,9 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
+                                        <variation key="widthClass=compact" misplaced="YES">
+                                            <rect key="frame" x="20" y="519" width="54" height="21"/>
+                                        </variation>
                                     </label>
                                 </subviews>
                                 <constraints>
@@ -191,7 +194,9 @@
                                     <constraint firstItem="QBI-et-wYX" firstAttribute="leading" secondItem="gco-kS-UUj" secondAttribute="leading" id="Uli-Np-hz0"/>
                                     <constraint firstItem="0n3-l1-DNr" firstAttribute="leading" secondItem="ZpZ-cs-aFi" secondAttribute="leading" id="cyq-zE-Myf"/>
                                     <constraint firstItem="kZZ-L4-zsi" firstAttribute="leading" secondItem="a5Q-bv-orC" secondAttribute="leading" id="dft-XK-FmN"/>
-                                    <constraint firstItem="QBI-et-wYX" firstAttribute="top" secondItem="Djj-I4-zcU" secondAttribute="top" constant="101" id="exZ-AH-Lqb"/>
+                                    <constraint firstItem="QBI-et-wYX" firstAttribute="top" secondItem="Djj-I4-zcU" secondAttribute="top" constant="101" id="exZ-AH-Lqb">
+                                        <variation key="widthClass=compact" constant="37"/>
+                                    </constraint>
                                     <constraint firstItem="Akg-hL-aOt" firstAttribute="top" secondItem="ZpZ-cs-aFi" secondAttribute="bottom" constant="20" id="fqp-fe-wki"/>
                                     <constraint firstAttribute="trailing" secondItem="6Ij-r5-cwY" secondAttribute="trailing" constant="19" id="h5z-h6-GZ1"/>
                                     <constraint firstItem="QBI-et-wYX" firstAttribute="leading" secondItem="Djj-I4-zcU" secondAttribute="leading" constant="55" id="hw5-wG-0jR"/>

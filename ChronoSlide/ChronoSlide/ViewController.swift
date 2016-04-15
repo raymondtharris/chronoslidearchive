@@ -452,7 +452,13 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     //TODO: - Finish Function
     func timeStringBuild(hour:String, minute:String){
-        
+        if hour == hourValue {
+            alarmTimeTextField.text = hourValue + ":" + minute
+            minuteValue = minute
+        } else {
+            alarmTimeTextField.text = hour + ":" + minuteValue
+            hourValue = hour
+        }
     }
     
     func addSong(notification: NSNotification){
