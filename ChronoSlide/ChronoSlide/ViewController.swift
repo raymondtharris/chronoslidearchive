@@ -848,6 +848,8 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     var hourData = [String]()
     var minuteData = [String]()
     
+    var currentTextField = UITextField()
+    
     var hourValue = "00"
     var minuteValue = "00"
     
@@ -915,6 +917,56 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         NSNotificationCenter.defaultCenter().postNotificationName(UpdatingAlarmNotification, object: self, userInfo: updateDictionary)
         
         self.navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        //print("edit")
+        self.currentTextField = textField
+        
+        switch currentTextField {
+        case alarmTimeTextField:
+            toolbar.items![0].enabled = false
+            toolbar.items![1].enabled = true
+            break
+        case alarmNameTextField:
+            toolbar.items![0].enabled = true
+            toolbar.items![1].enabled = false
+            break
+        default:
+            break
+        }
+    }
+    
+    func doneButtonAction(sender: AnyObject){
+        //print("done")
+        
+        currentTextField.resignFirstResponder()
+    }
+    
+    func nextButtonAction(sender: AnyObject){
+        print("next")
+        switch currentTextField {
+        case alarmTimeTextField:
+            alarmNameTextField.becomeFirstResponder()
+            break
+        case alarmNameTextField:
+            break
+        default:
+            break
+        }
+    }
+    func prevButtonAction(sender: AnyObject){
+        print("prev")
+        switch currentTextField {
+        case alarmTimeTextField:
+            break
+        case alarmNameTextField:
+            alarmTimeTextField.becomeFirstResponder()
+            break
+        default:
+            break
+        }
     }
     
     func buildArrays(){
