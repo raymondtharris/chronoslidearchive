@@ -586,15 +586,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="31"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <variation key="widthClass=compact" fixedFrame="YES">
-                                            <rect key="frame" x="54" y="75" width="127" height="139"/>
-                                        </variation>
-                                    </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mer-S3-Lei">
-                                        <rect key="frame" x="320" y="139" width="127" height="139"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="31"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <variation key="widthClass=compact" fixedFrame="YES">
-                                            <rect key="frame" x="220" y="75" width="127" height="139"/>
+                                            <rect key="frame" x="54" y="75" width="293" height="139"/>
                                         </variation>
                                     </textField>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="3dt-B1-v9S">
@@ -686,7 +678,6 @@
                                 <variation key="default">
                                     <mask key="subviews">
                                         <exclude reference="vvL-mY-VPj"/>
-                                        <exclude reference="mer-S3-Lei"/>
                                         <exclude reference="3dt-B1-v9S"/>
                                         <exclude reference="x8B-3C-UDW"/>
                                         <exclude reference="TJo-Yu-HXB"/>
@@ -702,7 +693,6 @@
                                     <rect key="frame" x="0.0" y="64" width="400" height="736"/>
                                     <mask key="subviews">
                                         <include reference="vvL-mY-VPj"/>
-                                        <include reference="mer-S3-Lei"/>
                                         <include reference="3dt-B1-v9S"/>
                                         <include reference="x8B-3C-UDW"/>
                                         <include reference="TJo-Yu-HXB"/>
@@ -746,12 +736,11 @@
                         <outlet property="alarmRepeatLabel" destination="mII-1I-GBj" id="hxg-tL-av9"/>
                         <outlet property="alarmSongLabel" destination="TJo-Yu-HXB" id="eze-vr-ZxR"/>
                         <outlet property="alarmSoundLabel" destination="TJo-Yu-HXB" id="Add-X5-d1x"/>
+                        <outlet property="alarmTimeTextField" destination="vvL-mY-VPj" id="uHv-7L-9fz"/>
                         <outlet property="alarmToneChooseButton" destination="306-YL-VA8" id="1Sh-YR-gYd"/>
                         <outlet property="chooseRepeatButton" destination="vSF-yg-aCO" id="IMQ-Ms-6N3"/>
                         <outlet property="chooseRepeats" destination="vSF-yg-aCO" id="4Cb-se-JkI"/>
                         <outlet property="chooseSongButton" destination="306-YL-VA8" id="Svm-Sy-aCa"/>
-                        <outlet property="hourTextField" destination="vvL-mY-VPj" id="Rkj-3e-GvI"/>
-                        <outlet property="minuteTextField" destination="mer-S3-Lei" id="gKa-oi-GJs"/>
                         <outlet property="scrollView" destination="AQ8-JQ-6SM" id="qeG-Pu-R8e"/>
                         <outlet property="updateAlarmButton" destination="Y1p-vm-8X5" id="CHt-es-CTK"/>
                     </connections>

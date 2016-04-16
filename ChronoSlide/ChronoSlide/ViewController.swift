@@ -821,9 +821,10 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     
     @IBOutlet weak var updateAlarmButton: UIBarButtonItem!
     
+    @IBOutlet weak var alarmTimeTextField: UITextField!
     
-    @IBOutlet weak var hourTextField: UITextField!
-    @IBOutlet weak var minuteTextField: UITextField!
+    //@IBOutlet weak var hourTextField: UITextField!
+    //@IBOutlet weak var minuteTextField: UITextField!
     
     @IBOutlet weak var alarmAMPMSegmentControl: UISegmentedControl!
     @IBOutlet weak var alarmNameLabel: UITextField!
@@ -839,13 +840,16 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     var alarmToEdit: Alarm = Alarm()
     var editRow: Int = -1
     
-    let hourPicker = UIPickerView()
+    var timePicker = UIPickerView()
     let minutePicker = UIPickerView()
     
     var toolbar = UIToolbar()
     
     var hourData = [String]()
     var minuteData = [String]()
+    
+    var hourValue = "00"
+    var minuteValue = "00"
     
     @IBOutlet weak var SongSectionLabel: UILabel!
     @IBOutlet weak var alarmSongLabel: UILabel!
@@ -863,24 +867,23 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         super.viewDidLoad()
         buildArrays()
         updateAlarmButton.enabled = false
-        hourTextField.text = alarmToEdit.alarmHour.description
-        minuteTextField.text = alarmToEdit.alarmMinute.description
+        alarmTimeTextField.text = alarmToEdit.alarmHour.description + ":" + alarmToEdit.alarmMinute.description
         scrollView.contentSize.height = 800
         
-        hourPicker.delegate = self
-        minutePicker.delegate = self
-        hourPicker.dataSource = self
-        minutePicker.dataSource = self
-        hourTextField.inputView = hourPicker
-        minuteTextField.inputView = minutePicker
+        timePicker.delegate = self
+        //minutePicker.delegate = self
+        timePicker.dataSource = self
+        //minutePicker.dataSource = self
+        alarmTimeTextField.inputView = timePicker
+        //minuteTextField.inputView = minutePicker
         
         
         toolbar = buildToolbar()
-        hourTextField.inputAccessoryView = toolbar
-        minuteTextField.inputAccessoryView = toolbar
+        alarmTimeTextField.inputAccessoryView = toolbar
+        //minuteTextField.inputAccessoryView = toolbar
         alarmNameTextField.inputAccessoryView = toolbar
-        hourTextField.delegate = self
-        minuteTextField.delegate = self
+        alarmTimeTextField.delegate = self
+        //minuteTextField.delegate = self
         alarmNameTextField.delegate = self
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditAlarmViewController.updateRepeat(_:)), name: UpdatingRepeatsNotification, object: nil)
@@ -908,7 +911,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         }
         
         let selectedIndex = alarmAMPMSegmentControl.selectedSegmentIndex
-        let updateDictionary = ["alarmHour": hourTextField.text!, "alarmMinute": minuteTextField.text!, "alarmName": alarmNameTextField.text!, "alarmAMPM": alarmAMPMSegmentControl.titleForSegmentAtIndex(selectedIndex)!, "alarmSound": alarmToEdit.alarmSound!, "alarmIndex": editRow, "alarmRepeat": repeatDescriptions]
+        let updateDictionary = ["alarmHour": hourValue, "alarmMinute": minuteValue, "alarmName": alarmNameTextField.text!, "alarmAMPM": alarmAMPMSegmentControl.titleForSegmentAtIndex(selectedIndex)!, "alarmSound": alarmToEdit.alarmSound!, "alarmIndex": editRow, "alarmRepeat": repeatDescriptions]
         NSNotificationCenter.defaultCenter().postNotificationName(UpdatingAlarmNotification, object: self, userInfo: updateDictionary)
         
         self.navigationController?.popToRootViewControllerAnimated(true)
@@ -929,29 +932,40 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        return 1
+        return 2
     }
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == hourPicker{
+        if component == 0 {
             return hourData.count
         } else {
             return minuteData.count
         }
+        
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView == hourPicker{
-            hourTextField.text = hourData[row]
+        if component == 0 {
+            timeStringBuild(hourData[row], minute: minuteValue)
         } else {
-            minuteTextField.text = minuteData[row]
+            timeStringBuild(hourValue, minute: minuteData[row])
         }
     }
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView == hourPicker{
+        if component == 0 {
             return hourData[row]
         } else {
             return minuteData[row]
+        }
+    }
+    
+    func timeStringBuild(hour:String, minute:String){
+        if hour == hourValue {
+            alarmTimeTextField.text = hourValue + ":" + minute
+            minuteValue = minute
+        } else {
+            alarmTimeTextField.text = hour + ":" + minuteValue
+            hourValue = hour
         }
     }
     
