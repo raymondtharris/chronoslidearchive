@@ -413,12 +413,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
             return minuteData.count
         }
         
-        /*if pickerView == hourPicker{
-            return hourData.count
-        } else {
-            return minuteData.count
-        }
-         */
+
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -427,12 +422,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         } else {
             timeStringBuild(hourValue, minute: minuteData[row])
         }
-        /*if pickerView == hourPicker{
-            hourTextField.text = hourData[row]
-        } else {
-            minuteTextField.text = minuteData[row]
-        }
-         */
+
     }
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -441,12 +431,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         } else {
             return minuteData[row]
         }
-        /*if pickerView == hourPicker{
-            return hourData[row]
-        } else {
-            return minuteData[row]
-        }
-        */
+
     }
     
     
@@ -1035,8 +1020,76 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     @IBOutlet weak var chooseRepeats: UIButton!
     
     func updateRepeat(notification: NSNotification){
-        
+        let repeatsDictionary = notification.userInfo!
+        let repeatStrings = repeatsDictionary["repeats"] as! [String]
+        var repeats:[repeatType] = [repeatType]()
+        for aString in repeatStrings{
+            switch aString {
+            case "None":
+                repeats.append(repeatType.None)
+                break
+            case "Monday":
+                repeats.append(repeatType.Monday)
+                break
+            case "Tuesday":
+                repeats.append(repeatType.Tuesday)
+                break
+            case "Wednesday":
+                repeats.append(repeatType.Wednesday)
+                break
+            case "Thursday":
+                repeats.append(repeatType.Thursday)
+                break
+            case "Friday":
+                repeats.append(repeatType.Friday)
+                break
+            case "Saturday":
+                repeats.append(repeatType.Saturday)
+                break
+            case "Sunday":
+                repeats.append(repeatType.Sunday)
+                break
+            case "Everyday":
+                repeats.append(repeatType.Everyday)
+                break
+            default:
+                break
+            }
+        }
+        alarmToEdit.alarmRepeat = repeats
+        print(alarmToEdit.alarmRepeat)
+        determineRepeatLabel()
     }
+    
+    func determineRepeatLabel(){
+        if alarmToEdit.alarmRepeat.count > 1 {
+            let labelString = buildRepeatString()
+            alarmRepeatLabel.text = "Every " + labelString
+        } else if alarmToEdit.alarmRepeat[0] == .Everyday {
+            alarmRepeatLabel.text = "Everyday"
+        } else {
+            alarmRepeatLabel.text = "Every " + alarmToEdit.alarmRepeat[0].description
+        }
+    }
+    
+    func buildRepeatString() -> String{
+        var str = ""
+        var index = 0
+        if alarmToEdit.alarmRepeat.count == 2 {
+            str = alarmToEdit.alarmRepeat[0].description + " & " + alarmToEdit.alarmRepeat[1].description
+            return str
+        }
+        for repeatItem in alarmToEdit.alarmRepeat {
+            if index == alarmToEdit.alarmRepeat.count - 1 {
+                str = str + " " + repeatItem.description
+            } else {
+                str = str + " " + repeatItem.description + ","
+            }
+            index = index + 1
+        }
+        return str
+    }
+    
     
     func updateSong(notification: NSNotification){
         
