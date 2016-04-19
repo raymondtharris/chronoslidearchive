@@ -88,8 +88,11 @@ class AlarmTableViewController: UITableViewController {
         let alarmDictionary = notification.userInfo!
         print("received")
         var createdAlarm = Alarm(newMinute: Int(alarmDictionary["alarmMinute"] as! String)!, newHour: Int(alarmDictionary["alarmHour"] as! String)!, newName: alarmDictionary["alarmName"]as! String)
-        let song = alarmDictionary["songItem"] as! MPMediaItem
-        let repeatDescriptions: [String] =  alarmDictionary["repeats"] as! [String]
+        print("1st")
+        let song = alarmDictionary["alarmSong"] as! MPMediaItem
+        print("2nd")
+        let repeatDescriptions: [String] =  alarmDictionary["alarmRepeat"] as! [String]
+        print("3rd")
         if song.title != nil {
             createdAlarm.alarmSound = song
         }
@@ -392,7 +395,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         for aRepeat in repeatData {
             repeatDescriptions.append(aRepeat.description)
         }
-        let alarmDicationary = ["alarmHour": hourValue, "alarmMinute": minuteValue, "alarmName": "test alarm", "alarmAMPM": alarmAMPMSegmentedControl.titleForSegmentAtIndex(selectedIndex)!, "alarmSong": songData!, "alarmRepeat": repeatDescriptions] //Need to fix cast or make a wrapper for values.
+        let alarmDicationary = ["alarmHour": hourValue, "alarmMinute": minuteValue, "alarmName": alarmNameTextField.text!, "alarmAMPM": alarmAMPMSegmentedControl.titleForSegmentAtIndex(selectedIndex)!, "alarmSong": songData!, "alarmRepeat": repeatDescriptions] //Need to fix cast or make a wrapper for values.
         NSNotificationCenter.defaultCenter().postNotificationName(AddingNewAlarmNotification, object: self, userInfo: alarmDicationary as [NSObject : AnyObject])
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
@@ -1092,7 +1095,13 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     
     
     func updateSong(notification: NSNotification){
-        
+        //print("received")
+        let songDictionary = notification.userInfo!
+        //print(songDictionary)
+        let song = songDictionary["songItem"] as! MPMediaItem
+        //print("get")
+        alarmToEdit.alarmSound = song
+        alarmSongLabel.text = song.title
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
