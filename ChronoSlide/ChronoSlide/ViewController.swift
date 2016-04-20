@@ -132,7 +132,7 @@ class AlarmTableViewController: UITableViewController {
         }
         
         createdAlarm.setAlarmRepeat(repeats)
-        
+        print(createdAlarm.alarmRepeat)
         let notificationDate = createNotificationDate(Int(alarmDictionary["alarmHour"] as! String)!, alarmMinute: Int(alarmDictionary["alarmMinute"] as! String)!, alarmRepeats: repeats)
         
         // setup notification.
@@ -185,6 +185,42 @@ class AlarmTableViewController: UITableViewController {
         ChronoAlarms[rowIndex].setAlarmName(updateDictionary["alarmHour"] as! String)
         ChronoAlarms[rowIndex].setAlarmSound(updateDictionary["alarmSound"] as! MPMediaItem)
         
+        let repeatDescriptions: [String] =  updateDictionary["alarmRepeat"] as! [String]
+        var repeats = [repeatType]()
+        for aString in repeatDescriptions{
+            switch aString {
+            case "None":
+                repeats.append(repeatType.None)
+                break
+            case "Monday":
+                repeats.append(repeatType.Monday)
+                break
+            case "Tuesday":
+                repeats.append(repeatType.Tuesday)
+                break
+            case "Wednesday":
+                repeats.append(repeatType.Wednesday)
+                break
+            case "Thursday":
+                repeats.append(repeatType.Thursday)
+                break
+            case "Friday":
+                repeats.append(repeatType.Friday)
+                break
+            case "Saturday":
+                repeats.append(repeatType.Saturday)
+                break
+            case "Sunday":
+                repeats.append(repeatType.Sunday)
+                break
+            case "Everyday":
+                repeats.append(repeatType.Everyday)
+                break
+            default:
+                break
+            }
+        }
+        ChronoAlarms[rowIndex].setAlarmRepeat(repeats)
         
         let tableView = self.view as! UITableView
         tableView.reloadData()
