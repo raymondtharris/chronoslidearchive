@@ -222,6 +222,21 @@ class AlarmTableViewController: UITableViewController {
         }
         ChronoAlarms[rowIndex].setAlarmRepeat(repeats)
         
+        
+        let notificationDate = createNotificationDate(Int(updateDictionary["alarmHour"] as! String)!, alarmMinute: Int(updateDictionary["alarmMinute"] as! String)!, alarmRepeats: repeats)
+        
+        // setup notification.
+        let notification = UILocalNotification()
+        notification.alertBody = ChronoAlarms[rowIndex].alarmName
+        notification.alertTitle = "Alarm"
+        notification.alertAction = "Close"
+        notification.fireDate = notificationDate
+        notification.soundName = UILocalNotificationDefaultSoundName
+        
+        //conenct notification
+        ChronoAlarms[rowIndex].alarmNotification = notification
+        //UIApplication.sharedApplication().scheduleLocalNotification(createdAlarm.alarmNotification!)
+        
         let tableView = self.view as! UITableView
         tableView.reloadData()
         
