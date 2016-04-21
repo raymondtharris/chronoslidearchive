@@ -45,7 +45,11 @@ class AlarmTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let chronoAlarmCell = tableView.dequeueReusableCellWithIdentifier("alarmCell", forIndexPath: indexPath) as! AlarmTableCellView
         let chronoAlarm = ChronoAlarms[indexPath.row]
-        chronoAlarmCell.alamTimeLabel.text = chronoAlarm.alarmHour.description + ":" + chronoAlarm.alarmMinute.description
+        if chronoAlarm.alarmMinute < 10 {
+            chronoAlarmCell.alamTimeLabel.text = chronoAlarm.alarmHour.description + ":0" + chronoAlarm.alarmMinute.description
+        } else {
+            chronoAlarmCell.alamTimeLabel.text = chronoAlarm.alarmHour.description + ":" + chronoAlarm.alarmMinute.description
+        }
         chronoAlarmCell.alarmOptionsLabel.text = chronoAlarm.alarmName
         chronoAlarmCell.cellAnimator = UIDynamicAnimator(referenceView: self.view)
         
@@ -242,6 +246,31 @@ class AlarmTableViewController: UITableViewController {
         
     }
     
+    func notificationRepeat(repeats: [repeatType]){
+        if !repeats.contains(.Everyday) && !repeats.contains(.None) {
+            for aRepeat in repeats {
+                switch aRepeat {
+                case .Monday:
+                    break
+                case .Tuesday:
+                    break
+                case .Wednesday:
+                    break
+                case .Thursday:
+                    break
+                case .Friday:
+                    break
+                case .Saturday:
+                    break
+                case .Sunday:
+                    break
+                default:
+                    break
+                }
+            }
+        }
+    }
+    
     func toggleAlarm(gestureRecognizer: UISwipeGestureRecognizer){
         let location = gestureRecognizer.locationInView(self.tableView)
         let indexPath = self.tableView.indexPathForRowAtPoint(location)
@@ -348,14 +377,9 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         alarmTimeTextField.inputAccessoryView = toolbar
         alarmNameTextField.inputAccessoryView = toolbar
         alarmTimeTextField.delegate = self
-        //hourTextField.delegate = self
-        //minuteTextField.delegate = self
         alarmNameTextField.delegate = self
         
-        
-        //alarmRepeatLabel.hidden = true
-        //alarmRepeatTitleLabel.hidden = true
-        //chooseRepeatButton.hidden = true
+
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AddAlarmViewController.addSong(_:)), name: AddingSongNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AddAlarmViewController.addRepeat(_:)), name: AddingRepeatsNotification, object: nil)
@@ -393,7 +417,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     
-    //TODO: InputAccessoryView Button actions
+
     
     func doneButtonAction(sender: AnyObject){
         //print("done")
@@ -489,7 +513,6 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     
-    //TODO: - Finish Function
     func timeStringBuild(hour:String, minute:String){
         if hour == hourValue {
             alarmTimeTextField.text = hourValue + ":" + minute
