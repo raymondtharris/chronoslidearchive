@@ -272,6 +272,7 @@ class AlarmTableViewController: UITableViewController {
     }
     
     func toggleAlarm(gestureRecognizer: UISwipeGestureRecognizer){
+        //let first = UIResponder.tou
         let location = gestureRecognizer.locationInView(self.tableView)
         let indexPath = self.tableView.indexPathForRowAtPoint(location)
         let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
