@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import UIKit.UIGestureRecognizerSubclass
 
-class ChronoSwipeGesture: UIGestureRecognizer{
+class ChronoSwipeGesture: UISwipeGestureRecognizer{
     var velocity: CGVector?
     var force:CGVector?
     var startPosition:CGPoint?
@@ -21,14 +21,16 @@ class ChronoSwipeGesture: UIGestureRecognizer{
     
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesBegan(touches, withEvent: event!)
         let aTouch = touches
         startPosition  = aTouch.first?.locationInView(self.view)
         startTime = NSDate()
     }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        
+        super.touchesMoved(touches, withEvent: event!)
     }
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesEnded(touches, withEvent: event!)
         let aTouch = touches
         endPosition = aTouch.first?.locationInView(self.view)
         
@@ -38,9 +40,19 @@ class ChronoSwipeGesture: UIGestureRecognizer{
         let deltaPositionY = endPosition!.y - startPosition!.y
         //let timeNumber = NSFloat
         velocity = CGVectorMake(deltaPositionX/CGFloat(deltaTime!), deltaPositionY/CGFloat(deltaTime!))
+        print(velocity!)
         
     }
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        
+        super.touchesCancelled(touches!, withEvent: event!)
     }
+    
+    override func reset() {
+        super.reset()
+    }
+    
+    override init(target: AnyObject?, action: Selector) {
+        super.init(target: target!, action: action)
+    }
+    gesture
 }
