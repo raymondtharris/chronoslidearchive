@@ -78,7 +78,7 @@ class AlarmTableViewController: UITableViewController {
         // Gesture
         //let gesture = UISwipeGestureRecognizer.init(target: self, action: #selector(AlarmTableViewController.toggleAlarm(_:)))
         let gesture = ChronoSwipeGesture.init(target: self, action: #selector(AlarmTableViewController.toggleAlarm(_:)))
-        gesture.direction = UISwipeGestureRecognizerDirection.Left
+        //gesture.direction = UISwipeGestureRecognizerDirection.Left
         self.view.addGestureRecognizer(gesture)
         return chronoAlarmCell
     }
@@ -274,13 +274,16 @@ class AlarmTableViewController: UITableViewController {
     
     func toggleAlarm(gestureRecognizer: ChronoSwipeGesture){
         //let first = UIResponder.tou
+        //print(gestureRecognizer)
         let location = gestureRecognizer.locationInView(self.tableView)
         let indexPath = self.tableView.indexPathForRowAtPoint(location)
         let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
         
         //Swipe Push
         swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.Instantaneous)
-        swipedCell.cellPush?.pushDirection = CGVector(dx: -30, dy: 0.0) //used to be -30.0
+        //print(gestureRecognizer.velocity!.dx)
+        
+        swipedCell.cellPush?.pushDirection = CGVector(dx: gestureRecognizer.velocity!.dx, dy: 0.0) //used to be -30.0
         //print(swipedCell.cellPush?.magnitude)
         swipedCell.cellAnimator?.addBehavior(swipedCell.cellPush!)
         
