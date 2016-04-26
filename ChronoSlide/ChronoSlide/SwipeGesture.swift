@@ -17,6 +17,7 @@ class ChronoSwipeGesture: UIGestureRecognizer{
     var startTime: NSDate?
     var endPosition:CGPoint?
     var endTime: NSDate?
+    var storedPoint: CGPoint?
     
     
     
@@ -32,10 +33,18 @@ class ChronoSwipeGesture: UIGestureRecognizer{
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         //super.touchesMoved(touches, withEvent: event!)
         state = .Changed
+        let aTouch = touches
+        let current = aTouch.first?.locationInView(self.view)
+        if current != storedPoint {
+            storedPoint = current
+        } else {
+            state = .Ended
+            
+        }
         
     }
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        state = .Ended
+        //state = .Ended
         super.touchesEnded(touches, withEvent: event!)
         let aTouch = touches
         endPosition = aTouch.first?.locationInView(self.view)
