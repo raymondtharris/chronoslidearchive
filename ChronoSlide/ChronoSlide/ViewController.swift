@@ -91,13 +91,13 @@ class AlarmTableViewController: UITableViewController {
 
     func addingNewAlarm(notification: NSNotification){
         let alarmDictionary = notification.userInfo!
-        print("received")
+        //print("received")
         var createdAlarm = Alarm(newMinute: Int(alarmDictionary["alarmMinute"] as! String)!, newHour: Int(alarmDictionary["alarmHour"] as! String)!, newName: alarmDictionary["alarmName"]as! String)
-        print("1st")
+        //print("1st")
         let song = alarmDictionary["alarmSong"] as! MPMediaItem
-        print("2nd")
+        //print("2nd")
         let repeatDescriptions: [String] =  alarmDictionary["alarmRepeat"] as! [String]
-        print("3rd")
+        //print("3rd")
         if song.title != nil {
             createdAlarm.alarmSound = song
         }
@@ -282,8 +282,14 @@ class AlarmTableViewController: UITableViewController {
         //Swipe Push
         swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.Instantaneous)
         //print(gestureRecognizer.velocity!.dx)
-        
-        swipedCell.cellPush?.pushDirection = CGVector(dx: gestureRecognizer.velocity!.dx, dy: 0.0) //used to be -30.0
+        let tempTime = NSDate()
+        let tempPosition = location
+        let deltaPosX = tempPosition.x - gestureRecognizer.startPosition!.x
+        let deltaPosY = tempPosition.y - gestureRecognizer.startPosition!.y
+        let deltaTime = tempTime.timeIntervalSinceDate(gestureRecognizer.startTime!)
+        let Vel = CGVector(dx: deltaPosX/CGFloat(deltaTime), dy: deltaPosY/CGFloat(deltaTime))
+        swipedCell.cellPush?.pushDirection = CGVector(dx: (Vel.dx/50), dy: 0.0) //used to be -30.0
+        print("active")
         //print(swipedCell.cellPush?.magnitude)
         swipedCell.cellAnimator?.addBehavior(swipedCell.cellPush!)
         
