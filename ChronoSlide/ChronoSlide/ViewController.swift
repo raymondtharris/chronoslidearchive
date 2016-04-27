@@ -273,28 +273,32 @@ class AlarmTableViewController: UITableViewController {
     }
     
     func toggleAlarm(gestureRecognizer: ChronoSwipeGesture){
-        //let first = UIResponder.tou
-        //print(gestureRecognizer)
-        let location = gestureRecognizer.locationInView(self.tableView)
-        let indexPath = self.tableView.indexPathForRowAtPoint(location)
-        let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
-        
-        //Swipe Push
-        swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.Instantaneous)
-        //print(gestureRecognizer.velocity!.dx)
-        let tempTime = NSDate()
-        let tempPosition = location
-        let deltaPosX = tempPosition.x - gestureRecognizer.startPosition!.x
-        let deltaPosY = tempPosition.y - gestureRecognizer.startPosition!.y
-        let deltaTime = tempTime.timeIntervalSinceDate(gestureRecognizer.startTime!)
-        let Vel = CGVector(dx: deltaPosX/CGFloat(deltaTime), dy: deltaPosY/CGFloat(deltaTime))
-        swipedCell.cellPush?.pushDirection = CGVector(dx: (Vel.dx/50), dy: 0.0) //used to be -30.0
-        print("active")
-        //print(swipedCell.cellPush?.magnitude)
-        swipedCell.cellAnimator?.addBehavior(swipedCell.cellPush!)
-        
-        changeAlarmToggleState(swipedCell, currentRow: (indexPath?.row)!)
-        //animator?.addBehavior(swipedCell.cellPush!)
+        if gestureRecognizer.state == .Ended {
+            //let first = UIResponder.tou
+            //print(gestureRecognizer)
+            let location = gestureRecognizer.locationInView(self.tableView)
+            let indexPath = self.tableView.indexPathForRowAtPoint(location)
+            let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
+            
+            //Swipe Push
+            swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.Instantaneous)
+            //print(gestureRecognizer.velocity!.dx)
+            let tempTime = NSDate()
+            let tempPosition = location
+            let deltaPosX = tempPosition.x - gestureRecognizer.startPosition!.x
+            let deltaPosY = tempPosition.y - gestureRecognizer.startPosition!.y
+            let deltaTime = tempTime.timeIntervalSinceDate(gestureRecognizer.startTime!)
+            let Vel = CGVector(dx: deltaPosX/CGFloat(deltaTime), dy: deltaPosY/CGFloat(deltaTime))
+            swipedCell.cellPush?.pushDirection = CGVector(dx: gestureRecognizer.velocity!.dx, dy: 0.0) //used to be -30.0
+            print("active")
+            //print(swipedCell.cellPush?.magnitude)
+            swipedCell.cellAnimator?.addBehavior(swipedCell.cellPush!)
+            
+            changeAlarmToggleState(swipedCell, currentRow: (indexPath?.row)!)
+            
+            //animator?.addBehavior(swipedCell.cellPush!)
+
+        }
         
     }
     
