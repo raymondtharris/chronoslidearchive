@@ -48,6 +48,7 @@ class ChronoSwipeGesture: UIGestureRecognizer{
         super.touchesEnded(touches, withEvent: event!)
         let aTouch = touches
         endPosition = aTouch.first?.locationInView(self.view)
+        print(startPosition)
         print(endPosition)
         endTime = NSDate()
         let deltaTime = endTime?.timeIntervalSinceDate(startTime!)
