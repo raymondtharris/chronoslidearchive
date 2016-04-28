@@ -32,10 +32,11 @@ class ChronoSwipeGesture: UIGestureRecognizer{
     }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         //super.touchesMoved(touches, withEvent: event!)
+        let aTouch = touches
+        storedPoint = aTouch.first?.locationInView(self.view)
         state = .Changed
-        /*let aTouch = touches
-        let current = aTouch.first?.locationInView(self.view)
-        if current != storedPoint {
+
+        /*if current != storedPoint {
             storedPoint = current
         } else {
             state = .Ended

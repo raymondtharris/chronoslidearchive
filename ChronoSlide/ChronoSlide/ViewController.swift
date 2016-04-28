@@ -273,6 +273,15 @@ class AlarmTableViewController: UITableViewController {
     }
     //TODO: - Check for swipe indexpath
     func toggleAlarm(gestureRecognizer: ChronoSwipeGesture){
+        if gestureRecognizer.state == .Changed {
+            let location = gestureRecognizer.locationInView(self.tableView)
+            let indexPath = self.tableView.indexPathForRowAtPoint(location)
+            if (indexPath?.row) != nil  {
+                let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
+                //swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.Instantaneous)
+                swipedCell.frame.origin = CGPoint(x: -(swipedCell.frame.width - gestureRecognizer.storedPoint!.x), y: swipedCell.frame.origin.y)
+            }
+        }
         if gestureRecognizer.state == .Ended  {
             //let first = UIResponder.tou
             //print(gestureRecognizer)
