@@ -279,7 +279,9 @@ class AlarmTableViewController: UITableViewController {
             if (indexPath?.row) != nil  {
                 let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
                 //swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.Instantaneous)
-                swipedCell.frame.origin = CGPoint(x: -(swipedCell.frame.width - gestureRecognizer.storedPoint!.x), y: swipedCell.frame.origin.y)
+                let positionDelta = gestureRecognizer.startPosition!.x - gestureRecognizer.storedPoint!.x
+                print(positionDelta)
+                swipedCell.frame.origin = CGPoint(x:  -positionDelta, y: swipedCell.frame.origin.y)
             }
         }
         if gestureRecognizer.state == .Ended  {
