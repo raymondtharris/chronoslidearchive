@@ -56,8 +56,12 @@ class ChronoSwipeGesture: UIGestureRecognizer{
         let deltaPositionX = endPosition!.x - startPosition!.x
         let deltaPositionY = endPosition!.y - startPosition!.y
         //let timeNumber = NSFloat
+        if endPosition?.x == storedPoint?.x {
+            velocity = CGVectorMake(0.0, 0.0)
+        } else {
         velocity = CGVectorMake(deltaPositionX/CGFloat(deltaTime!), deltaPositionY/CGFloat(deltaTime!))
         print(velocity!.dx/25)
+        }
         state = .Ended
     }
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {

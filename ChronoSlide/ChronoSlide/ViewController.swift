@@ -278,10 +278,10 @@ class AlarmTableViewController: UITableViewController {
             let indexPath = self.tableView.indexPathForRowAtPoint(location)
             if (indexPath?.row) != nil  {
                 let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
-                //swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.Instantaneous)
+
                 let positionDelta = gestureRecognizer.startPosition!.x - gestureRecognizer.storedPoint!.x
-                print(positionDelta)
                 swipedCell.frame.origin = CGPoint(x:  -positionDelta, y: swipedCell.frame.origin.y)
+                changeAlarmToggleStress(swipedCell, currentRow: indexPath!.row, startPosition: gestureRecognizer.startPosition!.x, currentPosition: gestureRecognizer.storedPoint!.x)
             }
         }
         if gestureRecognizer.state == .Ended  {
@@ -325,6 +325,11 @@ class AlarmTableViewController: UITableViewController {
             }, completion: nil)
              ChronoAlarms[currentRow].setAlarmState(!ChronoAlarms[currentRow].alarmState)
         
+    }
+    
+    func changeAlarmToggleStress(interactedCell: AlarmTableCellView, currentRow: Int, startPosition: CGFloat, currentPosition: CGFloat) {
+        //Get distance between anchor and current distance. Calculate tension. Change color based on tension.
+        print(interactedCell.springNode?.frequency)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
