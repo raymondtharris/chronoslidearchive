@@ -273,6 +273,9 @@ class AlarmTableViewController: UITableViewController {
     }
     //TODO: - Check for swipe indexpath
     func toggleAlarm(gestureRecognizer: ChronoSwipeGesture){
+        if gestureRecognizer.state == .Began {
+            
+        }
         if gestureRecognizer.state == .Changed {
             let location = gestureRecognizer.locationInView(self.tableView)
             let indexPath = self.tableView.indexPathForRowAtPoint(location)
@@ -332,10 +335,15 @@ class AlarmTableViewController: UITableViewController {
         let cellviewEndPoint = interactedCell.frame.width * 1.25
         let cellviewMidPoint = interactedCell.frame.origin.x + (interactedCell.frame.width/2)
         let distance = sqrt((cellviewMidPoint - cellviewEndPoint)*(cellviewMidPoint - cellviewEndPoint))
-        print(distance * (interactedCell.springNode?.frequency)!)
+        //print(distance * (interactedCell.springNode?.frequency)!)
         let springTension = distance * (interactedCell.springNode?.frequency)!
-        
+        print(springTension)
         //print((interactedCell.springNode?.frequency.description)! + " " + (interactedCell.springNode?.length.description)! )
+        
+        let adjustTension = springTension/400
+        print(adjustTension)
+        
+        interactedCell.backgroundColor = UIColor(red: 0.93 , green: 0.17 , blue: 0.17 , alpha: 1.0 * adjustTension)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
