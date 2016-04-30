@@ -329,7 +329,13 @@ class AlarmTableViewController: UITableViewController {
     
     func changeAlarmToggleStress(interactedCell: AlarmTableCellView, currentRow: Int, startPosition: CGFloat, currentPosition: CGFloat) {
         //Get distance between anchor and current distance. Calculate tension. Change color based on tension.
-        print(interactedCell.springNode?.frequency)
+        let cellviewEndPoint = interactedCell.frame.width * 1.25
+        let cellviewMidPoint = interactedCell.frame.origin.x + (interactedCell.frame.width/2)
+        let distance = sqrt((cellviewMidPoint - cellviewEndPoint)*(cellviewMidPoint - cellviewEndPoint))
+        print(distance * (interactedCell.springNode?.frequency)!)
+        let springTension = distance * (interactedCell.springNode?.frequency)!
+        
+        //print((interactedCell.springNode?.frequency.description)! + " " + (interactedCell.springNode?.length.description)! )
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
