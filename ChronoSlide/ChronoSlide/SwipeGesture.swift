@@ -31,7 +31,7 @@ class ChronoSwipeGesture: UIGestureRecognizer{
         //state = .Began
     }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        //super.touchesMoved(touches, withEvent: event!)
+        super.touchesMoved(touches, withEvent: event!)
         let aTouch = touches
         storedPoint = aTouch.first?.locationInView(self.view)
         state = .Changed
@@ -51,21 +51,27 @@ class ChronoSwipeGesture: UIGestureRecognizer{
         endPosition = aTouch.first?.locationInView(self.view)
         //print(startPosition)
         //print(endPosition)
-        endTime = NSDate()
-        let deltaTime = endTime?.timeIntervalSinceDate(startTime!)
-        let deltaPositionX = endPosition!.x - startPosition!.x
-        let deltaPositionY = endPosition!.y - startPosition!.y
-        //let timeNumber = NSFloat
-        if endPosition?.x == storedPoint?.x {
-            velocity = CGVectorMake(0.0, 0.0)
-        } else {
-        velocity = CGVectorMake(deltaPositionX/CGFloat(deltaTime!), deltaPositionY/CGFloat(deltaTime!))
-        //print(velocity!.dx/25)
+        if startPosition == endPosition {
+            state = .Failed
         }
-        state = .Ended
+        else {
+            endTime = NSDate()
+            let deltaTime = endTime?.timeIntervalSinceDate(startTime!)
+            let deltaPositionX = endPosition!.x - startPosition!.x
+            let deltaPositionY = endPosition!.y - startPosition!.y
+            //let timeNumber = NSFloat
+            if endPosition?.x == storedPoint?.x {
+                velocity = CGVectorMake(0.0, 0.0)
+            } else {
+            velocity = CGVectorMake(deltaPositionX/CGFloat(deltaTime!), deltaPositionY/CGFloat(deltaTime!))
+            //print(velocity!.dx/25)
+            }
+            state = .Ended
+        }
     }
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
         super.touchesCancelled(touches!, withEvent: event!)
+        state = .Cancelled
     }
     
     override func reset() {

@@ -378,7 +378,13 @@ class AlarmTableViewController: UITableViewController {
 
 extension AlarmTableViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        return !(touch.view is UIButton)
+        print("Touched")
+        let cGesture = gestureRecognizer as! ChronoSwipeGesture
+        if cGesture.state == .Failed {
+            
+        }
+        
+        return !(touch.view is AlarmTableCellView)
     }
 }
 
