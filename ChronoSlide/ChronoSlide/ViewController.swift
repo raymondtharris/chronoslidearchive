@@ -919,9 +919,9 @@ class AddAlarmRepeatTableViewController: UITableViewController {
     }
     // TODO: - SORT REPEATS
     @IBAction func commitRepeats(sender: AnyObject) {
-        
+        let sortedRepeats = sortRepeats(selectedRepeats)
         let temp: NSMutableArray = NSMutableArray()
-        for aRepeat in selectedRepeats{
+        for aRepeat in sortedRepeats{
             temp.addObject(aRepeat.description)
         }
         let repeatDictionary = ["repeats" as NSString: temp]
@@ -929,6 +929,16 @@ class AddAlarmRepeatTableViewController: UITableViewController {
         self.navigationController?.popViewControllerAnimated(true)
     }
     
+    
+    func sortRepeats(repeats: [repeatType]) -> [repeatType] {
+        var sorted: [repeatType] = [repeatType]()
+        for aRepeat in RepeatMacros {
+            if repeats.contains(aRepeat) {
+                sorted.append(aRepeat)
+            }
+        }
+        return sorted
+    }
     
 }
 
