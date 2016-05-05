@@ -474,6 +474,12 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         case alarmTimeTextField:
             toolbar.items![0].enabled = false
             toolbar.items![1].enabled = true
+            let scrollHeight = alarmTimeTextField.inputView?.frame.height
+            let scrollViewFrame = self.scrollView.frame
+            let tempHeight =  scrollViewFrame.height - scrollHeight!
+            //set new Frame
+            scrollView.contentOffset.y = tempHeight
+            print(tempHeight)
             break
         case alarmNameTextField:
             toolbar.items![0].enabled = true
@@ -484,7 +490,9 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         }
     }
     
-    
+    override func viewDidLayoutSubviews() {
+        
+    }
 
     
     func doneButtonAction(sender: AnyObject){

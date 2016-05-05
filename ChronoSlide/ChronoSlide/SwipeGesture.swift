@@ -28,7 +28,6 @@ class ChronoSwipeGesture: UIGestureRecognizer{
         startPosition  = aTouch.first?.locationInView(self.view)
         startTime = NSDate()
         print("start")
-        //state = .Began
     }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesMoved(touches, withEvent: event!)
@@ -36,21 +35,13 @@ class ChronoSwipeGesture: UIGestureRecognizer{
         storedPoint = aTouch.first?.locationInView(self.view)
         state = .Changed
 
-        /*if current != storedPoint {
-            storedPoint = current
-        } else {
-            state = .Ended
-            
-        }
-    */
         
     }
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event!)
         let aTouch = touches
         endPosition = aTouch.first?.locationInView(self.view)
-        //print(startPosition)
-        //print(endPosition)
+
         if startPosition == endPosition {
             state = .Failed
         }
@@ -59,12 +50,12 @@ class ChronoSwipeGesture: UIGestureRecognizer{
             let deltaTime = endTime?.timeIntervalSinceDate(startTime!)
             let deltaPositionX = endPosition!.x - startPosition!.x
             let deltaPositionY = endPosition!.y - startPosition!.y
-            //let timeNumber = NSFloat
+
             if endPosition?.x == storedPoint?.x {
                 velocity = CGVectorMake(0.0, 0.0)
             } else {
             velocity = CGVectorMake(deltaPositionX/CGFloat(deltaTime!), deltaPositionY/CGFloat(deltaTime!))
-            //print(velocity!.dx/25)
+
             }
             state = .Ended
         }
