@@ -502,7 +502,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     func nextButtonAction(sender: AnyObject){
-        print("next")
+        //print("next")
         switch currentTextField {
         case alarmTimeTextField:
             alarmNameTextField.becomeFirstResponder()
@@ -514,7 +514,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         }
     }
     func prevButtonAction(sender: AnyObject){
-        print("prev")
+        //print("prev")
         switch currentTextField {
         case alarmTimeTextField:
             break
@@ -854,22 +854,6 @@ class AddAlarmRepeatTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return RepeatMacros.count
     }
-/*
-    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! AddRepeatTableCellView
-        if selectedCell.accessoryType == UITableViewCellAccessoryType.None {
-            calculateOtherRepeats(selectedCell, row: indexPath.row)
-            //tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        } else {
-            selectedCell.accessoryType = UITableViewCellAccessoryType.None
-            //tableView.deselectRowAtIndexPath(indexPath, animated: false)
-        }
-        self.tableView(tableView, willDeselectRowAtIndexPath: indexPath)
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        self.tableView(tableView, didDeselectRowAtIndexPath: indexPath)
-        self.tableView.reloadData()
-    }
-  */  
     
     override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
         let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! AddRepeatTableCellView
@@ -925,7 +909,6 @@ class AddAlarmRepeatTableViewController: UITableViewController {
         }
         
     }
-    // TODO: - SORT REPEATS
     @IBAction func commitRepeats(sender: AnyObject) {
         let sortedRepeats = sortRepeats(selectedRepeats)
         let temp: NSMutableArray = NSMutableArray()
@@ -1433,16 +1416,6 @@ class EditAlarmRepeatTableViewController: UITableViewController {
         return RepeatMacros.count
     }
     
-    /*
-    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! EditRepeatTableCellView
-        if selectedCell.accessoryType == UITableViewCellAccessoryType.None {
-            calculateOtherRepeats(selectedCell, row: indexPath.row)
-        } else {
-            selectedCell.accessoryType = UITableViewCellAccessoryType.None
-        }
-    }
- */
     
     override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
         let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! EditRepeatTableCellView
@@ -1532,24 +1505,31 @@ class EditAlarmRepeatTableViewController: UITableViewController {
     func clearTableView(){
         let view = self.tableView
         for anIndex in 0..<RepeatMacros.count  {
-            //print(anIndex)
             let current =  view.cellForRowAtIndexPath(NSIndexPath(forRow: anIndex, inSection: 0)) as! AddRepeatTableCellView
-            
             current.accessoryType = UITableViewCellAccessoryType.None
         }
     }
     
     
     @IBAction func commitRepeats(sender: AnyObject) {
+        let sortedRepeats = sortRepeats(selectedRepeats)
         let temp: NSMutableArray = NSMutableArray()
-        for aRepeat in selectedRepeats{
+        for aRepeat in sortedRepeats{
             temp.addObject(aRepeat.description)
         }
         let repeatDictionary = ["repeats" as NSString: temp]
         NSNotificationCenter.defaultCenter().postNotificationName(UpdatingRepeatsNotification, object: self, userInfo: repeatDictionary )
         self.navigationController?.popViewControllerAnimated(true)
     }
-    
+    func sortRepeats(repeats: [repeatType]) -> [repeatType] {
+        var sorted: [repeatType] = [repeatType]()
+        for aRepeat in RepeatMacros {
+            if repeats.contains(aRepeat) {
+                sorted.append(aRepeat)
+            }
+        }
+        return sorted
+    }
     
 }
 
