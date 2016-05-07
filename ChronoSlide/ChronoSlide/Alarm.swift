@@ -183,8 +183,63 @@ enum repeatType: CustomStringConvertible, Equatable {
 
 }
 
-// FIXME: Get working with repeatType
+func sortRepeatArray(anArray: [repeatType]) -> [repeatType] {
+    var sorted: [repeatType] = [repeatType]()
+    for aRepeat in RepeatMacros {
+        if anArray.contains(aRepeat) {
+            sorted.append(aRepeat)
+        }
+    }
+    return sorted
+}
 
+func repeatArrayToStringArray(anArray: [repeatType]) -> [String] {
+    var strArray = [String]()
+    for aRepeat in anArray {
+        strArray.append(aRepeat.description)
+    }
+    return strArray
+}
+
+func repeatStringsToRepeatArray(anArray: [String]) -> [repeatType] {
+    var newRepeats = [repeatType]()
+    for aString in anArray{
+        switch aString {
+        case "None":
+            newRepeats.append(repeatType.None)
+            break
+        case "Monday":
+            newRepeats.append(repeatType.Monday)
+            break
+        case "Tuesday":
+            newRepeats.append(repeatType.Tuesday)
+            break
+        case "Wednesday":
+            newRepeats.append(repeatType.Wednesday)
+            break
+        case "Thursday":
+            newRepeats.append(repeatType.Thursday)
+            break
+        case "Friday":
+            newRepeats.append(repeatType.Friday)
+            break
+        case "Saturday":
+            newRepeats.append(repeatType.Saturday)
+            break
+        case "Sunday":
+            newRepeats.append(repeatType.Sunday)
+            break
+        case "Everyday":
+            newRepeats.append(repeatType.Everyday)
+            break
+        default:
+            break
+        }
+    }
+     return newRepeats
+}
+// FIXME: Get working with repeatType
+/*
 extension Array where Element :  Equatable {
     func chronSort() -> [repeatType] {
         var sortedArray: [repeatType] = [repeatType]()
@@ -194,4 +249,4 @@ extension Array where Element :  Equatable {
         return sortedArray
     }
 }
-
+*/

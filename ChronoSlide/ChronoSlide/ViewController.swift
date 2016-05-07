@@ -88,7 +88,6 @@ class AlarmTableViewController: UITableViewController {
         return ChronoAlarms.count
     }
     
-    //TODO: Fix up adding
 
     func addingNewAlarm(notification: NSNotification){
         let alarmDictionary = notification.userInfo!
@@ -102,41 +101,7 @@ class AlarmTableViewController: UITableViewController {
         if song.title != nil {
             createdAlarm.alarmSound = song
         }
-        var repeats = [repeatType]()
-        for aString in repeatDescriptions{
-            switch aString {
-            case "None":
-                repeats.append(repeatType.None)
-                break
-            case "Monday":
-                repeats.append(repeatType.Monday)
-                break
-            case "Tuesday":
-                repeats.append(repeatType.Tuesday)
-                break
-            case "Wednesday":
-                repeats.append(repeatType.Wednesday)
-                break
-            case "Thursday":
-                repeats.append(repeatType.Thursday)
-                break
-            case "Friday":
-                repeats.append(repeatType.Friday)
-                break
-            case "Saturday":
-                repeats.append(repeatType.Saturday)
-                break
-            case "Sunday":
-                repeats.append(repeatType.Sunday)
-                break
-            case "Everyday":
-                repeats.append(repeatType.Everyday)
-                break
-            default:
-                break
-            }
-        }
-        
+        let repeats = repeatStringsToRepeatArray(repeatDescriptions)
         createdAlarm.setAlarmRepeat(repeats)
         print(createdAlarm.alarmRepeat)
         let notificationDate = createNotificationDate(Int(alarmDictionary["alarmHour"] as! String)!, alarmMinute: Int(alarmDictionary["alarmMinute"] as! String)!, alarmRepeats: repeats)
@@ -192,40 +157,7 @@ class AlarmTableViewController: UITableViewController {
         ChronoAlarms[rowIndex].setAlarmSound(updateDictionary["alarmSound"] as! MPMediaItem)
         
         let repeatDescriptions: [String] =  updateDictionary["alarmRepeat"] as! [String]
-        var repeats = [repeatType]()
-        for aString in repeatDescriptions{
-            switch aString {
-            case "None":
-                repeats.append(repeatType.None)
-                break
-            case "Monday":
-                repeats.append(repeatType.Monday)
-                break
-            case "Tuesday":
-                repeats.append(repeatType.Tuesday)
-                break
-            case "Wednesday":
-                repeats.append(repeatType.Wednesday)
-                break
-            case "Thursday":
-                repeats.append(repeatType.Thursday)
-                break
-            case "Friday":
-                repeats.append(repeatType.Friday)
-                break
-            case "Saturday":
-                repeats.append(repeatType.Saturday)
-                break
-            case "Sunday":
-                repeats.append(repeatType.Sunday)
-                break
-            case "Everyday":
-                repeats.append(repeatType.Everyday)
-                break
-            default:
-                break
-            }
-        }
+        let repeats = repeatStringsToRepeatArray(repeatDescriptions)
         ChronoAlarms[rowIndex].setAlarmRepeat(repeats)
         
         
@@ -272,7 +204,6 @@ class AlarmTableViewController: UITableViewController {
             }
         }
     }
-    //TODO: - Check for swipe indexpath
     func toggleAlarm(gestureRecognizer: ChronoSwipeGesture){
         if gestureRecognizer.state == .Began {
             let location = gestureRecognizer.locationInView(self.tableView)
@@ -295,8 +226,6 @@ class AlarmTableViewController: UITableViewController {
             }
         }
         if gestureRecognizer.state == .Ended  {
-            //let first = UIResponder.tou
-            //print(gestureRecognizer)
             let location = gestureRecognizer.locationInView(self.tableView)
             let indexPath = self.tableView.indexPathForRowAtPoint(location)
             if (indexPath?.row) != nil  {
@@ -542,10 +471,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     @IBAction func commitNewAlarm(sender: AnyObject) {
         let selectedIndex = alarmAMPMSegmentedControl.selectedSegmentIndex
         print(alarmAMPMSegmentedControl.titleForSegmentAtIndex(selectedIndex)!)
-        var repeatDescriptions: [String] = [String]()
-        for aRepeat in repeatData {
-            repeatDescriptions.append(aRepeat.description)
-        }
+        let repeatDescriptions = repeatArrayToStringArray(repeatData)
         let alarmDicationary = ["alarmHour": hourValue, "alarmMinute": minuteValue, "alarmName": alarmNameTextField.text!, "alarmAMPM": alarmAMPMSegmentedControl.titleForSegmentAtIndex(selectedIndex)!, "alarmSong": songData!, "alarmRepeat": repeatDescriptions] //Need to fix cast or make a wrapper for values.
         NSNotificationCenter.defaultCenter().postNotificationName(AddingNewAlarmNotification, object: self, userInfo: alarmDicationary as [NSObject : AnyObject])
         self.navigationController?.popToRootViewControllerAnimated(true)
@@ -910,25 +836,11 @@ class AddAlarmRepeatTableViewController: UITableViewController {
         
     }
     @IBAction func commitRepeats(sender: AnyObject) {
-        let sortedRepeats = sortRepeats(selectedRepeats)
-        let temp: NSMutableArray = NSMutableArray()
-        for aRepeat in sortedRepeats{
-            temp.addObject(aRepeat.description)
-        }
+        let sortedRepeats = sortRepeatArray(selectedRepeats)
+        let temp = repeatArrayToStringArray(sortedRepeats)
         let repeatDictionary = ["repeats" as NSString: temp]
         NSNotificationCenter.defaultCenter().postNotificationName(AddingRepeatsNotification, object: self, userInfo: repeatDictionary)
         self.navigationController?.popViewControllerAnimated(true)
-    }
-    
-    
-    func sortRepeats(repeats: [repeatType]) -> [repeatType] {
-        var sorted: [repeatType] = [repeatType]()
-        for aRepeat in RepeatMacros {
-            if repeats.contains(aRepeat) {
-                sorted.append(aRepeat)
-            }
-        }
-        return sorted
     }
     
 }
@@ -1038,11 +950,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     }
     
     @IBAction func updateAlarm(sender: AnyObject) {
-        var repeatDescriptions: [String] = [String]()
-        for aRepeat in alarmToEdit.alarmRepeat {
-            repeatDescriptions.append(aRepeat.description)
-        }
-        
+        let repeatDescriptions = repeatArrayToStringArray(alarmToEdit.alarmRepeat)
         let selectedIndex = alarmAMPMSegmentControl.selectedSegmentIndex
         let updateDictionary = ["alarmHour": hourValue, "alarmMinute": minuteValue, "alarmName": alarmNameTextField.text!, "alarmAMPM": alarmAMPMSegmentControl.titleForSegmentAtIndex(selectedIndex)!, "alarmSound": alarmToEdit.alarmSound!, "alarmIndex": editRow, "alarmRepeat": repeatDescriptions]
         NSNotificationCenter.defaultCenter().postNotificationName(UpdatingAlarmNotification, object: self, userInfo: updateDictionary)
@@ -1512,23 +1420,11 @@ class EditAlarmRepeatTableViewController: UITableViewController {
     
     
     @IBAction func commitRepeats(sender: AnyObject) {
-        let sortedRepeats = sortRepeats(selectedRepeats)
-        let temp: NSMutableArray = NSMutableArray()
-        for aRepeat in sortedRepeats{
-            temp.addObject(aRepeat.description)
-        }
+        let sortedRepeats = sortRepeatArray(selectedRepeats)
+        let temp = repeatArrayToStringArray(sortedRepeats)
         let repeatDictionary = ["repeats" as NSString: temp]
         NSNotificationCenter.defaultCenter().postNotificationName(UpdatingRepeatsNotification, object: self, userInfo: repeatDictionary )
         self.navigationController?.popViewControllerAnimated(true)
-    }
-    func sortRepeats(repeats: [repeatType]) -> [repeatType] {
-        var sorted: [repeatType] = [repeatType]()
-        for aRepeat in RepeatMacros {
-            if repeats.contains(aRepeat) {
-                sorted.append(aRepeat)
-            }
-        }
-        return sorted
     }
     
 }
