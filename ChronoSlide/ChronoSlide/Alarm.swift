@@ -129,6 +129,10 @@ struct Alarm {
     
 }
 
+public protocol RepeatingType {
+    
+}
+
 /// The kinds of reapeats that are available
 enum repeatType: CustomStringConvertible, Equatable {
     /**
@@ -178,3 +182,16 @@ enum repeatType: CustomStringConvertible, Equatable {
 
 
 }
+
+// FIXME: Get working with repeatType
+
+extension Array where Element :  Equatable {
+    func chronSort() -> [repeatType] {
+        var sortedArray: [repeatType] = [repeatType]()
+        for aRepeat in RepeatMacros {
+         //   sortedArray.insert(aRepeat, atIndex: sortedArray.count)
+        }
+        return sortedArray
+    }
+}
+
