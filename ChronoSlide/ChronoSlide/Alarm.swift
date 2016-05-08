@@ -238,15 +238,3 @@ func repeatStringsToRepeatArray(anArray: [String]) -> [repeatType] {
     }
      return newRepeats
 }
-// FIXME: Get working with repeatType
-/*
-extension Array where Element :  Equatable {
-    func chronSort() -> [repeatType] {
-        var sortedArray: [repeatType] = [repeatType]()
-        for aRepeat in RepeatMacros {
-         //   sortedArray.insert(aRepeat, atIndex: sortedArray.count)
-        }
-        return sortedArray
-    }
-}
-*/

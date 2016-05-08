@@ -17,7 +17,7 @@ protocol pickerToolbar {
     func toolbar() -> UIToolbar
 }
 
-// MARK: - ALARMS
+// MARK: ALARMS
 
 let AddingNewAlarmNotification:String = "AddingNewAlarmNotification"
 let DeletingAlarmNotification:String = "DeletingAlarmNotification"
@@ -25,7 +25,7 @@ let UpdatingAlarmNotification:String = "UpdatingAlarmNotification"
 
 class AlarmTableViewController: UITableViewController {
     @IBOutlet weak var settingsButton: UIBarButtonItem!
-    
+    var selectedIndexPath = -1
     
     var animator: UIDynamicAnimator?
     var ChronoAlarms: [Alarm] = [Alarm]()
@@ -59,26 +59,20 @@ class AlarmTableViewController: UITableViewController {
         chronoAlarmCell.springNode?.length = chronoAlarmCell.frame.width * (1.25/2)
         chronoAlarmCell.springNode?.frequency = 0.6
         chronoAlarmCell.cellAnimator?.addBehavior(chronoAlarmCell.springNode!)
-        //animator?.addBehavior(chronoAlarmCell.springNode!)
-        //print(chronoAlarmCell.springNode!.length )
         
         //Collision
         chronoAlarmCell.boundingBox = UICollisionBehavior(items: [chronoAlarmCell])
         chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier("right", fromPoint: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y), toPoint: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height))
         chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier("left", fromPoint: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y), toPoint: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height))
         chronoAlarmCell.cellAnimator?.addBehavior(chronoAlarmCell.boundingBox!)
-        //animator?.addBehavior(chronoAlarmCell.boundingBox!)
         
         //Elasticity
         chronoAlarmCell.cellElasticity = UIDynamicItemBehavior(items: [chronoAlarmCell])
         chronoAlarmCell.cellElasticity?.elasticity = 0.4
         chronoAlarmCell.cellAnimator?.addBehavior(chronoAlarmCell.cellElasticity!)
-        //animator?.addBehavior(chronoAlarmCell.cellElasticity!)
         
         // Gesture
-        //let gesture = UISwipeGestureRecognizer.init(target: self, action: #selector(AlarmTableViewController.toggleAlarm(_:)))
         let gesture = ChronoSwipeGesture.init(target: self, action: #selector(AlarmTableViewController.toggleAlarm(_:)))
-        //gesture.direction = UISwipeGestureRecognizerDirection.Left
         gesture.delegate = self
         self.view.addGestureRecognizer(gesture)
         return chronoAlarmCell
@@ -171,7 +165,7 @@ class AlarmTableViewController: UITableViewController {
         notification.fireDate = notificationDate
         notification.soundName = UILocalNotificationDefaultSoundName
         
-        //conenct notification
+        //connect notification
         ChronoAlarms[rowIndex].alarmNotification = notification
         //UIApplication.sharedApplication().scheduleLocalNotification(createdAlarm.alarmNotification!)
         
@@ -288,10 +282,10 @@ class AlarmTableViewController: UITableViewController {
         if segue.identifier == "EditSegue" {
             let destination = segue.destinationViewController as! EditAlarmViewController
             let tView = self.view as! UITableView
-            let indexPath = tView.indexPathForSelectedRow!
-            let tappedAlarm = ChronoAlarms[indexPath.row]
+            let indexPath = selectedIndexPath
+            let tappedAlarm = ChronoAlarms[indexPath]
             destination.alarmToEdit = tappedAlarm
-            destination.editRow = indexPath.row
+            destination.editRow = indexPath
         }
     }
     
@@ -308,9 +302,13 @@ class AlarmTableViewController: UITableViewController {
 extension AlarmTableViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
         print("Touched")
-        let cGesture = gestureRecognizer as! ChronoSwipeGesture
-        if cGesture.state == .Failed {
+        let location = gestureRecognizer.locationInView(self.tableView)
+        let indexPath = self.tableView.indexPathForRowAtPoint(location)
+        if (indexPath?.row) != nil  {
+            //let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
+            selectedIndexPath = indexPath!.row
             
+            //self.performSegueWithIdentifier("EditSegue", sender: self)
         }
         
         return !(touch.view is AlarmTableCellView)
@@ -538,40 +536,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     func addRepeat(notification: NSNotification){
         let repeatsDictionary = notification.userInfo!
         let repeatStrings = repeatsDictionary["repeats"] as! [String]
-        var repeats:[repeatType] = [repeatType]()
-        for aString in repeatStrings{
-            switch aString {
-            case "None":
-                repeats.append(repeatType.None)
-                break
-            case "Monday":
-                repeats.append(repeatType.Monday)
-                break
-            case "Tuesday":
-                repeats.append(repeatType.Tuesday)
-                break
-            case "Wednesday":
-                repeats.append(repeatType.Wednesday)
-                break
-            case "Thursday":
-                repeats.append(repeatType.Thursday)
-                break
-            case "Friday":
-                repeats.append(repeatType.Friday)
-                break
-            case "Saturday":
-                repeats.append(repeatType.Saturday)
-                break
-            case "Sunday":
-                repeats.append(repeatType.Sunday)
-                break
-            case "Everyday":
-                repeats.append(repeatType.Everyday)
-                break
-            default:
-                break
-            }
-        }
+        let repeats:[repeatType] = repeatStringsToRepeatArray(repeatStrings)
         repeatData = repeats
         print(repeatData)
         determineRepeatLabel()
@@ -1435,6 +1400,3 @@ class EditRepeatTableCellView: UITableViewCell {
     
     
 }
-
-
-
