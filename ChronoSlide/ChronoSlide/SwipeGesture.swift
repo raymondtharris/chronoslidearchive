@@ -63,12 +63,14 @@ class ChronoSwipeGesture: UIGestureRecognizer{
      - Parameter event: Touch event from the user.
      */
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        print("ended")
         super.touchesEnded(touches, withEvent: event!)
         let aTouch = touches
         endPosition = aTouch.first?.locationInView(self.view)
 
         if startPosition == endPosition {
-            state = .Failed
+           // print("same")
+            state = .Cancelled
         }
         else {
             endTime = NSDate()

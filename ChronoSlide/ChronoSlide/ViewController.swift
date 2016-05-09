@@ -224,23 +224,29 @@ class AlarmTableViewController: UITableViewController {
             let indexPath = self.tableView.indexPathForRowAtPoint(location)
             if (indexPath?.row) != nil  {
                 let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
-                
-                if gestureRecognizer.startPosition?.x == gestureRecognizer.endPosition?.x {
-                    selectedIndexPath = indexPath!.row
-                    self.performSegueWithIdentifier("EditSegue", sender: self)
-                } else {
-                
+               
                 //Swipe Push
-                    swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.Instantaneous)
-                    swipedCell.cellPush?.pushDirection = CGVector(dx: gestureRecognizer.velocity!.dx, dy: 0.0) //used to be -30.0
-                    //print("active")
-                    //print(swipedCell.cellPush?.magnitude)
-                    swipedCell.cellAnimator?.addBehavior(swipedCell.cellPush!)
-            
-                    changeAlarmToggleState(swipedCell, currentRow: (indexPath?.row)!)
-                }
+                swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.Instantaneous)
+                swipedCell.cellPush?.pushDirection = CGVector(dx: gestureRecognizer.velocity!.dx, dy: 0.0) //used to be -30.0
+                //print("active")
+                //print(swipedCell.cellPush?.magnitude)
+                swipedCell.cellAnimator?.addBehavior(swipedCell.cellPush!)
+    
+                changeAlarmToggleState(swipedCell, currentRow: (indexPath?.row)!)
+                
             }
             //animator?.addBehavior(swipedCell.cellPush!)
+
+        }
+        
+        if gestureRecognizer.state == .Failed || gestureRecognizer.state == .Cancelled {
+            let location = gestureRecognizer.locationInView(self.tableView)
+            let indexPath = self.tableView.indexPathForRowAtPoint(location)
+            if (indexPath?.row) != nil  {
+                selectedIndexPath = indexPath!.row
+                print("segue")
+                self.performSegueWithIdentifier("EditSegue", sender: self)
+            }
 
         }
         
