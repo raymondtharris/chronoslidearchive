@@ -73,7 +73,7 @@ class AlarmTableViewController: UITableViewController {
         
         // Gesture
         let gesture = ChronoSwipeGesture.init(target: self, action: #selector(AlarmTableViewController.toggleAlarm(_:)))
-        gesture.delegate = self
+        //gesture.delegate = self
         self.view.addGestureRecognizer(gesture)
         return chronoAlarmCell
     }
@@ -224,15 +224,21 @@ class AlarmTableViewController: UITableViewController {
             let indexPath = self.tableView.indexPathForRowAtPoint(location)
             if (indexPath?.row) != nil  {
                 let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
-            
+                
+                if gestureRecognizer.startPosition?.x == gestureRecognizer.endPosition?.x {
+                    selectedIndexPath = indexPath!.row
+                    self.performSegueWithIdentifier("EditSegue", sender: self)
+                } else {
+                
                 //Swipe Push
-                swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.Instantaneous)
-                swipedCell.cellPush?.pushDirection = CGVector(dx: gestureRecognizer.velocity!.dx, dy: 0.0) //used to be -30.0
-                //print("active")
-                //print(swipedCell.cellPush?.magnitude)
-                swipedCell.cellAnimator?.addBehavior(swipedCell.cellPush!)
+                    swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.Instantaneous)
+                    swipedCell.cellPush?.pushDirection = CGVector(dx: gestureRecognizer.velocity!.dx, dy: 0.0) //used to be -30.0
+                    //print("active")
+                    //print(swipedCell.cellPush?.magnitude)
+                    swipedCell.cellAnimator?.addBehavior(swipedCell.cellPush!)
             
-                changeAlarmToggleState(swipedCell, currentRow: (indexPath?.row)!)
+                    changeAlarmToggleState(swipedCell, currentRow: (indexPath?.row)!)
+                }
             }
             //animator?.addBehavior(swipedCell.cellPush!)
 
@@ -298,7 +304,7 @@ class AlarmTableViewController: UITableViewController {
     
     
 }
-
+/*
 extension AlarmTableViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
         print("Touched")
@@ -314,7 +320,7 @@ extension AlarmTableViewController: UIGestureRecognizerDelegate {
         return !(touch.view is AlarmTableCellView)
     }
 }
-
+*/
 
 //MARK: - ADD ALARMS
 
