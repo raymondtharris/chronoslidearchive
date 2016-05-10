@@ -328,6 +328,18 @@ extension AlarmTableViewController: UIGestureRecognizerDelegate {
 }
 */
 
+class AlarmTableCellView: UITableViewCell {
+    
+    @IBOutlet weak var alamTimeLabel: UILabel!
+    @IBOutlet weak var alarmOptionsLabel: UILabel!
+    var springNode: UIAttachmentBehavior?
+    var boundingBox: UICollisionBehavior?
+    var cellElasticity: UIDynamicItemBehavior?
+    var cellPush: UIPushBehavior?
+    var cellAnimator: UIDynamicAnimator?
+}
+
+
 //MARK: - ADD ALARMS
 
 let AddingSongNotification:String = "AddingSongNotification"
@@ -583,20 +595,17 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         return str
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "AddRepeatSegue" {
+            let dest = segue.destinationViewController as! AddAlarmRepeatTableViewController
+            dest.selectedRepeats = repeatData
+        }
+    }
     
 }
 
 
-class AlarmTableCellView: UITableViewCell {
-    
-    @IBOutlet weak var alamTimeLabel: UILabel!
-    @IBOutlet weak var alarmOptionsLabel: UILabel!
-    var springNode: UIAttachmentBehavior?
-    var boundingBox: UICollisionBehavior?
-    var cellElasticity: UIDynamicItemBehavior?
-    var cellPush: UIPushBehavior?
-    var cellAnimator: UIDynamicAnimator?
-}
+
 
 
 //TODO: - ADD ChosenSongView
@@ -666,6 +675,8 @@ class AddSongsTableViewController: UITableViewController {
         }
         return songArray.count
     }
+    
+    
     
     func togglePreview(gestureRecognizer: UIGestureRecognizer){
         print("toggle Preview")
@@ -739,6 +750,8 @@ class AddSongTableCellView: UITableViewCell {
     
 }
 
+// MARK: ADD Repeat
+
 class AddAlarmRepeatTableViewController: UITableViewController {
     
     @IBOutlet weak var repeatDoneButton: UIBarButtonItem!
@@ -747,6 +760,7 @@ class AddAlarmRepeatTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         repeatDoneButton.enabled = true
+        loadSelectedRepeats()
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -812,6 +826,54 @@ class AddAlarmRepeatTableViewController: UITableViewController {
         }
         
     }
+    
+    func loadSelectedRepeats() {
+        for aRepeat in RepeatMacros {
+            if selectedRepeats.contains(aRepeat) {
+                let view = self.view as! UITableView
+                
+                switch aRepeat {
+                    case .None:
+                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 0)) as! AddRepeatTableCellView
+                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                    break
+                    case .Monday:
+                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 1)) as! AddRepeatTableCellView
+                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                    break
+                    case .Tuesday:
+                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 2)) as! AddRepeatTableCellView
+                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                    break
+                    case .Wednesday:
+                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 3)) as! AddRepeatTableCellView
+                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                    break
+                    case .Thursday:
+                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 4)) as! AddRepeatTableCellView
+                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                    break
+                    case .Friday:
+                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 5)) as! AddRepeatTableCellView
+                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                    break
+                    case .Saturday:
+                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 6)) as! AddRepeatTableCellView
+                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                    break
+                    case .Sunday:
+                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 7)) as! AddRepeatTableCellView
+                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                    break
+                    case .Everyday:
+                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 8)) as! AddRepeatTableCellView
+                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                    break
+                }
+            }
+        }
+    }
+    
     @IBAction func commitRepeats(sender: AnyObject) {
         let sortedRepeats = sortRepeatArray(selectedRepeats)
         let temp = repeatArrayToStringArray(sortedRepeats)
