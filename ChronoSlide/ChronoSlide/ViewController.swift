@@ -596,7 +596,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "AddRepeatSegue" {
+        if segue.identifier == "NewRepeatSegue" {
             let dest = segue.destinationViewController as! AddAlarmRepeatTableViewController
             dest.selectedRepeats = repeatData
         }
@@ -760,12 +760,17 @@ class AddAlarmRepeatTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         repeatDoneButton.enabled = true
-        loadSelectedRepeats()
+        print(selectedRepeats)
+        //loadSelectedRepeats(self.tableView)
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("AddAlarmRepeatCellView", forIndexPath: indexPath) as! AddRepeatTableCellView
         cell.repeatTypeLabel.text = RepeatMacros[indexPath.row].description
+        if selectedRepeats.contains(RepeatMacros[indexPath.row]) {
+            cell.isChecked = true
+            cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+        }
         return cell
     }
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -826,53 +831,7 @@ class AddAlarmRepeatTableViewController: UITableViewController {
         }
         
     }
-    
-    func loadSelectedRepeats() {
-        for aRepeat in RepeatMacros {
-            if selectedRepeats.contains(aRepeat) {
-                let view = self.view as! UITableView
-                
-                switch aRepeat {
-                    case .None:
-                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 0)) as! AddRepeatTableCellView
-                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
-                    break
-                    case .Monday:
-                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 1)) as! AddRepeatTableCellView
-                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
-                    break
-                    case .Tuesday:
-                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 2)) as! AddRepeatTableCellView
-                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
-                    break
-                    case .Wednesday:
-                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 3)) as! AddRepeatTableCellView
-                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
-                    break
-                    case .Thursday:
-                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 4)) as! AddRepeatTableCellView
-                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
-                    break
-                    case .Friday:
-                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 5)) as! AddRepeatTableCellView
-                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
-                    break
-                    case .Saturday:
-                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 6)) as! AddRepeatTableCellView
-                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
-                    break
-                    case .Sunday:
-                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 7)) as! AddRepeatTableCellView
-                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
-                    break
-                    case .Everyday:
-                        let aCell = view.cellForRowAtIndexPath(NSIndexPath(index: 8)) as! AddRepeatTableCellView
-                        aCell.accessoryType = UITableViewCellAccessoryType.Checkmark
-                    break
-                }
-            }
-        }
-    }
+  
     
     @IBAction func commitRepeats(sender: AnyObject) {
         let sortedRepeats = sortRepeatArray(selectedRepeats)
