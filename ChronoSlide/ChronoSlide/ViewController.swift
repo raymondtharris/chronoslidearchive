@@ -293,7 +293,7 @@ class AlarmTableViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "EditSegue" {
             let destination = segue.destinationViewController as! EditAlarmViewController
-            let tView = self.view as! UITableView
+            //let tView = self.view as! UITableView
             let indexPath = selectedIndexPath
             let tappedAlarm = ChronoAlarms[indexPath]
             destination.alarmToEdit = tappedAlarm
@@ -429,22 +429,25 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
             let scrollViewFrame = self.scrollView.frame
             let tempHeight =  scrollViewFrame.height - scrollHeight!
             //set new Frame
-            scrollView.contentOffset.y = tempHeight
+            scrollView.contentOffset.y = 0
             print(tempHeight)
             break
         case alarmNameTextField:
             toolbar.items![0].enabled = true
             toolbar.items![1].enabled = false
+            let scrollHeight = alarmTimeTextField.inputView?.frame.height
+            let scrollViewFrame = self.scrollView.frame
+            let tempHeight =  scrollViewFrame.height - scrollHeight!
+            //set new Frame
+            scrollView.contentOffset.y = tempHeight
+            print(tempHeight)
+
             break
         default:
             break
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        
-    }
-
     
     func doneButtonAction(sender: AnyObject){
         //print("done")
@@ -1310,12 +1313,16 @@ class EditAlarmRepeatTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         repeatDoneButton.enabled = true
-        loadRepeats()
+        //loadRepeats()
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("EditAlarmRepeatCellView", forIndexPath: indexPath) as! EditRepeatTableCellView
         cell.repeatTypeLabel.text = RepeatMacros[indexPath.row].description
+        if selectedRepeats.contains(RepeatMacros[indexPath.row]) {
+            cell.isChecked = true
+            cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+        }
         return cell
     }
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

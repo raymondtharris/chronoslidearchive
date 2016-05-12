@@ -652,7 +652,7 @@
                                             <rect key="frame" x="327" y="513" width="46" height="30"/>
                                         </variation>
                                         <connections>
-                                            <segue destination="tNh-xU-MO1" kind="show" id="MUI-Rh-eWf"/>
+                                            <segue destination="tNh-xU-MO1" kind="show" identifier="EditRepeatSegue" id="MUI-Rh-eWf"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rEt-Yr-gKF">
