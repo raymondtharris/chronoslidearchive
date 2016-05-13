@@ -340,8 +340,8 @@ class AlarmTableCellView: UITableViewCell {
 }
 
 
-//MARK: - ADD ALARMS
-
+//MARK: - ADD
+//MARK: ALARMS
 let AddingSongNotification:String = "AddingSongNotification"
 let AddingRepeatsNotification:String = "AddingRepeatsNotification"
 
@@ -611,7 +611,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
 
 
 
-//TODO: - ADD ChosenSongView
+//MARK: SONGS
 
 class AddSongsTableViewController: UITableViewController {
     let mediaLibrary: MPMediaLibrary = MPMediaLibrary.defaultMediaLibrary()
@@ -753,7 +753,7 @@ class AddSongTableCellView: UITableViewCell {
     
 }
 
-// MARK: ADD Repeat
+// MARK: REPEAT
 
 class AddAlarmRepeatTableViewController: UITableViewController {
     
@@ -855,7 +855,8 @@ class AddRepeatTableCellView: UITableViewCell {
 
 
 
-// MARK: - EDIT ALARMS
+// MARK: - EDIT
+// MARK: ALARMS
 
 let UpdatingRepeatsNotification:String = "UpdatingRepeatsNotification"
 let UpdatingSongNotification:String = "UpdatingSongNotification"
@@ -914,6 +915,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         buildArrays()
         updateAlarmButton.enabled = false
         alarmTimeTextField.text = alarmToEdit.alarmHour.description + ":" + alarmToEdit.alarmMinute.description
+        alarmNameTextField.text = alarmToEdit.alarmName
         scrollView.contentSize.height = 800
         
         timePicker.delegate = self
@@ -934,7 +936,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditAlarmViewController.updateRepeat(_:)), name: UpdatingRepeatsNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditAlarmViewController.updateSong(_:)), name: UpdatingSongNotification, object: nil)
-        
+        print(alarmToEdit)
     }
     
     func buildToolbar() -> UIToolbar{
@@ -1157,7 +1159,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "EditRepetSegue" {
+        if segue.identifier == "EditRepeatSegue" {
             let destController = segue.destinationViewController as! EditAlarmRepeatTableViewController
             destController.selectedRepeats = alarmToEdit.alarmRepeat
         } else if segue.identifier == "EditSongSegue" {
@@ -1313,6 +1315,7 @@ class EditAlarmRepeatTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         repeatDoneButton.enabled = true
+        print(selectedRepeats)
         //loadRepeats()
     }
     
@@ -1410,7 +1413,7 @@ class EditAlarmRepeatTableViewController: UITableViewController {
                 selectedRepeats.append(tapped)
             }
             tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
-            let noneOption = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! AddRepeatTableCellView
+            let noneOption = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! EditRepeatTableCellView
             noneOption.accessoryType = UITableViewCellAccessoryType.None
         }
     }
@@ -1418,7 +1421,7 @@ class EditAlarmRepeatTableViewController: UITableViewController {
     func clearTableView(){
         let view = self.tableView
         for anIndex in 0..<RepeatMacros.count  {
-            let current =  view.cellForRowAtIndexPath(NSIndexPath(forRow: anIndex, inSection: 0)) as! AddRepeatTableCellView
+            let current =  view.cellForRowAtIndexPath(NSIndexPath(forRow: anIndex, inSection: 0)) as! EditRepeatTableCellView
             current.accessoryType = UITableViewCellAccessoryType.None
         }
     }
