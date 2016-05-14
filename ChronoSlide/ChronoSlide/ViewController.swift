@@ -68,7 +68,7 @@ class AlarmTableViewController: UITableViewController {
         
         //Elasticity
         chronoAlarmCell.cellElasticity = UIDynamicItemBehavior(items: [chronoAlarmCell])
-        chronoAlarmCell.cellElasticity?.elasticity = 0.4
+        chronoAlarmCell.cellElasticity?.elasticity = 0.125
         chronoAlarmCell.cellAnimator?.addBehavior(chronoAlarmCell.cellElasticity!)
         
         // Gesture
@@ -214,7 +214,11 @@ class AlarmTableViewController: UITableViewController {
             if (indexPath?.row) != nil  {
                 let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
 
-                let positionDelta = gestureRecognizer.startPosition!.x - gestureRecognizer.storedPoint!.x
+                var positionDelta = gestureRecognizer.startPosition!.x - gestureRecognizer.storedPoint!.x
+                print(positionDelta)
+                if -positionDelta > 0 {
+                    positionDelta = 0
+                }
                 swipedCell.frame.origin = CGPoint(x:  -positionDelta, y: swipedCell.frame.origin.y)
                 changeAlarmToggleStress(swipedCell, currentRow: indexPath!.row, startPosition: gestureRecognizer.startPosition!.x, currentPosition: gestureRecognizer.storedPoint!.x)
             }
@@ -914,7 +918,11 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         super.viewDidLoad()
         buildArrays()
         updateAlarmButton.enabled = false
-        alarmTimeTextField.text = alarmToEdit.alarmHour.description + ":" + alarmToEdit.alarmMinute.description
+        if alarmToEdit.alarmMinute < 10 {
+            alarmTimeTextField.text = alarmToEdit.alarmHour.description + ":0" + alarmToEdit.alarmMinute.description
+        } else {
+            alarmTimeTextField.text = alarmToEdit.alarmHour.description + ":" + alarmToEdit.alarmMinute.description
+        }
         alarmNameTextField.text = alarmToEdit.alarmName
         scrollView.contentSize.height = 800
         
