@@ -579,6 +579,8 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
             alarmRepeatLabel.text = "Every " + labelString
         } else if repeatData[0] == .Everyday {
             alarmRepeatLabel.text = "Everyday"
+        } else if repeatData.contains( .None) {
+            alarmRepeatLabel.text = "No Repeat"
         } else {
             alarmRepeatLabel.text = "Every " + repeatData[0].description
         }
@@ -589,6 +591,17 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         var index = 0
         if repeatData.count == 2 {
             str = repeatData[0].description + " & " + repeatData[1].description
+            return str
+        }
+        if repeatData.count > 3 {
+            for repeatItem in repeatData {
+                if index == repeatData.count - 1 {
+                    str = str + " " + repeatItem.minDescription
+                } else {
+                    str = str + " " + repeatItem.minDescription + ","
+                }
+                index = index + 1
+            }
             return str
         }
         for repeatItem in repeatData {
@@ -1132,6 +1145,8 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
             alarmRepeatLabel.text = "Every " + labelString
         } else if alarmToEdit.alarmRepeat[0] == .Everyday {
             alarmRepeatLabel.text = "Everyday"
+        } else if alarmToEdit.alarmRepeat.contains( .None) {
+          alarmRepeatLabel.text = "No Repeat"
         } else {
             alarmRepeatLabel.text = "Every " + alarmToEdit.alarmRepeat[0].description
         }
@@ -1142,6 +1157,17 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         var index = 0
         if alarmToEdit.alarmRepeat.count == 2 {
             str = alarmToEdit.alarmRepeat[0].description + " & " + alarmToEdit.alarmRepeat[1].description
+            return str
+        }
+        if alarmToEdit.alarmRepeat.count > 3 {
+            for repeatItem in alarmToEdit.alarmRepeat {
+                if index == alarmToEdit.alarmRepeat.count - 1 {
+                    str = str + " " + repeatItem.minDescription
+                } else {
+                    str = str + " " + repeatItem.minDescription + ","
+                }
+                index = index + 1
+            }
             return str
         }
         for repeatItem in alarmToEdit.alarmRepeat {

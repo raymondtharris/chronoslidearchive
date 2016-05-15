@@ -179,7 +179,20 @@ enum repeatType: CustomStringConvertible, Equatable {
         }
         
     }
-
+    var minDescription: String {
+        switch self {
+        case .Monday: return "Mon";
+        case .Tuesday: return "Tue";
+        case .Wednesday: return "Wed";
+        case .Thursday: return "Thur";
+        case .Friday: return "Fri";
+        case .Saturday: return "Sat";
+        case .Sunday: return "Sun";
+        case .Everyday: return "Everyday";
+        case .None: return "None";
+        }
+        
+    }
 
 }
 
