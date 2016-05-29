@@ -64,6 +64,8 @@ class AlarmTableViewController: UITableViewController {
         chronoAlarmCell.boundingBox = UICollisionBehavior(items: [chronoAlarmCell])
         chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier("right", fromPoint: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y), toPoint: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height))
         chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier("left", fromPoint: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y), toPoint: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height))
+        chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier("bottom", fromPoint: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height), toPoint: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height))
+        chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier("top", fromPoint: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y), toPoint: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y))
         chronoAlarmCell.cellAnimator?.addBehavior(chronoAlarmCell.boundingBox!)
         
         //Elasticity
@@ -593,6 +595,9 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
             str = repeatData[0].description + " & " + repeatData[1].description
             return str
         }
+        if repeatData.contains(.None) {
+            return "No Repeat"
+        }
         if repeatData.count > 3 {
             for repeatItem in repeatData {
                 if index == repeatData.count - 1 {
@@ -636,7 +641,7 @@ class AddSongsTableViewController: UITableViewController {
     let mediaPlayer: MPMusicPlayerController = MPMusicPlayerController()
     var filteredSongArray:[MPMediaItem] = [MPMediaItem]()
     let searchbarController = UISearchController(searchResultsController: nil)
-    var selectedCellView: AddSongTableCellView = AddSongTableCellView()
+    var selectedCellView: SelectedSongView = SelectedSongView(frame: CGRect.zero)
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -644,13 +649,14 @@ class AddSongsTableViewController: UITableViewController {
         searchbarController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
         tableView.tableHeaderView = searchbarController.searchBar
-        tableView.setContentOffset(CGPoint(x: 0, y: searchbarController.searchBar.frame.size.height), animated: false)
+        tableView.setContentOffset(CGPoint(x: 0, y: searchbarController.searchBar.frame.size.height - 100), animated: false)
         
-        selectedCellView = AddSongTableCellView(frame: CGRect(x: 0, y: (self.navigationController?.view.frame.height)!, width: self.view.frame.width, height: 50))
+        selectedCellView = SelectedSongView(frame: CGRect(origin: CGPointMake(0, 60) , size: CGSize(width: (self.navigationController?.view.frame.width)!, height: 100 )))
         
         
         
-        self.navigationController?.navigationBar.addSubview(selectedCellView)
+        self.navigationController?.view.addSubview(selectedCellView)
+        //self.view.addSubview(selectedCellView)
         //self.navigationController?.view.bringSubviewToFront(selectedCellView)
         
     }
@@ -945,6 +951,12 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         //minutePicker.dataSource = self
         alarmTimeTextField.inputView = timePicker
         //minuteTextField.inputView = minutePicker
+        
+        if alarmToEdit.alarmSound != nil {
+            alarmSongLabel.text = alarmToEdit.alarmSound?.title!
+        } else {
+            alarmSongLabel.text = "None"
+        }
         
         
         toolbar = buildToolbar()
