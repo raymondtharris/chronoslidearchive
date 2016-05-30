@@ -577,7 +577,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     func determineRepeatLabel(){
         if repeatData.count > 1 {
-            let labelString = buildRepeatString()
+            let labelString = RepeatDataManipulation.makeRepeatString(repeatData)
             alarmRepeatLabel.text = "Every " + labelString
         } else if repeatData[0] == .Everyday {
             alarmRepeatLabel.text = "Everyday"
@@ -587,7 +587,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
             alarmRepeatLabel.text = "Every " + repeatData[0].description
         }
     }
-    
+    /*
     func buildRepeatString() -> String{
         var str = ""
         var index = 0
@@ -619,7 +619,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         }
         return str
     }
-    
+    */
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "NewRepeatSegue" {
             let dest = segue.destinationViewController as! AddAlarmRepeatTableViewController
@@ -709,12 +709,15 @@ class AddSongsTableViewController: UITableViewController {
         let location = gestureRecognizer.locationInView(self.tableView)
         let indexPath = self.tableView.indexPathForRowAtPoint(location)
         let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AddSongTableCellView
+        
         //print(songArray[indexPath!.row].title)
         print(tappedCell)
         if searchbarController.active && searchbarController.searchBar.text != "" {
             previewSong(filteredSongArray[indexPath!.row])
+            selectedCellView.selectedSongImageView.image = filteredSongArray[indexPath!.row].artwork?.imageWithSize(selectedCellView.selectedSongImageView.frame.size)
         } else {
-        previewSong(songArray[indexPath!.row])
+            previewSong(songArray[indexPath!.row])
+            selectedCellView.selectedSongImageView.image = songArray[indexPath!.row].artwork?.imageWithSize(selectedCellView.selectedSongImageView.frame.size)
         }
     }
     
@@ -1153,7 +1156,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     
     func determineRepeatLabel(){
         if alarmToEdit.alarmRepeat.count > 1 {
-            let labelString = buildRepeatString()
+            let labelString = RepeatDataManipulation.makeRepeatString(alarmToEdit.alarmRepeat)
             alarmRepeatLabel.text = "Every " + labelString
         } else if alarmToEdit.alarmRepeat[0] == .Everyday {
             alarmRepeatLabel.text = "Everyday"
@@ -1163,7 +1166,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
             alarmRepeatLabel.text = "Every " + alarmToEdit.alarmRepeat[0].description
         }
     }
-    
+    /*
     func buildRepeatString() -> String{
         var str = ""
         var index = 0
@@ -1192,7 +1195,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         }
         return str
     }
-    
+    */
     
     func updateSong(notification: NSNotification){
         //print("received")
@@ -1488,4 +1491,36 @@ class EditRepeatTableCellView: UITableViewCell {
     var isChecked: Bool = false
     
     
+}
+
+
+public class RepeatDataManipulation {
+       class func makeRepeatString(repeatData: [repeatType]) -> String {
+        var str = ""
+        var index = 0
+        if repeatData.count == 2 {
+            str = repeatData[0].description + " & " + repeatData[1].description
+            return str
+        }
+        if repeatData.count > 3 {
+            for repeatItem in repeatData {
+                if index == repeatData.count - 1 {
+                    str = str + " " + repeatItem.minDescription
+                } else {
+                    str = str + " " + repeatItem.minDescription + ","
+                }
+                index = index + 1
+            }
+            return str
+        }
+        for repeatItem in repeatData {
+            if index == repeatData.count - 1 {
+                str = str + " " + repeatItem.description
+            } else {
+                str = str + " " + repeatItem.description + ","
+            }
+            index = index + 1
+        }
+        return str
+    }
 }
