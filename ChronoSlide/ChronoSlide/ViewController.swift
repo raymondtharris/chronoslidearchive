@@ -762,6 +762,12 @@ class AddSongsTableViewController: UITableViewController {
         
     }
     
+    override func willMoveToParentViewController(parent: UIViewController?) {
+        if parent == nil {
+            selectedCellView.removeFromSuperview()
+        }
+    }
+    
 }
 
 extension AddSongsTableViewController: UISearchResultsUpdating {
