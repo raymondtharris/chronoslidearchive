@@ -361,6 +361,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Choose Song" id="vlJ-rP-Pe6"/>
+                    <connections>
+                        <outlet property="currentSongView" destination="Zez-82-9Jm" id="Krd-0H-tZQ"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NYt-ip-PPL" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <view contentMode="scaleToFill" id="Zez-82-9Jm" customClass="SelectedSongView" customModule="ChronoSlide" customModuleProvider="target">

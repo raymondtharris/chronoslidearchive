@@ -641,8 +641,10 @@ class AddSongsTableViewController: UITableViewController {
     let mediaPlayer: MPMusicPlayerController = MPMusicPlayerController()
     var filteredSongArray:[MPMediaItem] = [MPMediaItem]()
     let searchbarController = UISearchController(searchResultsController: nil)
-    var selectedCellView: SelectedSongView = SelectedSongView(frame: CGRect.zero)
+    //aaaavar selectedCellView: SelectedSongView = SelectedSongView(frame: CGRect.zero)
         
+    @IBOutlet var currentSongView: SelectedSongView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         searchbarController.searchResultsUpdater = self
@@ -651,11 +653,16 @@ class AddSongsTableViewController: UITableViewController {
         tableView.tableHeaderView = searchbarController.searchBar
         tableView.setContentOffset(CGPoint(x: 0, y: searchbarController.searchBar.frame.size.height - 100), animated: false)
         
-        selectedCellView = SelectedSongView(frame: CGRect(origin: CGPointMake(0, 60) , size: CGSize(width: (self.navigationController?.view.frame.width)!, height: 100 )))
+        //selectedCellView = SelectedSongView(frame: CGRect(origin: CGPointMake(0, 60) , size: CGSize(width: (self.navigationController?.view.frame.width)!, height: 100 )))
         
         
+        //print(selectedCellView.selectedSongTitle.text)
+        //self.navigationController?.view.addSubview(selectedCellView)
         
-        self.navigationController?.view.addSubview(selectedCellView)
+        self.navigationController?.view.addSubview(currentSongView)
+        currentSongView.frame = CGRect(origin: CGPointMake(0, 60) , size: CGSize(width: (self.navigationController?.view.frame.width)!, height: 110 ))
+        currentSongView.selectedSongTitle.text = "what"
+        
         //self.view.addSubview(selectedCellView)
         //self.navigationController?.view.bringSubviewToFront(selectedCellView)
         
@@ -714,11 +721,17 @@ class AddSongsTableViewController: UITableViewController {
         print(tappedCell)
         if searchbarController.active && searchbarController.searchBar.text != "" {
             previewSong(filteredSongArray[indexPath!.row])
-            selectedCellView.selectedSongImageView.image = filteredSongArray[indexPath!.row].artwork?.imageWithSize(selectedCellView.selectedSongImageView.frame.size)
+            currentSongView.updateViewWithMediaItem(filteredSongArray[indexPath!.row])
+            //currentSongView.selectedSongImageView.image = filteredSongArray[indexPath!.row].artwork?.imageWithSize(currentSongView.selectedSongImageView.frame.size)
         } else {
             previewSong(songArray[indexPath!.row])
-            selectedCellView.selectedSongImageView.image = songArray[indexPath!.row].artwork?.imageWithSize(selectedCellView.selectedSongImageView.frame.size)
+            currentSongView.updateViewWithMediaItem(songArray[indexPath!.row])
+            //currentSongView.selectedSongImageView.image = songArray[indexPath!.row].artwork?.imageWithSize(currentSongView.selectedSongImageView.frame.size)
         }
+    }
+    
+    func updateSelectedView(selectedSong: MPMediaItem) {
+        
     }
     
     func chooseSong(gestureRecognizer: UIGestureRecognizer){
@@ -764,7 +777,7 @@ class AddSongsTableViewController: UITableViewController {
     
     override func willMoveToParentViewController(parent: UIViewController?) {
         if parent == nil {
-            selectedCellView.removeFromSuperview()
+            currentSongView.removeFromSuperview()
         }
     }
     
