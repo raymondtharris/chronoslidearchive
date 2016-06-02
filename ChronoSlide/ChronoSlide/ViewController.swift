@@ -641,8 +641,8 @@ class AddSongsTableViewController: UITableViewController {
     let mediaPlayer: MPMusicPlayerController = MPMusicPlayerController()
     var filteredSongArray:[MPMediaItem] = [MPMediaItem]()
     let searchbarController = UISearchController(searchResultsController: nil)
-    //aaaavar selectedCellView: SelectedSongView = SelectedSongView(frame: CGRect.zero)
-        
+    var selectedSong: MPMediaItem? = nil
+    
     @IBOutlet var currentSongView: SelectedSongView!
     
     override func viewDidLoad() {
@@ -651,7 +651,7 @@ class AddSongsTableViewController: UITableViewController {
         searchbarController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
         tableView.tableHeaderView = searchbarController.searchBar
-        tableView.setContentOffset(CGPoint(x: 0, y: searchbarController.searchBar.frame.size.height - 100), animated: false)
+        tableView.setContentOffset(CGPoint(x: 0, y: searchbarController.searchBar.frame.size.height - 60), animated: false)
         
         //selectedCellView = SelectedSongView(frame: CGRect(origin: CGPointMake(0, 60) , size: CGSize(width: (self.navigationController?.view.frame.width)!, height: 100 )))
         
@@ -661,7 +661,9 @@ class AddSongsTableViewController: UITableViewController {
         
         self.navigationController?.view.addSubview(currentSongView)
         currentSongView.frame = CGRect(origin: CGPointMake(0, 60) , size: CGSize(width: (self.navigationController?.view.frame.width)!, height: 110 ))
-        currentSongView.selectedSongTitle.text = "what"
+        if selectedSong == nil {
+            currentSongView.hidden = true
+        }
         
         //self.view.addSubview(selectedCellView)
         //self.navigationController?.view.bringSubviewToFront(selectedCellView)
@@ -722,11 +724,18 @@ class AddSongsTableViewController: UITableViewController {
         if searchbarController.active && searchbarController.searchBar.text != "" {
             previewSong(filteredSongArray[indexPath!.row])
             currentSongView.updateViewWithMediaItem(filteredSongArray[indexPath!.row])
-            //currentSongView.selectedSongImageView.image = filteredSongArray[indexPath!.row].artwork?.imageWithSize(currentSongView.selectedSongImageView.frame.size)
+            if selectedSong == nil {
+                displaySelectedView()
+            }
+            selectedSong = filteredSongArray[indexPath!.row]
         } else {
             previewSong(songArray[indexPath!.row])
             currentSongView.updateViewWithMediaItem(songArray[indexPath!.row])
-            //currentSongView.selectedSongImageView.image = songArray[indexPath!.row].artwork?.imageWithSize(currentSongView.selectedSongImageView.frame.size)
+            if selectedSong == nil {
+                displaySelectedView()
+            }
+            selectedSong = songArray[indexPath!.row]
+            
         }
     }
     
@@ -779,6 +788,11 @@ class AddSongsTableViewController: UITableViewController {
         if parent == nil {
             currentSongView.removeFromSuperview()
         }
+    }
+    
+    func displaySelectedView() -> Void {
+        currentSongView.hidden = false
+        self.tableView.contentOffset.y = 100
     }
     
 }
