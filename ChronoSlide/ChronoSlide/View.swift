@@ -25,7 +25,7 @@ class SelectedSongView: UIView{
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.backgroundColor = UIColor.blueColor()
+        //self.backgroundColor = UIColor.blueColor()
         self.selectedSongImageView = UIImageView(frame: frame)
         self.selectedSongTitle = UILabel(frame: frame)
         self.selectedSongArtitst = UILabel(frame: frame)
@@ -37,6 +37,6 @@ class SelectedSongView: UIView{
         self.selectedSongImageView.image = mediaItem.artwork?.imageWithSize(self.selectedSongImageView.frame.size)
         self.selectedSongTitle.text = mediaItem.title!
         self.selectedSongArtitst.text = mediaItem.artist!
-        self.selectedSongDuration.text = mediaItem.playbackDuration.description
+        self.selectedSongDuration.text = SongDataManipulation.makeDurationString(mediaItem)
     }
 }

@@ -739,9 +739,6 @@ class AddSongsTableViewController: UITableViewController {
         }
     }
     
-    func updateSelectedView(selectedSong: MPMediaItem) {
-        
-    }
     
     func chooseSong(gestureRecognizer: UIGestureRecognizer){
         print("Choose Song")
@@ -1555,5 +1552,17 @@ public class RepeatDataManipulation {
             index = index + 1
         }
         return str
+    }
+}
+
+public class SongDataManipulation {
+    class func makeDurationString(song: MPMediaItem) -> String{
+        var returnString = ""
+        let mins = song.playbackDuration/60
+        let leftOver = song.playbackDuration - mins*60
+        let secs = leftOver
+        returnString = mins.description + ":" + secs.description
+        
+        return returnString
     }
 }
