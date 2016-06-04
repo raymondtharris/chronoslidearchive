@@ -1558,11 +1558,16 @@ public class RepeatDataManipulation {
 public class SongDataManipulation {
     class func makeDurationString(song: MPMediaItem) -> String{
         var returnString = ""
-        let mins = song.playbackDuration/60
-        let leftOver = song.playbackDuration - mins*60
-        let secs = leftOver
-        returnString = mins.description + ":" + secs.description
-        
+        print(song.playbackDuration)
+        let mins = Int(song.playbackDuration/60)
+        print(mins)
+        //let leftOver = song.playbackDuration - mins*60
+        let secs = Int(song.playbackDuration%60)
+        if secs < 10 {
+            returnString = mins.description + ":0" + secs.description
+        } else {
+            returnString = mins.description + ":" + secs.description
+        }
         return returnString
     }
 }
