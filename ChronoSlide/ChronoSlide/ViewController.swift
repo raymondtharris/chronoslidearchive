@@ -660,7 +660,11 @@ class AddSongsTableViewController: UITableViewController {
         //self.navigationController?.view.addSubview(selectedCellView)
         
         self.navigationController?.view.addSubview(currentSongView)
-        currentSongView.frame = CGRect(origin: CGPointMake(0, 60) , size: CGSize(width: (self.navigationController?.view.frame.width)!, height: 110 ))
+        currentSongView.frame = CGRect(origin: CGPointMake(0, 62) , size: CGSize(width: self.tableView.frame.width , height: 110 ))
+       
+
+        
+        
         if selectedSong == nil {
             currentSongView.hidden = true
         }
@@ -789,6 +793,7 @@ class AddSongsTableViewController: UITableViewController {
     
     func displaySelectedView() -> Void {
         currentSongView.hidden = false
+        //self.navigationController?.view.frame = CGRect(origin: (self.navigationController?.view.frame.origin)!, size: CGSize(width: (self.navigationController?.view.frame.width)!, height: (self.navigationController?.view.frame.height)! + 110 ))
         self.tableView.contentOffset.y = 100
     }
     

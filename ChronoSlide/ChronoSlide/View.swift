@@ -19,13 +19,15 @@ class SelectedSongView: UIView{
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        //self.backgroundColor = UIColor.blueColor()
         
+        //self.backgroundColor = UIColor.blueColor()
+        /*
         let bounds = self.bounds as CGRect!
         let visEffect = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
         visEffect.frame = bounds
         visEffect.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         self.addSubview(visEffect)
+ */
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -35,11 +37,11 @@ class SelectedSongView: UIView{
         self.selectedSongTitle = UILabel(frame: frame)
         self.selectedSongArtitst = UILabel(frame: frame)
         self.selectedSongDuration = UILabel(frame: frame)
-        let bounds = self.bounds as CGRect!
+        
         let visEffect = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
-        visEffect.frame = bounds
-        visEffect.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        visEffect.frame =  self.bounds as CGRect!
         self.addSubview(visEffect)
+        self.sendSubviewToBack(visEffect)
     }
     
     
@@ -49,4 +51,7 @@ class SelectedSongView: UIView{
         self.selectedSongArtitst.text = mediaItem.artist!
         self.selectedSongDuration.text = SongDataManipulation.makeDurationString(mediaItem)
     }
+    
+
+    
 }
