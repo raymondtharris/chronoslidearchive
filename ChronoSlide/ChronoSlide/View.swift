@@ -38,10 +38,7 @@ class SelectedSongView: UIView{
         self.selectedSongArtitst = UILabel(frame: frame)
         self.selectedSongDuration = UILabel(frame: frame)
         
-        let visEffect = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
-        visEffect.frame =  self.bounds as CGRect!
-        self.addSubview(visEffect)
-        self.sendSubviewToBack(visEffect)
+       
     }
     
     

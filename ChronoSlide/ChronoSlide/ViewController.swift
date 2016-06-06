@@ -645,6 +645,10 @@ class AddSongsTableViewController: UITableViewController {
     
     @IBOutlet var currentSongView: SelectedSongView!
     
+    @IBOutlet var songsTableView: UITableView!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         searchbarController.searchResultsUpdater = self
@@ -660,9 +664,12 @@ class AddSongsTableViewController: UITableViewController {
         //self.navigationController?.view.addSubview(selectedCellView)
         
         self.navigationController?.view.addSubview(currentSongView)
-        currentSongView.frame = CGRect(origin: CGPointMake(0, 62) , size: CGSize(width: self.tableView.frame.width , height: 110 ))
-       
-
+        currentSongView.frame = CGRect(origin: CGPointMake(0, 62) , size: CGSize(width: (self.navigationController?.view.frame.width)! , height: 110 ))
+        let visEffect = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
+        visEffect.frame = CGRect(origin: CGPointMake(0, 0) , size: CGSize(width: (self.navigationController?.view.frame.width)!, height: 110 ))
+        visEffect.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        currentSongView.addSubview(visEffect)
+        currentSongView.sendSubviewToBack(visEffect)
         
         
         if selectedSong == nil {
@@ -688,6 +695,7 @@ class AddSongsTableViewController: UITableViewController {
     }
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("AddAlarmSongCell", forIndexPath: indexPath) as! AddSongTableCellView
+        /*
         if searchbarController.active && searchbarController.searchBar.text != "" {
             cell.alarmSongTextLabel.text = filteredSongArray[indexPath.row].title!
             cell.alarmSongImageView.image = filteredSongArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
@@ -696,7 +704,7 @@ class AddSongsTableViewController: UITableViewController {
             cell.alarmSongImageView.image = songArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
         }
         cell.alarmSongImageView.userInteractionEnabled = true
-
+        
         // Choose Song Gesture
         let chooseGesture = UITapGestureRecognizer.init(target: self, action: #selector(AddSongsTableViewController.chooseSong(_:)))
         self.view.addGestureRecognizer(chooseGesture)
@@ -704,9 +712,26 @@ class AddSongsTableViewController: UITableViewController {
         // Preview Song Gesutre
         let previewGesture = UITapGestureRecognizer.init(target: self, action: #selector(AddSongsTableViewController.togglePreview(_:)))
         cell.alarmSongImageView.addGestureRecognizer(previewGesture)
-        
+        */
         return cell
     }
+    
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        let songCell = cell as! AddSongTableCellView
+        if searchbarController.active && searchbarController.searchBar.text != "" {
+            songCell.alarmSongTextLabel.text = filteredSongArray[indexPath.row].title!
+            songCell.alarmSongImageView.image = filteredSongArray[indexPath.row].artwork?.imageWithSize(songCell.alarmSongImageView.frame.size)
+        } else {
+            songCell.alarmSongTextLabel.text = songArray[indexPath.row].title!
+            songCell.alarmSongImageView.image = songArray[indexPath.row].artwork?.imageWithSize(songCell.alarmSongImageView.frame.size)
+        }
+        songCell.alarmSongImageView.userInteractionEnabled = true
+        
+        // Choose Song Gesture
+        let chooseGesture = UITapGestureRecognizer.init(target: self, action: #selector(AddSongsTableViewController.togglePreview(_:)))
+        self.view.addGestureRecognizer(chooseGesture)
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchbarController.active && searchbarController.searchBar.text != "" {
             //print(filteredSongArray.count)
@@ -793,9 +818,19 @@ class AddSongsTableViewController: UITableViewController {
     
     func displaySelectedView() -> Void {
         currentSongView.hidden = false
-        //self.navigationController?.view.frame = CGRect(origin: (self.navigationController?.view.frame.origin)!, size: CGSize(width: (self.navigationController?.view.frame.width)!, height: (self.navigationController?.view.frame.height)! + 110 ))
-        self.tableView.contentOffset.y = 100
+        //self.navigationController?.view.frame = CGRect(origin: (self.navigationController?.view.frame.origin)!, size: CGSize(width: (self.navigationController?.view.frame.width)!, height: 170))
+        //let currentFrame = self.tableView.frame
+        songsTableView.contentInset = UIEdgeInsets(top: 170, left: 0, bottom: 0, right: 0)
     }
+    
+    
+    
+    @IBAction func doneSongAction(sender: AnyObject) {
+        let songDictionary:[String: MPMediaItem] = ["songItem": selectedSong!]
+        NSNotificationCenter.defaultCenter().postNotificationName(AddingSongNotification, object: self, userInfo: songDictionary)
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
     
 }
 

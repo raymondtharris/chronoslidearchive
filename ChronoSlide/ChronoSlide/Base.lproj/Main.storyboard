@@ -360,9 +360,16 @@
                             <outlet property="delegate" destination="Rwp-vg-Bn3" id="pIN-YA-XAj"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Choose Song" id="vlJ-rP-Pe6"/>
+                    <navigationItem key="navigationItem" title="Choose Song" id="vlJ-rP-Pe6">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="sMv-c4-jHS">
+                            <connections>
+                                <action selector="doneSongAction:" destination="Rwp-vg-Bn3" id="YgY-RV-EHz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="currentSongView" destination="Zez-82-9Jm" id="Krd-0H-tZQ"/>
+                        <outlet property="songsTableView" destination="JyE-ee-NV0" id="JG2-pu-lNg"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NYt-ip-PPL" userLabel="First Responder" sceneMemberID="firstResponder"/>
