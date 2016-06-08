@@ -696,20 +696,38 @@ class AddSongsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("AddAlarmSongCell", forIndexPath: indexPath) as! AddSongTableCellView
         
-        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)
+        if self.searchbarController.active && self.searchbarController.searchBar.text != "" {
+            cell.alarmSongTextLabel.text = self.filteredSongArray[indexPath.row].title!
+            //cell.alarmSongImageView.image = self.filteredSongArray[x.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
+        } else {
+            cell.alarmSongTextLabel.text = self.songArray[indexPath.row].title!
+            //cell.alarmSongImageView.image = self.songArray[x.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
+        }
+        cell.alarmSongImageView.userInteractionEnabled = true
+        
+        // Choose Song Gesture
+        let chooseGesture = UITapGestureRecognizer.init(target: self, action: #selector(AddSongsTableViewController.togglePreview(_:)))
+        self.view.addGestureRecognizer(chooseGesture)
+        
+        
+        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
         dispatch_async(queue)  { [x = indexPath] in
-            if self.searchbarController.active && self.searchbarController.searchBar.text != "" {
-                cell.alarmSongTextLabel.text = self.filteredSongArray[x.row].title!
-                cell.alarmSongImageView.image = self.filteredSongArray[x.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
-            } else {
-                cell.alarmSongTextLabel.text = self.songArray[x.row].title!
-                cell.alarmSongImageView.image = self.songArray[x.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
-            }
-            cell.alarmSongImageView.userInteractionEnabled = true
             
-            // Choose Song Gesture
-            let chooseGesture = UITapGestureRecognizer.init(target: self, action: #selector(AddSongsTableViewController.togglePreview(_:)))
-            self.view.addGestureRecognizer(chooseGesture)
+            var cellImageView:UIImage?
+            
+            if self.searchbarController.active && self.searchbarController.searchBar.text != "" {
+                //cell.alarmSongTextLabel.text = self.filteredSongArray[x.row].title!
+                cellImageView = (self.filteredSongArray[x.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size))
+            } else {
+                //cell.alarmSongTextLabel.text = self.songArray[x.row].title!
+                cellImageView = (self.songArray[x.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size))
+            }
+            
+            dispatch_sync(dispatch_get_main_queue()) {
+                cell.alarmSongImageView.image = cellImageView
+            }
+            
+            
         }
         
         
