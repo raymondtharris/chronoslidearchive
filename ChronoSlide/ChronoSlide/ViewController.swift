@@ -696,6 +696,8 @@ class AddSongsTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("AddAlarmSongCell", forIndexPath: indexPath) as! AddSongTableCellView
         
+        
+        
         if self.searchbarController.active && self.searchbarController.searchBar.text != "" {
             cell.alarmSongTextLabel.text = self.filteredSongArray[indexPath.row].title!
             //cell.alarmSongImageView.image = self.filteredSongArray[x.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
@@ -772,22 +774,26 @@ class AddSongsTableViewController: UITableViewController {
         
         //print(songArray[indexPath!.row].title)
         //print(tappedCell)
-        if searchbarController.active && searchbarController.searchBar.text != "" {
-            previewSong(filteredSongArray[indexPath!.row])
-            currentSongView.updateViewWithMediaItem(filteredSongArray[indexPath!.row])
-            if selectedSong == nil {
-                displaySelectedView()
+        let queue = dispatch_get_main_queue()
+        dispatch_async(queue) {
+            if self.searchbarController.active && self.searchbarController.searchBar.text != "" {
+                self.previewSong(self.filteredSongArray[indexPath!.row])
+                self.currentSongView.updateViewWithMediaItem(self.filteredSongArray[indexPath!.row])
+                if self.selectedSong == nil {
+                    self.displaySelectedView()
+                }
+                self.selectedSong = self.filteredSongArray[indexPath!.row]
+            } else {
+                self.previewSong(self.songArray[indexPath!.row])
+                self.currentSongView.updateViewWithMediaItem(self.songArray[indexPath!.row])
+                if self.selectedSong == nil {
+                    self.displaySelectedView()
+                }
+                self.selectedSong = self.songArray[indexPath!.row]
+                
             }
-            selectedSong = filteredSongArray[indexPath!.row]
-        } else {
-            previewSong(songArray[indexPath!.row])
-            currentSongView.updateViewWithMediaItem(songArray[indexPath!.row])
-            if selectedSong == nil {
-                displaySelectedView()
-            }
-            selectedSong = songArray[indexPath!.row]
-            
         }
+        
     }
     
     
