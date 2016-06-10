@@ -632,7 +632,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
 
 
 
-
+let loadedIncrement = 100
 //MARK: SONGS
 
 class AddSongsTableViewController: UITableViewController {
@@ -642,6 +642,8 @@ class AddSongsTableViewController: UITableViewController {
     var filteredSongArray:[MPMediaItem] = [MPMediaItem]()
     let searchbarController = UISearchController(searchResultsController: nil)
     var selectedSong: MPMediaItem? = nil
+    var loadedLibrary: [MPMediaItem] = []
+    
     
     @IBOutlet var currentSongView: SelectedSongView!
     
@@ -656,6 +658,7 @@ class AddSongsTableViewController: UITableViewController {
         definesPresentationContext = true
         tableView.tableHeaderView = searchbarController.searchBar
         tableView.setContentOffset(CGPoint(x: 0, y: searchbarController.searchBar.frame.size.height - 60), animated: false)
+        loadedLibrary = Array<MPMediaItem>(songArray[0..<100])
         
         //selectedCellView = SelectedSongView(frame: CGRect(origin: CGPointMake(0, 60) , size: CGSize(width: (self.navigationController?.view.frame.width)!, height: 100 )))
         
@@ -764,6 +767,18 @@ class AddSongsTableViewController: UITableViewController {
         return songArray.count
     }
     
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        super.scrollViewDidScroll(scrollView)
+        //Check if we are close to top of bounds or bottom
+        
+        // Swap in new data
+        
+        
+        //reload With new info
+        dispatch_sync(dispatch_get_main_queue()) {
+            self.songsTableView.reloadData()
+        }
+    }
     
     
     func togglePreview(gestureRecognizer: UIGestureRecognizer){
