@@ -633,6 +633,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
 
 
 let loadedIncrement = 100
+
 //MARK: SONGS
 
 class AddSongsTableViewController: UITableViewController {
@@ -643,7 +644,9 @@ class AddSongsTableViewController: UITableViewController {
     let searchbarController = UISearchController(searchResultsController: nil)
     var selectedSong: MPMediaItem? = nil
     var loadedLibrary: [MPMediaItem] = []
-    
+    var lowerBound: Int = 0
+    var upperBound: Int = loadedIncrement
+    var isLoading = false
     
     @IBOutlet var currentSongView: SelectedSongView!
     
@@ -659,7 +662,7 @@ class AddSongsTableViewController: UITableViewController {
         tableView.tableHeaderView = searchbarController.searchBar
         tableView.setContentOffset(CGPoint(x: 0, y: searchbarController.searchBar.frame.size.height - 60), animated: false)
         loadedLibrary = Array<MPMediaItem>(songArray[0..<100])
-        
+        print(loadedLibrary)
         //selectedCellView = SelectedSongView(frame: CGRect(origin: CGPointMake(0, 60) , size: CGSize(width: (self.navigationController?.view.frame.width)!, height: 100 )))
         
         
@@ -705,7 +708,7 @@ class AddSongsTableViewController: UITableViewController {
             cell.alarmSongTextLabel.text = self.filteredSongArray[indexPath.row].title!
             //cell.alarmSongImageView.image = self.filteredSongArray[x.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
         } else {
-            cell.alarmSongTextLabel.text = self.songArray[indexPath.row].title!
+            cell.alarmSongTextLabel.text = loadedLibrary[indexPath.row].title!
             //cell.alarmSongImageView.image = self.songArray[x.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
         }
         cell.alarmSongImageView.userInteractionEnabled = true
@@ -764,20 +767,37 @@ class AddSongsTableViewController: UITableViewController {
             //print(filteredSongArray.count)
             return filteredSongArray.count
         }
-        return songArray.count
+        return loadedLibrary.count
     }
     
     override func scrollViewDidScroll(scrollView: UIScrollView) {
-        super.scrollViewDidScroll(scrollView)
-        //Check if we are close to top of bounds or bottom
+        //super.scrollViewDidScroll(scrollView)
+        let currentOffset = scrollView.contentOffset.y
+        let maxOffset = scrollView.contentSize.height - scrollView.frame.size.height
         
+        
+        if !isLoading && (maxOffset - currentOffset <= 100.0) {
+            print("load")
+        }
+        //Check if we are close to top of bounds or bottom
+        /*
+        if !isLoading && (maxOffset - currentOffset <= 100.0) {
+            self.isLoading = true
+            dispatch_sync(dispatch_get_main_queue()) {
+                self.lowerBound += loadedIncrement
+                self.upperBound += loadedIncrement
+                self.loadedLibrary = Array<MPMediaItem>(self.songArray[self.lowerBound..<self.upperBound])
+                self.songsTableView.reloadData()
+                self.isLoading = false
+            }
+        }
+        
+ */
         // Swap in new data
         
         
         //reload With new info
-        dispatch_sync(dispatch_get_main_queue()) {
-            self.songsTableView.reloadData()
-        }
+        //
     }
     
     
