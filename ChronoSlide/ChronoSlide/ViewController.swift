@@ -632,7 +632,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
 
 
 
-let loadedIncrement = 100
+let loadedIncrement = 50
 
 //MARK: SONGS
 
@@ -643,7 +643,7 @@ class AddSongsTableViewController: UITableViewController {
     var filteredSongArray:[MPMediaItem] = [MPMediaItem]()
     let searchbarController = UISearchController(searchResultsController: nil)
     var selectedSong: MPMediaItem? = nil
-    var loadedLibrary: [MPMediaItem] = []
+    var loadedLibrary: [MPMediaItem] =  Array<MPMediaItem>(MPMediaQuery().items![0..<50])
     var lowerBound: Int = 0
     var upperBound: Int = loadedIncrement
     var isLoading = false
@@ -661,8 +661,7 @@ class AddSongsTableViewController: UITableViewController {
         definesPresentationContext = true
         tableView.tableHeaderView = searchbarController.searchBar
         tableView.setContentOffset(CGPoint(x: 0, y: searchbarController.searchBar.frame.size.height - 60), animated: false)
-        loadedLibrary = Array<MPMediaItem>(songArray[0..<100])
-        print(loadedLibrary)
+        print(songArray.count)
         //selectedCellView = SelectedSongView(frame: CGRect(origin: CGPointMake(0, 60) , size: CGSize(width: (self.navigationController?.view.frame.width)!, height: 100 )))
         
         
@@ -684,6 +683,10 @@ class AddSongsTableViewController: UITableViewController {
         
         //self.view.addSubview(selectedCellView)
         //self.navigationController?.view.bringSubviewToFront(selectedCellView)
+        
+        
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
         
     }
     
@@ -728,7 +731,7 @@ class AddSongsTableViewController: UITableViewController {
                 cellImageView = (self.filteredSongArray[x.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size))
             } else {
                 //cell.alarmSongTextLabel.text = self.songArray[x.row].title!
-                cellImageView = (self.songArray[x.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size))
+                cellImageView = (self.loadedLibrary[x.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size))
             }
             
             dispatch_sync(dispatch_get_main_queue()) {
@@ -776,28 +779,45 @@ class AddSongsTableViewController: UITableViewController {
         let maxOffset = scrollView.contentSize.height - scrollView.frame.size.height
         
         
-        if !isLoading && (maxOffset - currentOffset <= 100.0) {
-            print("load")
-        }
+ 
         //Check if we are close to top of bounds or bottom
-        /*
+        
         if !isLoading && (maxOffset - currentOffset <= 100.0) {
-            self.isLoading = true
-            dispatch_sync(dispatch_get_main_queue()) {
+             print("load")
+            //print(songArray.count)
+            let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+            dispatch_async(queue) {
+                self.isLoading = true
                 self.lowerBound += loadedIncrement
+                
                 self.upperBound += loadedIncrement
-                self.loadedLibrary = Array<MPMediaItem>(self.songArray[self.lowerBound..<self.upperBound])
-                self.songsTableView.reloadData()
-                self.isLoading = false
+                if self.upperBound > self.songArray.count {
+                    self.upperBound = self.songArray.count
+                }
+                let swapData = self.songArray[(self.lowerBound)..<(self.upperBound)]
+                var swapArray:[MPMediaItem] = [MPMediaItem]()
+                swapArray.appendContentsOf(swapData)
+                print(self.loadedLibrary)
+                self.loadMoreData(&self.loadedLibrary, newData: swapArray)
+                dispatch_sync(dispatch_get_main_queue()) {
+                    self.songsTableView.reloadData()
+                    self.isLoading = false
+                }
             }
+            
         }
         
- */
+ 
         // Swap in new data
         
         
         //reload With new info
         //
+    }
+    
+    func loadMoreData(inout dataSource: [MPMediaItem], newData:[MPMediaItem]) {
+        print(dataSource)
+        dataSource = newData
     }
     
     
