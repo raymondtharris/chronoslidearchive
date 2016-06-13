@@ -647,6 +647,7 @@ class AddSongsTableViewController: UITableViewController {
     var lowerBound: Int = 0
     var upperBound: Int = loadedIncrement
     var isLoading = false
+    var lastOffset: CGFloat = 0
     
     @IBOutlet var currentSongView: SelectedSongView!
     
@@ -773,18 +774,33 @@ class AddSongsTableViewController: UITableViewController {
         return loadedLibrary.count
     }
     
+    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        lastOffset = scrollView.contentOffset.y
+    }
+    
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         //super.scrollViewDidScroll(scrollView)
         let currentOffset = scrollView.contentOffset.y
-        let maxOffset = scrollView.contentSize.height - scrollView.frame.size.height
         
         
+        if currentOffset < lastOffset {
+            print("up")
+            let minOffset = scrollView.contentSize.height - scrollView.frame.size.height
+            if !isLoading && (minOffset - currentOffset >= 100.0) {
+                print("load lower")
+            }
+        } else if currentOffset > lastOffset {
+            print("down")
+            let maxOffset = scrollView.contentSize.height - scrollView.frame.size.height
+            if !isLoading && (maxOffset - currentOffset <= 100.0) {
+                print("load higher")
+            }
+            
+        }
  
         //Check if we are close to top of bounds or bottom
-        
+        /*
         if !isLoading && (maxOffset - currentOffset <= 100.0) {
-             print("load")
-            //print(songArray.count)
             let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
             dispatch_async(queue) {
                 self.isLoading = true
@@ -793,6 +809,7 @@ class AddSongsTableViewController: UITableViewController {
                 self.upperBound += loadedIncrement
                 if self.upperBound > self.songArray.count {
                     self.upperBound = self.songArray.count
+                    self.lowerBound = self.upperBound - loadedIncrement
                 }
                 let swapData = self.songArray[(self.lowerBound)..<(self.upperBound)]
                 var swapArray:[MPMediaItem] = [MPMediaItem]()
@@ -807,7 +824,7 @@ class AddSongsTableViewController: UITableViewController {
             
         }
         
- 
+        */
         // Swap in new data
         
         
@@ -825,7 +842,7 @@ class AddSongsTableViewController: UITableViewController {
         //print("toggle Preview")
         let location = gestureRecognizer.locationInView(self.tableView)
         let indexPath = self.tableView.indexPathForRowAtPoint(location)
-        let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AddSongTableCellView
+        //let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AddSongTableCellView
         
         //print(songArray[indexPath!.row].title)
         //print(tappedCell)
@@ -856,7 +873,7 @@ class AddSongsTableViewController: UITableViewController {
         //print("Choose Song")
         let location = gestureRecognizer.locationInView(self.tableView)
         let indexPath = self.tableView.indexPathForRowAtPoint(location)
-        let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AddSongTableCellView
+        //let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AddSongTableCellView
         //print(songArray[indexPath!.row].albumTitle)
         //print(tappedCell)
         var songDictionary:[String: MPMediaItem]
