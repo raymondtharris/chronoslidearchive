@@ -788,12 +788,44 @@ class AddSongsTableViewController: UITableViewController {
             let minOffset = scrollView.contentSize.height - scrollView.frame.size.height
             if !isLoading && (minOffset - currentOffset >= 100.0) {
                 print("load lower")
+                /*isLoading = true
+                lowerBound -= loadedIncrement
+                if lowerBound < 0 {
+                    lowerBound = 0
+                }
+                upperBound = lowerBound + loadedIncrement + 7
+                if upperBound > songArray.count {
+                    upperBound = songArray.count - 1
+                }
+                let swapData = songArray[(lowerBound)..<(upperBound)]
+                var swapArray:[MPMediaItem] = [MPMediaItem]()
+                swapArray.appendContentsOf(swapData)
+                loadedLibrary = swapArray
+                self.songsTableView.reloadData()
+                self.isLoading = false
+                */
             }
         } else if currentOffset > lastOffset {
             print("down")
             let maxOffset = scrollView.contentSize.height - scrollView.frame.size.height
             if !isLoading && (maxOffset - currentOffset <= 100.0) {
                 print("load higher")
+                isLoading = true
+                upperBound += loadedIncrement
+                if upperBound > songArray.count {
+                    upperBound = songArray.count - 1
+                }
+                lowerBound = upperBound - (loadedIncrement + 7)
+                if lowerBound < 0 {
+                    lowerBound = 0
+                }
+                
+                let swapData = self.songArray[(self.lowerBound)..<(self.upperBound)]
+                var swapArray:[MPMediaItem] = [MPMediaItem]()
+                swapArray.appendContentsOf(swapData)
+                loadedLibrary = swapArray
+                self.songsTableView.reloadData()
+                self.isLoading = false
             }
             
         }
