@@ -815,17 +815,24 @@ class AddSongsTableViewController: UITableViewController {
                 if upperBound > songArray.count {
                     upperBound = songArray.count - 1
                 }
-                lowerBound = upperBound - (loadedIncrement + 7)
+                lowerBound = upperBound - (loadedIncrement)
                 if lowerBound < 0 {
                     lowerBound = 0
                 }
                 
-                let swapData = self.songArray[(self.lowerBound)..<(self.upperBound)]
-                var swapArray:[MPMediaItem] = [MPMediaItem]()
-                swapArray.appendContentsOf(swapData)
-                loadedLibrary = swapArray
-                self.songsTableView.reloadData()
-                self.isLoading = false
+                let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+                dispatch_sync(queue) {
+                    self.isLoading = false
+                    let swapData = self.songArray[(self.lowerBound)..<(self.upperBound)]
+                    var swapArray:[MPMediaItem] = [MPMediaItem]()
+                    swapArray.appendContentsOf(swapData)
+                    self.loadMoreData(&self.loadedLibrary, newData: swapArray)
+                    //dispatch_sync(dispatch_get_main_queue()) {
+                        self.tableView.contentOffset.y = 0 // scrollView.frame.size.height
+                        self.songsTableView.reloadData()
+                        self.isLoading = false
+                    //}
+                }
             }
             
         }
