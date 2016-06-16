@@ -643,7 +643,7 @@ class AddSongsTableViewController: UITableViewController {
     var filteredSongArray:[MPMediaItem] = [MPMediaItem]()
     let searchbarController = UISearchController(searchResultsController: nil)
     var selectedSong: MPMediaItem? = nil
-    var loadedLibrary: [MPMediaItem] =  Array<MPMediaItem>(MPMediaQuery().items![0..<50])
+    var loadedLibrary: [MPMediaItem] =  Array<MPMediaItem>(MPMediaQuery.songsQuery().items![0..<50])
     var lowerBound: Int = 0
     var upperBound: Int = loadedIncrement
     var isLoading = false
@@ -662,7 +662,7 @@ class AddSongsTableViewController: UITableViewController {
         definesPresentationContext = true
         tableView.tableHeaderView = searchbarController.searchBar
         tableView.setContentOffset(CGPoint(x: 0, y: searchbarController.searchBar.frame.size.height - 60), animated: false)
-        print(songArray.count)
+        //print(songArray.count)
         //selectedCellView = SelectedSongView(frame: CGRect(origin: CGPointMake(0, 60) , size: CGSize(width: (self.navigationController?.view.frame.width)!, height: 100 )))
         
         
@@ -786,9 +786,9 @@ class AddSongsTableViewController: UITableViewController {
         if currentOffset < lastOffset {
             print("up")
             let minOffset = scrollView.contentSize.height - scrollView.frame.size.height
-            if !isLoading && (minOffset - currentOffset >= 100.0) {
+            if !isLoading && (currentOffset <= 100.0) {
                 print("load lower")
-                /*isLoading = true
+                isLoading = true
                 lowerBound -= loadedIncrement
                 if lowerBound < 0 {
                     lowerBound = 0
@@ -797,13 +797,16 @@ class AddSongsTableViewController: UITableViewController {
                 if upperBound > songArray.count {
                     upperBound = songArray.count - 1
                 }
+                
+                /*
                 let swapData = songArray[(lowerBound)..<(upperBound)]
                 var swapArray:[MPMediaItem] = [MPMediaItem]()
                 swapArray.appendContentsOf(swapData)
                 loadedLibrary = swapArray
                 self.songsTableView.reloadData()
+                 */
                 self.isLoading = false
-                */
+                
             }
         } else if currentOffset > lastOffset {
             print("down")
@@ -821,17 +824,19 @@ class AddSongsTableViewController: UITableViewController {
                 }
                 
                 let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-                dispatch_sync(queue) {
+                dispatch_async(queue) {
                     self.isLoading = false
-                    let swapData = self.songArray[(self.lowerBound)..<(self.upperBound)]
+                    var swapData = SongLibrary.getSongs(self.lowerBound, andUpperBound: self.upperBound)
                     var swapArray:[MPMediaItem] = [MPMediaItem]()
                     swapArray.appendContentsOf(swapData)
                     self.loadMoreData(&self.loadedLibrary, newData: swapArray)
-                    //dispatch_sync(dispatch_get_main_queue()) {
-                        self.tableView.contentOffset.y = 0 // scrollView.frame.size.height
+                    dispatch_sync(dispatch_get_main_queue()) {
+                        self.tableView.contentOffset.y = scrollView.frame.size.height - 100
                         self.songsTableView.reloadData()
                         self.isLoading = false
-                    //}
+                        swapData.removeAll()
+                        swapArray.removeAll()
+                    }
                 }
             }
             
