@@ -632,7 +632,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
 
 
 
-let loadedIncrement = 50
+let loadedIncrement = 20
 
 //MARK: SONGS
 
@@ -643,7 +643,7 @@ class AddSongsTableViewController: UITableViewController {
     var filteredSongArray:[MPMediaItem] = [MPMediaItem]()
     let searchbarController = UISearchController(searchResultsController: nil)
     var selectedSong: MPMediaItem? = nil
-    var loadedLibrary: [MPMediaItem] =  Array<MPMediaItem>(MPMediaQuery.songsQuery().items![0..<50])
+    var loadedLibrary: [MPMediaItem] =  Array<MPMediaItem>(MPMediaQuery.songsQuery().items![0..<20])
     var lowerBound: Int = 0
     var upperBound: Int = loadedIncrement
     var isLoading = false
@@ -713,7 +713,7 @@ class AddSongsTableViewController: UITableViewController {
             cell.alarmSongTextLabel.text = self.filteredSongArray[indexPath.row].title!
             //cell.alarmSongImageView.image = self.filteredSongArray[x.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
         } else {
-            print(indexPath.row)
+            //print(indexPath.row)
             cell.alarmSongTextLabel.text = loadedLibrary[indexPath.row].title!
             //cell.alarmSongImageView.image = self.songArray[x.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
         }
@@ -787,7 +787,7 @@ class AddSongsTableViewController: UITableViewController {
         
         
         if currentOffset < lastOffset {
-            print("up")
+            //print("up")
             let minOffset = scrollView.contentSize.height - scrollView.frame.size.height
             if !isLoading && (currentOffset <= 100.0)  && hasMoved {
                 print("load lower")
@@ -796,7 +796,7 @@ class AddSongsTableViewController: UITableViewController {
                 if lowerBound < 0 {
                     lowerBound = 0
                 }
-                upperBound = lowerBound + loadedIncrement + 7
+                upperBound = lowerBound + loadedIncrement
                 if upperBound > songArray.count {
                     upperBound = songArray.count
                 }
@@ -804,21 +804,22 @@ class AddSongsTableViewController: UITableViewController {
                 let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
                 dispatch_async(queue) {
                     self.isLoading = false
-                    var swapData = SongLibrary.getSongs(self.lowerBound, andUpperBound: self.upperBound)
+                    var swapData = SongLibrary.getSongsB(self.lowerBound, andUpperBound: self.upperBound)
+                    //print(swapData)
                     var swapArray:[MPMediaItem] = [MPMediaItem]()
                     swapArray.appendContentsOf(swapData)
                     self.loadMoreData(&self.loadedLibrary, newData: swapArray)
-                    dispatch_sync(dispatch_get_main_queue()) {
-                        self.tableView.contentOffset.y = 0
+                    //dispatch_sync(dispatch_get_main_queue()) {
+                        self.tableView.contentOffset.y = scrollView.contentSize.height - 120
                         self.songsTableView.reloadData()
                         self.isLoading = false
-                        swapData.removeAll()
-                        swapArray.removeAll()
-                    }
-                }
+                        //swapData.removeAll()
+                        //swapArray.removeAll()
+                    //}
+               }
             }
         } else if currentOffset > lastOffset {
-            print("down")
+            //print("down")
             let maxOffset = scrollView.contentSize.height - scrollView.frame.size.height
             if !isLoading && (maxOffset - currentOffset <= 100.0) {
                 print("load higher")
@@ -843,8 +844,8 @@ class AddSongsTableViewController: UITableViewController {
                         self.tableView.contentOffset.y = scrollView.frame.size.height - 100
                         self.songsTableView.reloadData()
                         self.isLoading = false
-                        swapData.removeAll()
-                        swapArray.removeAll()
+                        //swapData.removeAll()
+                        //swapArray.removeAll()
                     }
                 }
             }
