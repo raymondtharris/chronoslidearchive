@@ -11,7 +11,7 @@ import MediaPlayer
 import Foundation
 
 
-let RepeatMacros = [repeatType.None, repeatType.Monday, repeatType.Tuesday, repeatType.Wednesday, repeatType.Thursday, repeatType.Friday, repeatType.Saturday, repeatType.Sunday, repeatType.Everyday]
+let RepeatMacros = [repeatType.none, repeatType.monday, repeatType.tuesday, repeatType.wednesday, repeatType.thursday, repeatType.friday, repeatType.saturday, repeatType.sunday, repeatType.everyday]
 
 protocol pickerToolbar {
     func toolbar() -> UIToolbar
@@ -31,10 +31,10 @@ class AlarmTableViewController: UITableViewController {
     var ChronoAlarms: [Alarm] = [Alarm]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AlarmTableViewController.addingNewAlarm(_:)), name: AddingNewAlarmNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AlarmTableViewController.deletingAlarm(_:)), name: DeletingAlarmNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AlarmTableViewController.updatingAlarm(_:)), name: UpdatingAlarmNotification, object: nil)
+        UIApplication.shared().registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil))
+        NotificationCenter.default().addObserver(self, selector: #selector(AlarmTableViewController.addingNewAlarm(_:)), name: AddingNewAlarmNotification, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(AlarmTableViewController.deletingAlarm(_:)), name: DeletingAlarmNotification, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(AlarmTableViewController.updatingAlarm(_:)), name: UpdatingAlarmNotification, object: nil)
         
         animator = UIDynamicAnimator(referenceView: self.view)
         
@@ -42,9 +42,9 @@ class AlarmTableViewController: UITableViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor(red: 0.93, green: 0.17, blue: 0.17, alpha: 1.0)]
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let chronoAlarmCell = tableView.dequeueReusableCellWithIdentifier("alarmCell", forIndexPath: indexPath) as! AlarmTableCellView
-        let chronoAlarm = ChronoAlarms[indexPath.row]
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let chronoAlarmCell = tableView.dequeueReusableCell(withIdentifier: "alarmCell", for: indexPath) as! AlarmTableCellView
+        let chronoAlarm = ChronoAlarms[(indexPath as NSIndexPath).row]
         if chronoAlarm.alarmMinute < 10 {
             chronoAlarmCell.alamTimeLabel.text = chronoAlarm.alarmHour.description + ":0" + chronoAlarm.alarmMinute.description
         } else {
@@ -62,10 +62,10 @@ class AlarmTableViewController: UITableViewController {
         
         //Collision
         chronoAlarmCell.boundingBox = UICollisionBehavior(items: [chronoAlarmCell])
-        chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier("right", fromPoint: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y), toPoint: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height))
-        chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier("left", fromPoint: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y), toPoint: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height))
-        chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier("bottom", fromPoint: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height), toPoint: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height))
-        chronoAlarmCell.boundingBox?.addBoundaryWithIdentifier("top", fromPoint: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y), toPoint: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y))
+        chronoAlarmCell.boundingBox?.addBoundary(withIdentifier: "right", from: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y), to: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height))
+        chronoAlarmCell.boundingBox?.addBoundary(withIdentifier: "left", from: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y), to: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height))
+        chronoAlarmCell.boundingBox?.addBoundary(withIdentifier: "bottom", from: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height), to: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y + chronoAlarmCell.frame.size.height))
+        chronoAlarmCell.boundingBox?.addBoundary(withIdentifier: "top", from: CGPoint(x: -chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y), to: CGPoint(x: chronoAlarmCell.frame.size.width, y: chronoAlarmCell.frame.origin.y))
         chronoAlarmCell.cellAnimator?.addBehavior(chronoAlarmCell.boundingBox!)
         
         //Elasticity
@@ -80,13 +80,13 @@ class AlarmTableViewController: UITableViewController {
         return chronoAlarmCell
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ChronoAlarms.count
     }
     
 
-    func addingNewAlarm(notification: NSNotification){
-        let alarmDictionary = notification.userInfo!
+    func addingNewAlarm(_ notification: Notification){
+        let alarmDictionary = (notification as NSNotification).userInfo!
         //print("received")
         var createdAlarm = Alarm(newMinute: Int(alarmDictionary["alarmMinute"] as! String)!, newHour: Int(alarmDictionary["alarmHour"] as! String)!, newName: alarmDictionary["alarmName"]as! String)
         //print("1st")
@@ -120,22 +120,22 @@ class AlarmTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    func createNotificationDate(alarmHour: Int, alarmMinute: Int, alarmRepeats: [repeatType]) -> NSDate?{
-        let cal = NSCalendar.currentCalendar()
-        let calComponents = NSDateComponents()
+    func createNotificationDate(_ alarmHour: Int, alarmMinute: Int, alarmRepeats: [repeatType]) -> Date?{
+        let cal = Calendar.current()
+        var calComponents = DateComponents()
         calComponents.hour = alarmHour
         calComponents.minute = alarmMinute
         calComponents.second = 0
-        let returnDate = cal.dateFromComponents(calComponents)
+        let returnDate = cal.date(from: calComponents)
         return returnDate
     }
     
     
-    func deletingAlarm(notification: NSNotification){
-        let removeDictionary = notification.userInfo!
+    func deletingAlarm(_ notification: Notification){
+        let removeDictionary = (notification as NSNotification).userInfo!
         
         let indexToRemove = Int(removeDictionary["index"] as! String)!
-        ChronoAlarms.removeAtIndex(indexToRemove)
+        ChronoAlarms.remove(at: indexToRemove)
         
         let tableView = self.view as! UITableView
         tableView.reloadData()
@@ -143,8 +143,8 @@ class AlarmTableViewController: UITableViewController {
     
     
     
-    func updatingAlarm(notification: NSNotification){
-        let updateDictionary = notification.userInfo!
+    func updatingAlarm(_ notification: Notification){
+        let updateDictionary = (notification as NSNotification).userInfo!
         
         let rowIndex = Int(updateDictionary["alarmIndex"] as! String)!
         ChronoAlarms[rowIndex].setAlarmHour(Int(updateDictionary["alarmHour"] as! String)!)
@@ -176,23 +176,23 @@ class AlarmTableViewController: UITableViewController {
         
     }
     
-    func notificationRepeat(repeats: [repeatType]){
-        if !repeats.contains(.Everyday) && !repeats.contains(.None) {
+    func notificationRepeat(_ repeats: [repeatType]){
+        if !repeats.contains(.everyday) && !repeats.contains(.none) {
             for aRepeat in repeats {
                 switch aRepeat {
-                case .Monday:
+                case .monday:
                     break
-                case .Tuesday:
+                case .tuesday:
                     break
-                case .Wednesday:
+                case .wednesday:
                     break
-                case .Thursday:
+                case .thursday:
                     break
-                case .Friday:
+                case .friday:
                     break
-                case .Saturday:
+                case .saturday:
                     break
-                case .Sunday:
+                case .sunday:
                     break
                 default:
                     break
@@ -200,21 +200,21 @@ class AlarmTableViewController: UITableViewController {
             }
         }
     }
-    func toggleAlarm(gestureRecognizer: ChronoSwipeGesture){
-        if gestureRecognizer.state == .Began {
-            let location = gestureRecognizer.locationInView(self.tableView)
-            let indexPath = self.tableView.indexPathForRowAtPoint(location)
-            if (indexPath?.row) != nil  {
-                let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
+    func toggleAlarm(_ gestureRecognizer: ChronoSwipeGesture){
+        if gestureRecognizer.state == .began {
+            let location = gestureRecognizer.location(in: self.tableView)
+            let indexPath = self.tableView.indexPathForRow(at: location)
+            if ((indexPath as NSIndexPath?)?.row) != nil  {
+                let swipedCell = self.tableView.cellForRow(at: indexPath!) as! AlarmTableCellView
             
-                startAlarmToggleState(swipedCell, currentRow: (indexPath?.row)!)
+                startAlarmToggleState(swipedCell, currentRow: ((indexPath as NSIndexPath?)?.row)!)
             }
         }
-        if gestureRecognizer.state == .Changed {
-            let location = gestureRecognizer.locationInView(self.tableView)
-            let indexPath = self.tableView.indexPathForRowAtPoint(location)
-            if (indexPath?.row) != nil  {
-                let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
+        if gestureRecognizer.state == .changed {
+            let location = gestureRecognizer.location(in: self.tableView)
+            let indexPath = self.tableView.indexPathForRow(at: location)
+            if ((indexPath as NSIndexPath?)?.row) != nil  {
+                let swipedCell = self.tableView.cellForRow(at: indexPath!) as! AlarmTableCellView
 
                 var positionDelta = gestureRecognizer.startPosition!.x - gestureRecognizer.storedPoint!.x
                 print(positionDelta)
@@ -222,43 +222,43 @@ class AlarmTableViewController: UITableViewController {
                     positionDelta = 0
                 }
                 swipedCell.frame.origin = CGPoint(x:  -positionDelta, y: swipedCell.frame.origin.y)
-                changeAlarmToggleStress(swipedCell, currentRow: indexPath!.row, startPosition: gestureRecognizer.startPosition!.x, currentPosition: gestureRecognizer.storedPoint!.x)
+                changeAlarmToggleStress(swipedCell, currentRow: (indexPath! as NSIndexPath).row, startPosition: gestureRecognizer.startPosition!.x, currentPosition: gestureRecognizer.storedPoint!.x)
             }
         }
-        if gestureRecognizer.state == .Ended  {
-            let location = gestureRecognizer.locationInView(self.tableView)
-            let indexPath = self.tableView.indexPathForRowAtPoint(location)
-            if (indexPath?.row) != nil  {
-                let swipedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AlarmTableCellView
+        if gestureRecognizer.state == .ended  {
+            let location = gestureRecognizer.location(in: self.tableView)
+            let indexPath = self.tableView.indexPathForRow(at: location)
+            if ((indexPath as NSIndexPath?)?.row) != nil  {
+                let swipedCell = self.tableView.cellForRow(at: indexPath!) as! AlarmTableCellView
                
                 //Swipe Push
-                swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.Instantaneous)
+                swipedCell.cellPush = UIPushBehavior(items: [swipedCell], mode: UIPushBehaviorMode.instantaneous)
                 swipedCell.cellPush?.pushDirection = CGVector(dx: gestureRecognizer.velocity!.dx, dy: 0.0) //used to be -30.0
                 //print("active")
                 //print(swipedCell.cellPush?.magnitude)
                 swipedCell.cellAnimator?.addBehavior(swipedCell.cellPush!)
     
-                changeAlarmToggleState(swipedCell, currentRow: (indexPath?.row)!)
+                changeAlarmToggleState(swipedCell, currentRow: ((indexPath as NSIndexPath?)?.row)!)
                 
             }
             //animator?.addBehavior(swipedCell.cellPush!)
 
         }
         
-        if gestureRecognizer.state == .Failed || gestureRecognizer.state == .Cancelled {
-            let location = gestureRecognizer.locationInView(self.tableView)
-            let indexPath = self.tableView.indexPathForRowAtPoint(location)
-            if (indexPath?.row) != nil  {
-                selectedIndexPath = indexPath!.row
+        if gestureRecognizer.state == .failed || gestureRecognizer.state == .cancelled {
+            let location = gestureRecognizer.location(in: self.tableView)
+            let indexPath = self.tableView.indexPathForRow(at: location)
+            if ((indexPath as NSIndexPath?)?.row) != nil  {
+                selectedIndexPath = (indexPath! as NSIndexPath).row
                 print("segue")
-                self.performSegueWithIdentifier("EditSegue", sender: self)
+                self.performSegue(withIdentifier: "EditSegue", sender: self)
             }
 
         }
         
     }
     
-    func startAlarmToggleState(interactedCell: AlarmTableCellView, currentRow: Int) -> Void {
+    func startAlarmToggleState(_ interactedCell: AlarmTableCellView, currentRow: Int) -> Void {
         let alarmState = ChronoAlarms[currentRow].alarmState
         if alarmState == true { // Alarm State is on
             
@@ -267,8 +267,8 @@ class AlarmTableViewController: UITableViewController {
         }
     }
     
-    func changeAlarmToggleState(interactedCell: AlarmTableCellView, currentRow: Int){
-        UIView.animateWithDuration(0.6, delay: 0.3, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+    func changeAlarmToggleState(_ interactedCell: AlarmTableCellView, currentRow: Int){
+        UIView.animate(withDuration: 0.6, delay: 0.3, options: UIViewAnimationOptions.curveEaseIn, animations: {
             if self.ChronoAlarms[currentRow].alarmState {
                 interactedCell.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1.0)
             } else {
@@ -280,7 +280,7 @@ class AlarmTableViewController: UITableViewController {
         
     }
     
-    func changeAlarmToggleStress(interactedCell: AlarmTableCellView, currentRow: Int, startPosition: CGFloat, currentPosition: CGFloat) {
+    func changeAlarmToggleStress(_ interactedCell: AlarmTableCellView, currentRow: Int, startPosition: CGFloat, currentPosition: CGFloat) {
         //Get distance between anchor and current distance. Calculate tension. Change color based on tension.
         let cellviewEndPoint = interactedCell.frame.width * 1.25
         let cellviewMidPoint = interactedCell.frame.origin.x + (interactedCell.frame.width/2)
@@ -296,7 +296,7 @@ class AlarmTableViewController: UITableViewController {
         interactedCell.backgroundColor = UIColor(red: 0.93 , green: 0.17 , blue: 0.17 , alpha: 1.0 * adjustTension)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "EditSegue" {
             let destination = segue.destinationViewController as! EditAlarmViewController
             //let tView = self.view as! UITableView
@@ -308,9 +308,9 @@ class AlarmTableViewController: UITableViewController {
     }
     
     
-    @IBAction func goToSettings(sender: AnyObject) {
-        if let chronoslideSettings = NSURL(string: UIApplicationOpenSettingsURLString){
-            UIApplication.sharedApplication().openURL(chronoslideSettings)
+    @IBAction func goToSettings(_ sender: AnyObject) {
+        if let chronoslideSettings = URL(string: UIApplicationOpenSettingsURLString){
+            UIApplication.shared().openURL(chronoslideSettings)
         }
     }
     
@@ -379,7 +379,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     var minuteData = [String]()
     
     var songData: MPMediaItem?
-    var repeatData: [repeatType] = [.None]
+    var repeatData: [repeatType] = [.none]
     
     var currentTextField = UITextField()
     
@@ -406,16 +406,16 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         
 
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AddAlarmViewController.addSong(_:)), name: AddingSongNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AddAlarmViewController.addRepeat(_:)), name: AddingRepeatsNotification, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(AddAlarmViewController.addSong(_:)), name: AddingSongNotification, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(AddAlarmViewController.addRepeat(_:)), name: AddingRepeatsNotification, object: nil)
     }
     
     func buildToolbar() -> UIToolbar{
         let aToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: (self.navigationController?.view.frame.size.width)!  , height: 50))
-        let previousButton = UIBarButtonItem(title: "Prev", style: UIBarButtonItemStyle.Done, target: self, action: #selector(AddAlarmViewController.prevButtonAction(_:)))
-        let nextButton = UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Done, target: self, action: #selector(AddAlarmViewController.nextButtonAction(_:)))
-        let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done , target: self, action: #selector(AddAlarmViewController.doneButtonAction(_:)))
+        let previousButton = UIBarButtonItem(title: "Prev", style: UIBarButtonItemStyle.done, target: self, action: #selector(AddAlarmViewController.prevButtonAction(_:)))
+        let nextButton = UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.done, target: self, action: #selector(AddAlarmViewController.nextButtonAction(_:)))
+        let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done , target: self, action: #selector(AddAlarmViewController.doneButtonAction(_:)))
         let items = [previousButton, nextButton, spacer, doneButton]
         aToolbar.items = items
         
@@ -423,14 +423,14 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         return aToolbar
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         //print("edit")
         self.currentTextField = textField
         
         switch currentTextField {
         case alarmTimeTextField:
-            toolbar.items![0].enabled = false
-            toolbar.items![1].enabled = true
+            toolbar.items![0].isEnabled = false
+            toolbar.items![1].isEnabled = true
             let scrollHeight = alarmTimeTextField.inputView?.frame.height
             let scrollViewFrame = self.scrollView.frame
             let tempHeight =  scrollViewFrame.height - scrollHeight!
@@ -439,8 +439,8 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
             print(tempHeight)
             break
         case alarmNameTextField:
-            toolbar.items![0].enabled = true
-            toolbar.items![1].enabled = false
+            toolbar.items![0].isEnabled = true
+            toolbar.items![1].isEnabled = false
             let scrollHeight = alarmTimeTextField.inputView?.frame.height
             let scrollViewFrame = self.scrollView.frame
             let tempHeight =  scrollViewFrame.height - scrollHeight!
@@ -455,13 +455,13 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     
-    func doneButtonAction(sender: AnyObject){
+    func doneButtonAction(_ sender: AnyObject){
         //print("done")
         
         currentTextField.resignFirstResponder()
     }
     
-    func nextButtonAction(sender: AnyObject){
+    func nextButtonAction(_ sender: AnyObject){
         //print("next")
         switch currentTextField {
         case alarmTimeTextField:
@@ -473,7 +473,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
             break
         }
     }
-    func prevButtonAction(sender: AnyObject){
+    func prevButtonAction(_ sender: AnyObject){
         //print("prev")
         switch currentTextField {
         case alarmTimeTextField:
@@ -499,13 +499,13 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         }
     }
     
-    @IBAction func commitNewAlarm(sender: AnyObject) {
+    @IBAction func commitNewAlarm(_ sender: AnyObject) {
         let selectedIndex = alarmAMPMSegmentedControl.selectedSegmentIndex
-        print(alarmAMPMSegmentedControl.titleForSegmentAtIndex(selectedIndex)!)
+        print(alarmAMPMSegmentedControl.titleForSegment(at: selectedIndex)!)
         let repeatDescriptions = repeatArrayToStringArray(repeatData)
-        let alarmDicationary = ["alarmHour": hourValue, "alarmMinute": minuteValue, "alarmName": alarmNameTextField.text!, "alarmAMPM": alarmAMPMSegmentedControl.titleForSegmentAtIndex(selectedIndex)!, "alarmSong": songData!, "alarmRepeat": repeatDescriptions] //Need to fix cast or make a wrapper for values.
-        NSNotificationCenter.defaultCenter().postNotificationName(AddingNewAlarmNotification, object: self, userInfo: alarmDicationary as [NSObject : AnyObject])
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        let alarmDicationary = ["alarmHour": hourValue, "alarmMinute": minuteValue, "alarmName": alarmNameTextField.text!, "alarmAMPM": alarmAMPMSegmentedControl.titleForSegment(at: selectedIndex)!, "alarmSong": songData!, "alarmRepeat": repeatDescriptions] //Need to fix cast or make a wrapper for values.
+        NotificationCenter.default().post(name: Notification.Name(rawValue: AddingNewAlarmNotification), object: self, userInfo: alarmDicationary as [NSObject : AnyObject])
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     func testAlarm() -> Alarm{
@@ -514,10 +514,10 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if component == 0 {
             return hourData.count
         } else {
@@ -527,7 +527,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
 
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if component == 0 {
             timeStringBuild(hourData[row], minute: minuteValue)
         } else {
@@ -536,7 +536,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
 
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if component == 0 {
             return hourData[row]
         } else {
@@ -546,7 +546,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     
-    func timeStringBuild(hour:String, minute:String){
+    func timeStringBuild(_ hour:String, minute:String){
         if hour == hourValue {
             alarmTimeTextField.text = hourValue + ":" + minute
             minuteValue = minute
@@ -556,9 +556,9 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         }
     }
     
-    func addSong(notification: NSNotification){
+    func addSong(_ notification: Notification){
         //print("received")
-        let songDictionary = notification.userInfo!
+        let songDictionary = (notification as NSNotification).userInfo!
         //print(songDictionary)
         let song = songDictionary["songItem"] as! MPMediaItem
         //print("get")
@@ -566,8 +566,8 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         alarmToneLabel.text = song.title
     }
     
-    func addRepeat(notification: NSNotification){
-        let repeatsDictionary = notification.userInfo!
+    func addRepeat(_ notification: Notification){
+        let repeatsDictionary = (notification as NSNotification).userInfo!
         let repeatStrings = repeatsDictionary["repeats"] as! [String]
         let repeats:[repeatType] = repeatStringsToRepeatArray(repeatStrings)
         repeatData = repeats
@@ -579,9 +579,9 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         if repeatData.count > 1 {
             let labelString = RepeatDataManipulation.makeRepeatString(repeatData)
             alarmRepeatLabel.text = "Every " + labelString
-        } else if repeatData[0] == .Everyday {
+        } else if repeatData[0] == .everyday {
             alarmRepeatLabel.text = "Everyday"
-        } else if repeatData.contains( .None) {
+        } else if repeatData.contains( .none) {
             alarmRepeatLabel.text = "No Repeat"
         } else {
             alarmRepeatLabel.text = "Every " + repeatData[0].description
@@ -620,7 +620,7 @@ class AddAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicker
         return str
     }
     */
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "NewRepeatSegue" {
             let dest = segue.destinationViewController as! AddAlarmRepeatTableViewController
             dest.selectedRepeats = repeatData
@@ -637,13 +637,13 @@ let loadedIncrement = 20
 //MARK: SONGS
 
 class AddSongsTableViewController: UITableViewController {
-    let mediaLibrary: MPMediaLibrary = MPMediaLibrary.defaultMediaLibrary()
+    let mediaLibrary: MPMediaLibrary = MPMediaLibrary.default()
     var songArray:[MPMediaItem] = MPMediaQuery().items!
     let mediaPlayer: MPMusicPlayerController = MPMusicPlayerController()
     var filteredSongArray:[MPMediaItem] = [MPMediaItem]()
     let searchbarController = UISearchController(searchResultsController: nil)
     var selectedSong: MPMediaItem? = nil
-    var loadedLibrary: [MPMediaItem] =  Array<MPMediaItem>(MPMediaQuery.songsQuery().items![0..<20])
+    var loadedLibrary: [MPMediaItem] =  Array<MPMediaItem>(MPMediaQuery.songs().items![0..<20])
     var lowerBound: Int = 0
     var upperBound: Int = loadedIncrement
     var isLoading = false
@@ -671,16 +671,16 @@ class AddSongsTableViewController: UITableViewController {
         //self.navigationController?.view.addSubview(selectedCellView)
         
         self.navigationController?.view.addSubview(currentSongView)
-        currentSongView.frame = CGRect(origin: CGPointMake(0, 62) , size: CGSize(width: (self.navigationController?.view.frame.width)! , height: 110 ))
-        let visEffect = UIVisualEffectView(effect: UIBlurEffect(style: .Light))
-        visEffect.frame = CGRect(origin: CGPointMake(0, 0) , size: CGSize(width: (self.navigationController?.view.frame.width)!, height: 110 ))
-        visEffect.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        currentSongView.frame = CGRect(origin: CGPoint(x: 0, y: 62) , size: CGSize(width: (self.navigationController?.view.frame.width)! , height: 110 ))
+        let visEffect = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        visEffect.frame = CGRect(origin: CGPoint(x: 0, y: 0) , size: CGSize(width: (self.navigationController?.view.frame.width)!, height: 110 ))
+        visEffect.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         currentSongView.addSubview(visEffect)
-        currentSongView.sendSubviewToBack(visEffect)
+        currentSongView.sendSubview(toBack: visEffect)
         
         
         if selectedSong == nil {
-            currentSongView.hidden = true
+            currentSongView.isHidden = true
         }
         
         //self.view.addSubview(selectedCellView)
@@ -692,52 +692,52 @@ class AddSongsTableViewController: UITableViewController {
         
     }
     
-    func filterSongs(searchString: String){
+    func filterSongs(_ searchString: String){
         //print(searchString)
         filteredSongArray = songArray.filter { song in
-            return (song.title!.lowercaseString.containsString(searchString.lowercaseString))
+            return (song.title!.lowercased().contains(searchString.lowercased()))
         }
         tableView.reloadData()
     }
     
     func loadSongLibrary(){
-        songArray = MPMediaQuery.songsQuery().items!
+        songArray = MPMediaQuery.songs().items!
         //print(songArray.count)
     }
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("AddAlarmSongCell", forIndexPath: indexPath) as! AddSongTableCellView
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AddAlarmSongCell", for: indexPath) as! AddSongTableCellView
         
         
         
-        if self.searchbarController.active && self.searchbarController.searchBar.text != "" {
-            cell.alarmSongTextLabel.text = self.filteredSongArray[indexPath.row].title!
+        if self.searchbarController.isActive && self.searchbarController.searchBar.text != "" {
+            cell.alarmSongTextLabel.text = self.filteredSongArray[(indexPath as NSIndexPath).row].title!
             //cell.alarmSongImageView.image = self.filteredSongArray[x.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
         } else {
             //print(indexPath.row)
-            cell.alarmSongTextLabel.text = loadedLibrary[indexPath.row].title!
+            cell.alarmSongTextLabel.text = loadedLibrary[(indexPath as NSIndexPath).row].title!
             //cell.alarmSongImageView.image = self.songArray[x.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
         }
-        cell.alarmSongImageView.userInteractionEnabled = true
+        cell.alarmSongImageView.isUserInteractionEnabled = true
         
         // Choose Song Gesture
         let chooseGesture = UITapGestureRecognizer.init(target: self, action: #selector(AddSongsTableViewController.togglePreview(_:)))
         self.view.addGestureRecognizer(chooseGesture)
         
         
-        let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-        dispatch_async(queue)  {
+        let queue = DispatchQueue.global(attributes: DispatchQueue.GlobalAttributes.qosDefault)
+        queue.async {
             
             var cellImageView:UIImage?
             
-            if self.searchbarController.active && self.searchbarController.searchBar.text != "" {
+            if self.searchbarController.isActive && self.searchbarController.searchBar.text != "" {
                 //cell.alarmSongTextLabel.text = self.filteredSongArray[x.row].title!
-                cellImageView = (self.filteredSongArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size))
+                cellImageView = (self.filteredSongArray[(indexPath as NSIndexPath).row].artwork?.image(at: cell.alarmSongImageView.frame.size))
             } else {
                 //cell.alarmSongTextLabel.text = self.songArray[x.row].title!
-                cellImageView = (self.loadedLibrary[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size))
+                cellImageView = (self.loadedLibrary[(indexPath as NSIndexPath).row].artwork?.image(at: cell.alarmSongImageView.frame.size))
             }
             
-            dispatch_sync(dispatch_get_main_queue()) {
+            DispatchQueue.main.sync {
                 cell.alarmSongImageView.image = cellImageView
             }
             
@@ -748,7 +748,7 @@ class AddSongsTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         /*
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             let songCell = cell as! AddSongTableCellView
@@ -768,20 +768,20 @@ class AddSongsTableViewController: UITableViewController {
         */
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchbarController.active && searchbarController.searchBar.text != "" {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchbarController.isActive && searchbarController.searchBar.text != "" {
             //print(filteredSongArray.count)
             return filteredSongArray.count
         }
         return loadedLibrary.count
     }
     
-    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         lastOffset = scrollView.contentOffset.y
         hasMoved = true
     }
     
-    override func scrollViewDidScroll(scrollView: UIScrollView) {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         //super.scrollViewDidScroll(scrollView)
         let currentOffset = scrollView.contentOffset.y
         
@@ -801,13 +801,13 @@ class AddSongsTableViewController: UITableViewController {
                     upperBound = songArray.count
                 }
                 
-                let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-                dispatch_async(queue) {
+                let queue = DispatchQueue.global(attributes: DispatchQueue.GlobalAttributes.qosDefault)
+                queue.async {
                     self.isLoading = false
                     var swapData = SongLibrary.getSongsB(self.lowerBound, andUpperBound: self.upperBound)
                     //print(swapData)
                     var swapArray:[MPMediaItem] = [MPMediaItem]()
-                    swapArray.appendContentsOf(swapData)
+                    swapArray.append(contentsOf: swapData)
                     self.loadMoreData(&self.loadedLibrary, newData: swapArray)
                     //dispatch_sync(dispatch_get_main_queue()) {
                         self.tableView.contentOffset.y = scrollView.contentSize.height - 120
@@ -833,14 +833,14 @@ class AddSongsTableViewController: UITableViewController {
                     lowerBound = 0
                 }
                 
-                let queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-                dispatch_async(queue) {
+                let queue = DispatchQueue.global(attributes: DispatchQueue.GlobalAttributes.qosDefault)
+                queue.async {
                     self.isLoading = false
                     var swapData = SongLibrary.getSongs(self.lowerBound, andUpperBound: self.upperBound)
                     var swapArray:[MPMediaItem] = [MPMediaItem]()
-                    swapArray.appendContentsOf(swapData)
+                    swapArray.append(contentsOf: swapData)
                     self.loadMoreData(&self.loadedLibrary, newData: swapArray)
-                    dispatch_sync(dispatch_get_main_queue()) {
+                    DispatchQueue.main.sync {
                         self.tableView.contentOffset.y = scrollView.frame.size.height - 100
                         self.songsTableView.reloadData()
                         self.isLoading = false
@@ -886,36 +886,36 @@ class AddSongsTableViewController: UITableViewController {
         //
     }
     
-    func loadMoreData(inout dataSource: [MPMediaItem], newData:[MPMediaItem]) {
+    func loadMoreData(_ dataSource: inout [MPMediaItem], newData:[MPMediaItem]) {
         //print(dataSource)
         dataSource = newData
     }
     
     
-    func togglePreview(gestureRecognizer: UIGestureRecognizer){
+    func togglePreview(_ gestureRecognizer: UIGestureRecognizer){
         //print("toggle Preview")
-        let location = gestureRecognizer.locationInView(self.tableView)
-        let indexPath = self.tableView.indexPathForRowAtPoint(location)
+        let location = gestureRecognizer.location(in: self.tableView)
+        let indexPath = self.tableView.indexPathForRow(at: location)
         //let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AddSongTableCellView
         
         //print(songArray[indexPath!.row].title)
         //print(tappedCell)
-        let queue = dispatch_get_main_queue()
-        dispatch_async(queue) {
-            if self.searchbarController.active && self.searchbarController.searchBar.text != "" {
-                self.previewSong(self.filteredSongArray[indexPath!.row])
-                self.currentSongView.updateViewWithMediaItem(self.filteredSongArray[indexPath!.row])
+        let queue = DispatchQueue.main
+        queue.async {
+            if self.searchbarController.isActive && self.searchbarController.searchBar.text != "" {
+                self.previewSong(self.filteredSongArray[(indexPath! as NSIndexPath).row])
+                self.currentSongView.updateViewWithMediaItem(self.filteredSongArray[(indexPath! as NSIndexPath).row])
                 if self.selectedSong == nil {
                     self.displaySelectedView()
                 }
-                self.selectedSong = self.filteredSongArray[indexPath!.row]
+                self.selectedSong = self.filteredSongArray[(indexPath! as NSIndexPath).row]
             } else {
-                self.previewSong(self.loadedLibrary[indexPath!.row])
-                self.currentSongView.updateViewWithMediaItem(self.loadedLibrary[indexPath!.row])
+                self.previewSong(self.loadedLibrary[(indexPath! as NSIndexPath).row])
+                self.currentSongView.updateViewWithMediaItem(self.loadedLibrary[(indexPath! as NSIndexPath).row])
                 if self.selectedSong == nil {
                     self.displaySelectedView()
                 }
-                self.selectedSong = self.loadedLibrary[indexPath!.row]
+                self.selectedSong = self.loadedLibrary[(indexPath! as NSIndexPath).row]
                 
             }
         }
@@ -923,30 +923,30 @@ class AddSongsTableViewController: UITableViewController {
     }
     
     
-    func chooseSong(gestureRecognizer: UIGestureRecognizer){
+    func chooseSong(_ gestureRecognizer: UIGestureRecognizer){
         //print("Choose Song")
-        let location = gestureRecognizer.locationInView(self.tableView)
-        let indexPath = self.tableView.indexPathForRowAtPoint(location)
+        let location = gestureRecognizer.location(in: self.tableView)
+        let indexPath = self.tableView.indexPathForRow(at: location)
         //let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! AddSongTableCellView
         //print(songArray[indexPath!.row].albumTitle)
         //print(tappedCell)
         var songDictionary:[String: MPMediaItem]
-        if searchbarController.active && searchbarController.searchBar.text != "" {
-            songDictionary = ["songItem": filteredSongArray[indexPath!.row]]
+        if searchbarController.isActive && searchbarController.searchBar.text != "" {
+            songDictionary = ["songItem": filteredSongArray[(indexPath! as NSIndexPath).row]]
         } else {
-            songDictionary = ["songItem": songArray[indexPath!.row]]
+            songDictionary = ["songItem": songArray[(indexPath! as NSIndexPath).row]]
         }
-        NSNotificationCenter.defaultCenter().postNotificationName(AddingSongNotification, object: self, userInfo: songDictionary)
-        self.navigationController?.popViewControllerAnimated(true)
+        NotificationCenter.default().post(name: Notification.Name(rawValue: AddingSongNotification), object: self, userInfo: songDictionary)
+        self.navigationController?.popViewController(animated: true)
         
     }
     
-    func previewSong(songItem: MPMediaItem){
+    func previewSong(_ songItem: MPMediaItem){
         
         if mediaPlayer.nowPlayingItem != nil{
             //print(mediaPlayer.nowPlayingItem?.title!)
             if mediaPlayer.nowPlayingItem! == songItem {
-                if mediaPlayer.playbackState == .Playing {
+                if mediaPlayer.playbackState == .playing {
                     mediaPlayer.pause()
                 } else {
                     mediaPlayer.play()
@@ -955,7 +955,7 @@ class AddSongsTableViewController: UITableViewController {
             } else {
                 mediaPlayer.pause()
                 let newQueue = MPMediaItemCollection(items: [songItem])
-                mediaPlayer.setQueueWithItemCollection(newQueue)
+                mediaPlayer.setQueue(with: newQueue)
                 mediaPlayer.play()
             }
             
@@ -964,14 +964,14 @@ class AddSongsTableViewController: UITableViewController {
         
     }
     
-    override func willMoveToParentViewController(parent: UIViewController?) {
+    override func willMove(toParentViewController parent: UIViewController?) {
         if parent == nil {
             currentSongView.removeFromSuperview()
         }
     }
     
     func displaySelectedView() -> Void {
-        currentSongView.hidden = false
+        currentSongView.isHidden = false
         //self.navigationController?.view.frame = CGRect(origin: (self.navigationController?.view.frame.origin)!, size: CGSize(width: (self.navigationController?.view.frame.width)!, height: 170))
         //let currentFrame = self.tableView.frame
         songsTableView.contentInset = UIEdgeInsets(top: 170, left: 0, bottom: 0, right: 0)
@@ -979,17 +979,17 @@ class AddSongsTableViewController: UITableViewController {
     
     
     
-    @IBAction func doneSongAction(sender: AnyObject) {
+    @IBAction func doneSongAction(_ sender: AnyObject) {
         let songDictionary:[String: MPMediaItem] = ["songItem": selectedSong!]
-        NSNotificationCenter.defaultCenter().postNotificationName(AddingSongNotification, object: self, userInfo: songDictionary)
-        self.navigationController?.popViewControllerAnimated(true)
+        NotificationCenter.default().post(name: Notification.Name(rawValue: AddingSongNotification), object: self, userInfo: songDictionary)
+        self.navigationController?.popViewController(animated: true)
     }
     
     
 }
 
 extension AddSongsTableViewController: UISearchResultsUpdating {
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
         filterSongs(searchController.searchBar.text!)
     }
 }
@@ -1012,65 +1012,65 @@ class AddAlarmRepeatTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        repeatDoneButton.enabled = true
+        repeatDoneButton.isEnabled = true
         print(selectedRepeats)
         //loadSelectedRepeats(self.tableView)
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("AddAlarmRepeatCellView", forIndexPath: indexPath) as! AddRepeatTableCellView
-        cell.repeatTypeLabel.text = RepeatMacros[indexPath.row].description
-        if selectedRepeats.contains(RepeatMacros[indexPath.row]) {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AddAlarmRepeatCellView", for: indexPath) as! AddRepeatTableCellView
+        cell.repeatTypeLabel.text = RepeatMacros[(indexPath as NSIndexPath).row].description
+        if selectedRepeats.contains(RepeatMacros[(indexPath as NSIndexPath).row]) {
             cell.isChecked = true
-            cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+            cell.accessoryType = UITableViewCellAccessoryType.checkmark
         }
         return cell
     }
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return RepeatMacros.count
     }
     
-    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
-        let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! AddRepeatTableCellView
-        selectedCell.selectionStyle = UITableViewCellSelectionStyle.None
-        if selectedCell.accessoryType == UITableViewCellAccessoryType.None {
-            calculateOtherRepeats(selectedCell, row: indexPath.row)
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        let selectedCell = tableView.cellForRow(at: indexPath) as! AddRepeatTableCellView
+        selectedCell.selectionStyle = UITableViewCellSelectionStyle.none
+        if selectedCell.accessoryType == UITableViewCellAccessoryType.none {
+            calculateOtherRepeats(selectedCell, row: (indexPath as NSIndexPath).row)
             //tableView.deselectRowAtIndexPath(indexPath, animated: true)
         } else {
-            selectedCell.accessoryType = UITableViewCellAccessoryType.None
+            selectedCell.accessoryType = UITableViewCellAccessoryType.none
             //tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
         //self.tableView(tableView, willDeselectRowAtIndexPath: indexPath)
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
         //self.tableView(tableView, didDeselectRowAtIndexPath: indexPath)
         return indexPath
     }
     
-    func calculateOtherRepeats(tappedOption: AddRepeatTableCellView, row: Int){
+    func calculateOtherRepeats(_ tappedOption: AddRepeatTableCellView, row: Int){
         let tapped = RepeatMacros[row]
         switch (tapped) {
-        case .None:
-            selectedRepeats = [.None]
+        case .none:
+            selectedRepeats = [.none]
             clearTableView()
-            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
+            tappedOption.accessoryType = UITableViewCellAccessoryType.checkmark
             break
-        case .Everyday:
+        case .everyday:
             if selectedRepeats.count > 0 {
                 clearTableView()
             }
-            selectedRepeats = [.Everyday]
-            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
+            selectedRepeats = [.everyday]
+            tappedOption.accessoryType = UITableViewCellAccessoryType.checkmark
             break
         default:
-            if selectedRepeats.contains(repeatType.None) || selectedRepeats.contains(repeatType.Everyday) {
+            if selectedRepeats.contains(repeatType.none) || selectedRepeats.contains(repeatType.everyday) {
                 clearTableView()
                 selectedRepeats = [tapped]
             } else{
                 selectedRepeats.append(tapped)
             }
-            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
-            let noneOption = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! AddRepeatTableCellView
-            noneOption.accessoryType = UITableViewCellAccessoryType.None
+            tappedOption.accessoryType = UITableViewCellAccessoryType.checkmark
+            let noneOption = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! AddRepeatTableCellView
+            noneOption.accessoryType = UITableViewCellAccessoryType.none
         }
     }
     
@@ -1078,20 +1078,20 @@ class AddAlarmRepeatTableViewController: UITableViewController {
         let view = self.tableView
         for anIndex in 0..<RepeatMacros.count  {
             //print(anIndex)
-            let current =  view.cellForRowAtIndexPath(NSIndexPath(forRow: anIndex, inSection: 0)) as! AddRepeatTableCellView
+            let current =  view?.cellForRow(at: IndexPath(row: anIndex, section: 0)) as! AddRepeatTableCellView
             
-            current.accessoryType = UITableViewCellAccessoryType.None
+            current.accessoryType = UITableViewCellAccessoryType.none
         }
         
     }
   
     
-    @IBAction func commitRepeats(sender: AnyObject) {
+    @IBAction func commitRepeats(_ sender: AnyObject) {
         let sortedRepeats = sortRepeatArray(selectedRepeats)
         let temp = repeatArrayToStringArray(sortedRepeats)
         let repeatDictionary = ["repeats" as NSString: temp]
-        NSNotificationCenter.defaultCenter().postNotificationName(AddingRepeatsNotification, object: self, userInfo: repeatDictionary)
-        self.navigationController?.popViewControllerAnimated(true)
+        NotificationCenter.default().post(name: Notification.Name(rawValue: AddingRepeatsNotification), object: self, userInfo: repeatDictionary)
+        self.navigationController?.popViewController(animated: true)
     }
     
 }
@@ -1163,7 +1163,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     override func viewDidLoad() {
         super.viewDidLoad()
         buildArrays()
-        updateAlarmButton.enabled = false
+        updateAlarmButton.isEnabled = false
         if alarmToEdit.alarmMinute < 10 {
             alarmTimeTextField.text = alarmToEdit.alarmHour.description + ":0" + alarmToEdit.alarmMinute.description
         } else {
@@ -1194,17 +1194,17 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         //minuteTextField.delegate = self
         alarmNameTextField.delegate = self
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditAlarmViewController.updateRepeat(_:)), name: UpdatingRepeatsNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditAlarmViewController.updateSong(_:)), name: UpdatingSongNotification, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(EditAlarmViewController.updateRepeat(_:)), name: UpdatingRepeatsNotification, object: nil)
+        NotificationCenter.default().addObserver(self, selector: #selector(EditAlarmViewController.updateSong(_:)), name: UpdatingSongNotification, object: nil)
         print(alarmToEdit)
     }
     
     func buildToolbar() -> UIToolbar{
         let aToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: (self.navigationController?.view.frame.size.width)!  , height: 50))
-        let previousButton = UIBarButtonItem(title: "Prev", style: UIBarButtonItemStyle.Done, target: self, action: #selector(AddAlarmViewController.prevButtonAction(_:)))
-        let nextButton = UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.Done, target: self, action: #selector(AddAlarmViewController.nextButtonAction(_:)))
-        let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done , target: self, action: #selector(AddAlarmViewController.doneButtonAction(_:)))
+        let previousButton = UIBarButtonItem(title: "Prev", style: UIBarButtonItemStyle.done, target: self, action: #selector(AddAlarmViewController.prevButtonAction(_:)))
+        let nextButton = UIBarButtonItem(title: "Next", style: UIBarButtonItemStyle.done, target: self, action: #selector(AddAlarmViewController.nextButtonAction(_:)))
+        let spacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done , target: self, action: #selector(AddAlarmViewController.doneButtonAction(_:)))
         let items = [previousButton, nextButton, spacer, doneButton]
         aToolbar.items = items
         
@@ -1212,41 +1212,41 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         return aToolbar
     }
     
-    @IBAction func updateAlarm(sender: AnyObject) {
+    @IBAction func updateAlarm(_ sender: AnyObject) {
         let repeatDescriptions = repeatArrayToStringArray(alarmToEdit.alarmRepeat)
         let selectedIndex = alarmAMPMSegmentControl.selectedSegmentIndex
-        let updateDictionary = ["alarmHour": hourValue, "alarmMinute": minuteValue, "alarmName": alarmNameTextField.text!, "alarmAMPM": alarmAMPMSegmentControl.titleForSegmentAtIndex(selectedIndex)!, "alarmSound": alarmToEdit.alarmSound!, "alarmIndex": editRow, "alarmRepeat": repeatDescriptions]
-        NSNotificationCenter.defaultCenter().postNotificationName(UpdatingAlarmNotification, object: self, userInfo: updateDictionary)
+        let updateDictionary = ["alarmHour": hourValue, "alarmMinute": minuteValue, "alarmName": alarmNameTextField.text!, "alarmAMPM": alarmAMPMSegmentControl.titleForSegment(at: selectedIndex)!, "alarmSound": alarmToEdit.alarmSound!, "alarmIndex": editRow, "alarmRepeat": repeatDescriptions]
+        NotificationCenter.default().post(name: Notification.Name(rawValue: UpdatingAlarmNotification), object: self, userInfo: updateDictionary)
         
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         //print("edit")
         self.currentTextField = textField
         
         switch currentTextField {
         case alarmTimeTextField:
-            toolbar.items![0].enabled = false
-            toolbar.items![1].enabled = true
+            toolbar.items![0].isEnabled = false
+            toolbar.items![1].isEnabled = true
             break
         case alarmNameTextField:
-            toolbar.items![0].enabled = true
-            toolbar.items![1].enabled = false
+            toolbar.items![0].isEnabled = true
+            toolbar.items![1].isEnabled = false
             break
         default:
             break
         }
     }
     
-    func doneButtonAction(sender: AnyObject){
+    func doneButtonAction(_ sender: AnyObject){
         //print("done")
         
         currentTextField.resignFirstResponder()
     }
     
-    func nextButtonAction(sender: AnyObject){
+    func nextButtonAction(_ sender: AnyObject){
         print("next")
         switch currentTextField {
         case alarmTimeTextField:
@@ -1258,7 +1258,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
             break
         }
     }
-    func prevButtonAction(sender: AnyObject){
+    func prevButtonAction(_ sender: AnyObject){
         print("prev")
         switch currentTextField {
         case alarmTimeTextField:
@@ -1285,10 +1285,10 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     }
     
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if component == 0 {
             return hourData.count
         } else {
@@ -1297,7 +1297,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if component == 0 {
             timeStringBuild(hourData[row], minute: minuteValue)
         } else {
@@ -1305,7 +1305,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         }
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if component == 0 {
             return hourData[row]
         } else {
@@ -1313,7 +1313,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         }
     }
     
-    func timeStringBuild(hour:String, minute:String){
+    func timeStringBuild(_ hour:String, minute:String){
         if hour == hourValue {
             alarmTimeTextField.text = hourValue + ":" + minute
             minuteValue = minute
@@ -1323,51 +1323,51 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         }
     }
     
-    @IBAction func removeAlarm(sender: AnyObject) {
+    @IBAction func removeAlarm(_ sender: AnyObject) {
         let dataDictionary = ["index": editRow.description]
-        NSNotificationCenter.defaultCenter().postNotificationName(DeletingAlarmNotification, object: self, userInfo: dataDictionary as [NSObject : AnyObject])
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        NotificationCenter.default().post(name: Notification.Name(rawValue: DeletingAlarmNotification), object: self, userInfo: dataDictionary as [NSObject : AnyObject])
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     
-    @IBAction func chooseSong(sender: AnyObject) {
+    @IBAction func chooseSong(_ sender: AnyObject) {
     }
     
     
     @IBOutlet weak var chooseRepeats: UIButton!
     
-    func updateRepeat(notification: NSNotification){
-        let repeatsDictionary = notification.userInfo!
+    func updateRepeat(_ notification: Notification){
+        let repeatsDictionary = (notification as NSNotification).userInfo!
         let repeatStrings = repeatsDictionary["repeats"] as! [String]
         var repeats:[repeatType] = [repeatType]()
         for aString in repeatStrings{
             switch aString {
             case "None":
-                repeats.append(repeatType.None)
+                repeats.append(repeatType.none)
                 break
             case "Monday":
-                repeats.append(repeatType.Monday)
+                repeats.append(repeatType.monday)
                 break
             case "Tuesday":
-                repeats.append(repeatType.Tuesday)
+                repeats.append(repeatType.tuesday)
                 break
             case "Wednesday":
-                repeats.append(repeatType.Wednesday)
+                repeats.append(repeatType.wednesday)
                 break
             case "Thursday":
-                repeats.append(repeatType.Thursday)
+                repeats.append(repeatType.thursday)
                 break
             case "Friday":
-                repeats.append(repeatType.Friday)
+                repeats.append(repeatType.friday)
                 break
             case "Saturday":
-                repeats.append(repeatType.Saturday)
+                repeats.append(repeatType.saturday)
                 break
             case "Sunday":
-                repeats.append(repeatType.Sunday)
+                repeats.append(repeatType.sunday)
                 break
             case "Everyday":
-                repeats.append(repeatType.Everyday)
+                repeats.append(repeatType.everyday)
                 break
             default:
                 break
@@ -1382,9 +1382,9 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         if alarmToEdit.alarmRepeat.count > 1 {
             let labelString = RepeatDataManipulation.makeRepeatString(alarmToEdit.alarmRepeat)
             alarmRepeatLabel.text = "Every " + labelString
-        } else if alarmToEdit.alarmRepeat[0] == .Everyday {
+        } else if alarmToEdit.alarmRepeat[0] == .everyday {
             alarmRepeatLabel.text = "Everyday"
-        } else if alarmToEdit.alarmRepeat.contains( .None) {
+        } else if alarmToEdit.alarmRepeat.contains( .none) {
           alarmRepeatLabel.text = "No Repeat"
         } else {
             alarmRepeatLabel.text = "Every " + alarmToEdit.alarmRepeat[0].description
@@ -1421,9 +1421,9 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
     }
     */
     
-    func updateSong(notification: NSNotification){
+    func updateSong(_ notification: Notification){
         //print("received")
-        let songDictionary = notification.userInfo!
+        let songDictionary = (notification as NSNotification).userInfo!
         //print(songDictionary)
         let song = songDictionary["songItem"] as! MPMediaItem
         //print("get")
@@ -1431,7 +1431,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
         alarmSongLabel.text = song.title
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "EditRepeatSegue" {
             let destController = segue.destinationViewController as! EditAlarmRepeatTableViewController
             destController.selectedRepeats = alarmToEdit.alarmRepeat
@@ -1447,7 +1447,7 @@ class EditAlarmViewController: UIViewController, UIPickerViewDataSource, UIPicke
 
 
 class EditSongsTableViewController: UITableViewController {
-    let mediaLibrary: MPMediaLibrary = MPMediaLibrary.defaultMediaLibrary()
+    let mediaLibrary: MPMediaLibrary = MPMediaLibrary.default()
     var songArray:[MPMediaItem] = MPMediaQuery().items!
     let mediaPlayer: MPMusicPlayerController = MPMusicPlayerController()
     var chosenSong: MPMediaItem = MPMediaItem()
@@ -1463,29 +1463,29 @@ class EditSongsTableViewController: UITableViewController {
         tableView.setContentOffset(CGPoint(x: 0, y: searchbarController.searchBar.frame.size.height), animated: false)
     }
     
-    func filterSongs(searchString: String){
+    func filterSongs(_ searchString: String){
         //print(searchString)
         filteredSongArray = songArray.filter { song in
-            return (song.title!.lowercaseString.containsString(searchString.lowercaseString))
+            return (song.title!.lowercased().contains(searchString.lowercased()))
         }
         tableView.reloadData()
     }
     
     func loadSongLibrary(){
-        songArray = MPMediaQuery.songsQuery().items!
+        songArray = MPMediaQuery.songs().items!
         print(songArray.count)
     }
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("EditAlarmSongCell", forIndexPath: indexPath) as! EditSongTableCellView
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EditAlarmSongCell", for: indexPath) as! EditSongTableCellView
         
-        if searchbarController.active && searchbarController.searchBar.text != "" {
-            cell.alarmSongTextLabel.text = filteredSongArray[indexPath.row].title!
-            cell.alarmSongImageView.image = filteredSongArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
+        if searchbarController.isActive && searchbarController.searchBar.text != "" {
+            cell.alarmSongTextLabel.text = filteredSongArray[(indexPath as NSIndexPath).row].title!
+            cell.alarmSongImageView.image = filteredSongArray[(indexPath as NSIndexPath).row].artwork?.image(at: cell.alarmSongImageView.frame.size)
         } else {
-            cell.alarmSongTextLabel.text = songArray[indexPath.row].title!
-            cell.alarmSongImageView.image = songArray[indexPath.row].artwork?.imageWithSize(cell.alarmSongImageView.frame.size)
+            cell.alarmSongTextLabel.text = songArray[(indexPath as NSIndexPath).row].title!
+            cell.alarmSongImageView.image = songArray[(indexPath as NSIndexPath).row].artwork?.image(at: cell.alarmSongImageView.frame.size)
         }
-        cell.alarmSongImageView.userInteractionEnabled = true
+        cell.alarmSongImageView.isUserInteractionEnabled = true
         
         // Choose Song Gesture
         let chooseGesture = UITapGestureRecognizer.init(target: self, action: #selector(AddSongsTableViewController.chooseSong(_:)))
@@ -1497,52 +1497,52 @@ class EditSongsTableViewController: UITableViewController {
         
         return cell
     }
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchbarController.active && searchbarController.searchBar.text != "" {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchbarController.isActive && searchbarController.searchBar.text != "" {
             //print(filteredSongArray.count)
             return filteredSongArray.count
         }
         return songArray.count
     }
     
-    func togglePreview(gestureRecognizer: UIGestureRecognizer){
+    func togglePreview(_ gestureRecognizer: UIGestureRecognizer){
         print("toggle Preview")
-        let location = gestureRecognizer.locationInView(self.tableView)
-        let indexPath = self.tableView.indexPathForRowAtPoint(location)
-        let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! EditSongTableCellView
-        print(songArray[indexPath!.row].title)
+        let location = gestureRecognizer.location(in: self.tableView)
+        let indexPath = self.tableView.indexPathForRow(at: location)
+        let tappedCell = self.tableView.cellForRow(at: indexPath!) as! EditSongTableCellView
+        print(songArray[(indexPath! as NSIndexPath).row].title)
         print(tappedCell)
-        if searchbarController.active && searchbarController.searchBar.text != "" {
-            previewSong(filteredSongArray[indexPath!.row])
+        if searchbarController.isActive && searchbarController.searchBar.text != "" {
+            previewSong(filteredSongArray[(indexPath! as NSIndexPath).row])
         } else {
-            previewSong(songArray[indexPath!.row])
+            previewSong(songArray[(indexPath! as NSIndexPath).row])
         }
     }
     
-    func chooseSong(gestureRecognizer: UIGestureRecognizer){
+    func chooseSong(_ gestureRecognizer: UIGestureRecognizer){
         print("Choose Song")
-        let location = gestureRecognizer.locationInView(self.tableView)
-        let indexPath = self.tableView.indexPathForRowAtPoint(location)
-        let tappedCell = self.tableView.cellForRowAtIndexPath(indexPath!) as! EditSongTableCellView
-        print(songArray[indexPath!.row].albumTitle)
+        let location = gestureRecognizer.location(in: self.tableView)
+        let indexPath = self.tableView.indexPathForRow(at: location)
+        let tappedCell = self.tableView.cellForRow(at: indexPath!) as! EditSongTableCellView
+        print(songArray[(indexPath! as NSIndexPath).row].albumTitle)
         print(tappedCell)
         var songDictionary:[String: MPMediaItem]
-        if searchbarController.active && searchbarController.searchBar.text != "" {
-            songDictionary = ["songItem": filteredSongArray[indexPath!.row]]
+        if searchbarController.isActive && searchbarController.searchBar.text != "" {
+            songDictionary = ["songItem": filteredSongArray[(indexPath! as NSIndexPath).row]]
         } else {
-            songDictionary = ["songItem": songArray[indexPath!.row]]
+            songDictionary = ["songItem": songArray[(indexPath! as NSIndexPath).row]]
         }
-        NSNotificationCenter.defaultCenter().postNotificationName(UpdatingSongNotification, object: self, userInfo: songDictionary)
-        self.navigationController?.popViewControllerAnimated(true)
+        NotificationCenter.default().post(name: Notification.Name(rawValue: UpdatingSongNotification), object: self, userInfo: songDictionary)
+        self.navigationController?.popViewController(animated: true)
         
     }
     
-    func previewSong(songItem: MPMediaItem){
+    func previewSong(_ songItem: MPMediaItem){
         
         if mediaPlayer.nowPlayingItem != nil{
             //print(mediaPlayer.nowPlayingItem?.title!)
             if mediaPlayer.nowPlayingItem! == songItem {
-                if mediaPlayer.playbackState == .Playing {
+                if mediaPlayer.playbackState == .playing {
                     mediaPlayer.pause()
                 } else {
                     mediaPlayer.play()
@@ -1551,7 +1551,7 @@ class EditSongsTableViewController: UITableViewController {
             } else {
                 mediaPlayer.pause()
                 let newQueue = MPMediaItemCollection(items: [songItem])
-                mediaPlayer.setQueueWithItemCollection(newQueue)
+                mediaPlayer.setQueue(with: newQueue)
                 mediaPlayer.play()
             }
             
@@ -1563,7 +1563,7 @@ class EditSongsTableViewController: UITableViewController {
 }
 
 extension EditSongsTableViewController: UISearchResultsUpdating {
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
         filterSongs(searchController.searchBar.text!)
     }
 }
@@ -1587,37 +1587,37 @@ class EditAlarmRepeatTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        repeatDoneButton.enabled = true
+        repeatDoneButton.isEnabled = true
         print(selectedRepeats)
         //loadRepeats()
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("EditAlarmRepeatCellView", forIndexPath: indexPath) as! EditRepeatTableCellView
-        cell.repeatTypeLabel.text = RepeatMacros[indexPath.row].description
-        if selectedRepeats.contains(RepeatMacros[indexPath.row]) {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EditAlarmRepeatCellView", for: indexPath) as! EditRepeatTableCellView
+        cell.repeatTypeLabel.text = RepeatMacros[(indexPath as NSIndexPath).row].description
+        if selectedRepeats.contains(RepeatMacros[(indexPath as NSIndexPath).row]) {
             cell.isChecked = true
-            cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+            cell.accessoryType = UITableViewCellAccessoryType.checkmark
         }
         return cell
     }
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return RepeatMacros.count
     }
     
     
-    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
-        let selectedCell = tableView.cellForRowAtIndexPath(indexPath) as! EditRepeatTableCellView
-        selectedCell.selectionStyle = UITableViewCellSelectionStyle.None
-        if selectedCell.accessoryType == UITableViewCellAccessoryType.None {
-            calculateOtherRepeats(selectedCell, row: indexPath.row)
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        let selectedCell = tableView.cellForRow(at: indexPath) as! EditRepeatTableCellView
+        selectedCell.selectionStyle = UITableViewCellSelectionStyle.none
+        if selectedCell.accessoryType == UITableViewCellAccessoryType.none {
+            calculateOtherRepeats(selectedCell, row: (indexPath as NSIndexPath).row)
             //tableView.deselectRowAtIndexPath(indexPath, animated: true)
         } else {
-            selectedCell.accessoryType = UITableViewCellAccessoryType.None
+            selectedCell.accessoryType = UITableViewCellAccessoryType.none
             //tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
         //self.tableView(tableView, willDeselectRowAtIndexPath: indexPath)
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
         //self.tableView(tableView, didDeselectRowAtIndexPath: indexPath)
         return indexPath
     }
@@ -1627,85 +1627,85 @@ class EditAlarmRepeatTableViewController: UITableViewController {
         //for repeats found in selected repeats array remark them for the view.
         for aRepeat in selectedRepeats{
             switch (aRepeat) {
-            case .None:
+            case .none:
                 addCheckmark(0)
                 break
-            case .Monday:
+            case .monday:
                 addCheckmark(1)
                 break
-            case .Tuesday:
+            case .tuesday:
                 addCheckmark(2)
                 break
-            case .Wednesday:
+            case .wednesday:
                 addCheckmark(3)
                 break
-            case .Thursday:
+            case .thursday:
                 addCheckmark(4)
                 break
-            case .Friday:
+            case .friday:
                 addCheckmark(5)
                 break
-            case .Saturday:
+            case .saturday:
                 addCheckmark(6)
                 break
-            case .Sunday:
+            case .sunday:
                 addCheckmark(7)
                 break
-            case .Everyday:
+            case .everyday:
                 addCheckmark(8)
                 break
             }
         }
     }
-    func addCheckmark(forIndex: Int){
-        let indexPath = NSIndexPath(index: forIndex)
-        let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! EditRepeatTableCellView
-        cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+    func addCheckmark(_ forIndex: Int){
+        let indexPath = IndexPath(index: forIndex)
+        let cell = self.tableView.cellForRow(at: indexPath) as! EditRepeatTableCellView
+        cell.accessoryType = UITableViewCellAccessoryType.checkmark
     }
     
-    func calculateOtherRepeats(tappedOption: EditRepeatTableCellView, row: Int){
+    func calculateOtherRepeats(_ tappedOption: EditRepeatTableCellView, row: Int){
         let tapped = RepeatMacros[row]
         switch (tapped) {
-        case .None:
-            selectedRepeats = [.None]
+        case .none:
+            selectedRepeats = [.none]
             clearTableView()
-            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
+            tappedOption.accessoryType = UITableViewCellAccessoryType.checkmark
             break
-        case .Everyday:
+        case .everyday:
             if selectedRepeats.count > 0 {
                 clearTableView()
             }
-            selectedRepeats = [.Everyday]
-            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
+            selectedRepeats = [.everyday]
+            tappedOption.accessoryType = UITableViewCellAccessoryType.checkmark
             break
         default:
-            if selectedRepeats.contains(repeatType.None) || selectedRepeats.contains(repeatType.Everyday) {
+            if selectedRepeats.contains(repeatType.none) || selectedRepeats.contains(repeatType.everyday) {
                 clearTableView()
                 selectedRepeats = [tapped]
             } else{
                 selectedRepeats.append(tapped)
             }
-            tappedOption.accessoryType = UITableViewCellAccessoryType.Checkmark
-            let noneOption = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! EditRepeatTableCellView
-            noneOption.accessoryType = UITableViewCellAccessoryType.None
+            tappedOption.accessoryType = UITableViewCellAccessoryType.checkmark
+            let noneOption = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! EditRepeatTableCellView
+            noneOption.accessoryType = UITableViewCellAccessoryType.none
         }
     }
     
     func clearTableView(){
         let view = self.tableView
         for anIndex in 0..<RepeatMacros.count  {
-            let current =  view.cellForRowAtIndexPath(NSIndexPath(forRow: anIndex, inSection: 0)) as! EditRepeatTableCellView
-            current.accessoryType = UITableViewCellAccessoryType.None
+            let current =  view?.cellForRow(at: IndexPath(row: anIndex, section: 0)) as! EditRepeatTableCellView
+            current.accessoryType = UITableViewCellAccessoryType.none
         }
     }
     
     
-    @IBAction func commitRepeats(sender: AnyObject) {
+    @IBAction func commitRepeats(_ sender: AnyObject) {
         let sortedRepeats = sortRepeatArray(selectedRepeats)
         let temp = repeatArrayToStringArray(sortedRepeats)
         let repeatDictionary = ["repeats" as NSString: temp]
-        NSNotificationCenter.defaultCenter().postNotificationName(UpdatingRepeatsNotification, object: self, userInfo: repeatDictionary )
-        self.navigationController?.popViewControllerAnimated(true)
+        NotificationCenter.default().post(name: Notification.Name(rawValue: UpdatingRepeatsNotification), object: self, userInfo: repeatDictionary )
+        self.navigationController?.popViewController(animated: true)
     }
     
 }
@@ -1719,7 +1719,7 @@ class EditRepeatTableCellView: UITableViewCell {
 
 
 public class RepeatDataManipulation {
-       class func makeRepeatString(repeatData: [repeatType]) -> String {
+       class func makeRepeatString(_ repeatData: [repeatType]) -> String {
         var str = ""
         var index = 0
         if repeatData.count == 2 {
@@ -1750,13 +1750,13 @@ public class RepeatDataManipulation {
 }
 
 public class SongDataManipulation {
-    class func makeDurationString(song: MPMediaItem) -> String{
+    class func makeDurationString(_ song: MPMediaItem) -> String{
         var returnString = ""
         print(song.playbackDuration)
         let mins = Int(song.playbackDuration/60)
         print(mins)
         //let leftOver = song.playbackDuration - mins*60
-        let secs = Int(song.playbackDuration%60)
+        let secs = Int(song.playbackDuration.truncatingRemainder(dividingBy: 60))
         if secs < 10 {
             returnString = mins.description + ":0" + secs.description
         } else {

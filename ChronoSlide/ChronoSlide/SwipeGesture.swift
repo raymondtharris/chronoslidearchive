@@ -17,11 +17,11 @@ class ChronoSwipeGesture: UIGestureRecognizer{
     /// The starting point of gesture decided by user input.
     var startPosition:CGPoint?
     /// The start time of the gesture decided by user input.
-    var startTime: NSDate?
+    var startTime: Date?
     /// The end point of the gesture decided by user input.
     var endPosition:CGPoint?
     /// The end time of the gesture decided by user input.
-    var endTime: NSDate?
+    var endTime: Date?
     /// The stored point before the end point.
     var storedPoint: CGPoint?
     
@@ -32,12 +32,12 @@ class ChronoSwipeGesture: UIGestureRecognizer{
         - Parameter touches: Set of input from the user.
         - Parameter event: Touch event from the user.
     */
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event!)
-        state = .Began
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event!)
+        state = .began
         let aTouch = touches
-        startPosition  = aTouch.first?.locationInView(self.view)
-        startTime = NSDate()
+        startPosition  = aTouch.first?.location(in: self.view)
+        startTime = Date()
         print("start")
     }
     
@@ -47,11 +47,11 @@ class ChronoSwipeGesture: UIGestureRecognizer{
      - Parameter touches: Set of input from the user.
      - Parameter event: Touch event from the user.
      */
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesMoved(touches, withEvent: event!)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event!)
         let aTouch = touches
-        storedPoint = aTouch.first?.locationInView(self.view)
-        state = .Changed
+        storedPoint = aTouch.first?.location(in: self.view)
+        state = .changed
 
         
     }
@@ -62,29 +62,29 @@ class ChronoSwipeGesture: UIGestureRecognizer{
      - Parameter touches: Set of input from the user.
      - Parameter event: Touch event from the user.
      */
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         print("ended")
-        super.touchesEnded(touches, withEvent: event!)
+        super.touchesEnded(touches, with: event!)
         let aTouch = touches
-        endPosition = aTouch.first?.locationInView(self.view)
+        endPosition = aTouch.first?.location(in: self.view)
 
         if startPosition == endPosition {
            // print("same")
-            state = .Cancelled
+            state = .cancelled
         }
         else {
-            endTime = NSDate()
-            let deltaTime = endTime?.timeIntervalSinceDate(startTime!)
+            endTime = Date()
+            let deltaTime = endTime?.timeIntervalSince(startTime!)
             let deltaPositionX = endPosition!.x - startPosition!.x
             let deltaPositionY = endPosition!.y - startPosition!.y
 
             if endPosition?.x == storedPoint?.x {
-                velocity = CGVectorMake(0.0, 0.0)
+                velocity = CGVector(dx: 0.0, dy: 0.0)
             } else {
-            velocity = CGVectorMake(deltaPositionX/CGFloat(deltaTime!), deltaPositionY/CGFloat(deltaTime!))
+            velocity = CGVector(dx: deltaPositionX/CGFloat(deltaTime!), dy: deltaPositionY/CGFloat(deltaTime!))
 
             }
-            state = .Ended
+            state = .ended
         }
     }
     
@@ -94,9 +94,9 @@ class ChronoSwipeGesture: UIGestureRecognizer{
      - Parameter touches: Set of input from the user.
      - Parameter event: Touch event from the user.
      */
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        super.touchesCancelled(touches!, withEvent: event!)
-        state = .Cancelled
+    override func touchesCancelled(_ touches: Set<UITouch>?, with event: UIEvent?) {
+        super.touchesCancelled(touches!, with: event!)
+        state = .cancelled
     }
     
     /**
@@ -105,7 +105,7 @@ class ChronoSwipeGesture: UIGestureRecognizer{
      */
     override func reset() {
         super.reset()
-        state = .Possible
+        state = .possible
     }
     
     /**
@@ -114,7 +114,7 @@ class ChronoSwipeGesture: UIGestureRecognizer{
      - Parameter target: Object to actach the gesture to.
      - Parameter action: Function to call when the gesture is used.
      */
-    override init(target: AnyObject?, action: Selector) {
+    override init(target: AnyObject?, action: Selector?) {
         super.init(target: target!, action: action)
         delaysTouchesEnded = false
         

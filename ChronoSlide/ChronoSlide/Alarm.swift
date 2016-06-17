@@ -25,7 +25,7 @@ struct Alarm {
     /// Notification to be used for the alarm to fire.
     var alarmNotification: UILocalNotification? = nil
     /// Repeats for the alarm.
-    var alarmRepeat: [repeatType] = [.None]
+    var alarmRepeat: [repeatType] = [.none]
     /// Does the alarm have repeats.
     var alarmRepeats: Bool = false
     
@@ -60,7 +60,7 @@ struct Alarm {
      
      - Parameter newHour: New hour value for the alarm.
      */
-    mutating func setAlarmHour(newHour: Int){
+    mutating func setAlarmHour(_ newHour: Int){
         alarmHour = newHour
     }
     
@@ -69,7 +69,7 @@ struct Alarm {
      
      - Parameter newMinute: New hour value for the alarm.
      */
-    mutating func setAlarmMinute(newMinute: Int){
+    mutating func setAlarmMinute(_ newMinute: Int){
         alarmMinute = newMinute
     }
     
@@ -78,7 +78,7 @@ struct Alarm {
      
      - Parameter newState: New state value for the alarm.
      */
-    mutating func setAlarmState(newState: Bool){
+    mutating func setAlarmState(_ newState: Bool){
         alarmState = newState
     }
     
@@ -87,7 +87,7 @@ struct Alarm {
      
      - Parameter newName: New name for the alarm.
      */
-    mutating func setAlarmName(newName: String){
+    mutating func setAlarmName(_ newName: String){
         alarmName = newName
     }
     
@@ -96,7 +96,7 @@ struct Alarm {
      
      - Parameter newSound: New MPMediaItem value for the alarm.
      */
-    mutating func setAlarmSound(newSound: MPMediaItem){
+    mutating func setAlarmSound(_ newSound: MPMediaItem){
         alarmSound = newSound
     }
     
@@ -105,7 +105,7 @@ struct Alarm {
      
      - Parameter newNotification: New notification value for the alarm.
      */
-    mutating func setAlarmNotification(newNotification: UILocalNotification) {
+    mutating func setAlarmNotification(_ newNotification: UILocalNotification) {
         alarmNotification = newNotification
     }
     
@@ -114,7 +114,7 @@ struct Alarm {
      
      - Parameter newRepeat: New repeat values for the alarm.
      */
-    mutating func setAlarmRepeat(newRepeat: [repeatType]){
+    mutating func setAlarmRepeat(_ newRepeat: [repeatType]){
         alarmRepeat = newRepeat
     }
     
@@ -123,7 +123,7 @@ struct Alarm {
      
      - Parameter doesRepeat: New Boolean value to say if the alarm repeats.
      */
-    mutating func setAlarmRepeats(doesRepeat: Bool){
+    mutating func setAlarmRepeats(_ doesRepeat: Bool){
         alarmRepeats = doesRepeat
     }
     
@@ -150,15 +150,15 @@ enum repeatType: CustomStringConvertible, Equatable {
         - None: Do not repeat
 
     */
-    case Monday
-    case Tuesday
-    case Wednesday
-    case Thursday
-    case Friday
-    case Saturday
-    case Sunday
-    case Everyday
-    case None
+    case monday
+    case tuesday
+    case wednesday
+    case thursday
+    case friday
+    case saturday
+    case sunday
+    case everyday
+    case none
     
     /**
      A Variable for the description of a repeatType
@@ -167,36 +167,36 @@ enum repeatType: CustomStringConvertible, Equatable {
      */
     var description: String {
         switch self {
-        case .Monday: return "Monday";
-        case .Tuesday: return "Tuesday";
-        case .Wednesday: return "Wednesday";
-        case .Thursday: return "Thursday";
-        case .Friday: return "Friday";
-        case .Saturday: return "Saturday";
-        case .Sunday: return "Sunday";
-        case .Everyday: return "Everyday";
-        case .None: return "None";
+        case .monday: return "Monday";
+        case .tuesday: return "Tuesday";
+        case .wednesday: return "Wednesday";
+        case .thursday: return "Thursday";
+        case .friday: return "Friday";
+        case .saturday: return "Saturday";
+        case .sunday: return "Sunday";
+        case .everyday: return "Everyday";
+        case .none: return "None";
         }
         
     }
     var minDescription: String {
         switch self {
-        case .Monday: return "Mon";
-        case .Tuesday: return "Tue";
-        case .Wednesday: return "Wed";
-        case .Thursday: return "Thur";
-        case .Friday: return "Fri";
-        case .Saturday: return "Sat";
-        case .Sunday: return "Sun";
-        case .Everyday: return "Everyday";
-        case .None: return "None";
+        case .monday: return "Mon";
+        case .tuesday: return "Tue";
+        case .wednesday: return "Wed";
+        case .thursday: return "Thur";
+        case .friday: return "Fri";
+        case .saturday: return "Sat";
+        case .sunday: return "Sun";
+        case .everyday: return "Everyday";
+        case .none: return "None";
         }
         
     }
 
 }
 
-func sortRepeatArray(anArray: [repeatType]) -> [repeatType] {
+func sortRepeatArray(_ anArray: [repeatType]) -> [repeatType] {
     var sorted: [repeatType] = [repeatType]()
     for aRepeat in RepeatMacros {
         if anArray.contains(aRepeat) {
@@ -206,7 +206,7 @@ func sortRepeatArray(anArray: [repeatType]) -> [repeatType] {
     return sorted
 }
 
-func repeatArrayToStringArray(anArray: [repeatType]) -> [String] {
+func repeatArrayToStringArray(_ anArray: [repeatType]) -> [String] {
     var strArray = [String]()
     for aRepeat in anArray {
         strArray.append(aRepeat.description)
@@ -214,36 +214,36 @@ func repeatArrayToStringArray(anArray: [repeatType]) -> [String] {
     return strArray
 }
 
-func repeatStringsToRepeatArray(anArray: [String]) -> [repeatType] {
+func repeatStringsToRepeatArray(_ anArray: [String]) -> [repeatType] {
     var newRepeats = [repeatType]()
     for aString in anArray{
         switch aString {
         case "None":
-            newRepeats.append(repeatType.None)
+            newRepeats.append(repeatType.none)
             break
         case "Monday":
-            newRepeats.append(repeatType.Monday)
+            newRepeats.append(repeatType.monday)
             break
         case "Tuesday":
-            newRepeats.append(repeatType.Tuesday)
+            newRepeats.append(repeatType.tuesday)
             break
         case "Wednesday":
-            newRepeats.append(repeatType.Wednesday)
+            newRepeats.append(repeatType.wednesday)
             break
         case "Thursday":
-            newRepeats.append(repeatType.Thursday)
+            newRepeats.append(repeatType.thursday)
             break
         case "Friday":
-            newRepeats.append(repeatType.Friday)
+            newRepeats.append(repeatType.friday)
             break
         case "Saturday":
-            newRepeats.append(repeatType.Saturday)
+            newRepeats.append(repeatType.saturday)
             break
         case "Sunday":
-            newRepeats.append(repeatType.Sunday)
+            newRepeats.append(repeatType.sunday)
             break
         case "Everyday":
-            newRepeats.append(repeatType.Everyday)
+            newRepeats.append(repeatType.everyday)
             break
         default:
             break

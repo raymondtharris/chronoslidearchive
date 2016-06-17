@@ -212,15 +212,18 @@
 					2254C1801C51E4B2007B9BFB = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 68W5V575MP;
+						LastSwiftMigration = 0800;
 					};
 					2254C1941C51E4B2007B9BFB = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 68W5V575MP;
+						LastSwiftMigration = 0800;
 						TestTargetID = 2254C1801C51E4B2007B9BFB;
 					};
 					2254C19F1C51E4B2007B9BFB = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 68W5V575MP;
+						LastSwiftMigration = 0800;
 						TestTargetID = 2254C1801C51E4B2007B9BFB;
 					};
 				};
@@ -375,7 +378,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -414,7 +417,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -433,6 +436,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.whatlieswithin.ChronoSlide;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -447,6 +451,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.whatlieswithin.ChronoSlide;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -458,6 +463,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.whatlieswithin.ChronoSlideTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ChronoSlide.app/ChronoSlide";
 			};
 			name = Debug;
@@ -470,6 +476,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.whatlieswithin.ChronoSlideTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ChronoSlide.app/ChronoSlide";
 			};
 			name = Release;
@@ -481,6 +488,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.whatlieswithin.ChronoSlideUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = ChronoSlide;
 				USES_XCTRUNNER = YES;
 			};
@@ -493,6 +501,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.whatlieswithin.ChronoSlideUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = ChronoSlide;
 				USES_XCTRUNNER = YES;
 			};

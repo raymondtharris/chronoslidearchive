@@ -42,8 +42,8 @@ class SelectedSongView: UIView{
     }
     
     
-    func updateViewWithMediaItem(mediaItem: MPMediaItem){
-        self.selectedSongImageView.image = mediaItem.artwork?.imageWithSize(self.selectedSongImageView.frame.size)
+    func updateViewWithMediaItem(_ mediaItem: MPMediaItem){
+        self.selectedSongImageView.image = mediaItem.artwork?.image(at: self.selectedSongImageView.frame.size)
         self.selectedSongTitle.text = mediaItem.title!
         self.selectedSongArtitst.text = mediaItem.artist!
         self.selectedSongDuration.text = SongDataManipulation.makeDurationString(mediaItem)
