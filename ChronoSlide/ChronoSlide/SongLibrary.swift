@@ -25,10 +25,10 @@ class SongLibrary {
     }
     class func getSongsB(_ withLowerBound: Int, andUpperBound: Int) -> [MPMediaItem] {
         print("\(withLowerBound) \(andUpperBound)")
-        var songs:[MPMediaItem] = []
+        let songs:[MPMediaItem] = Array<MPMediaItem>(MPMediaQuery.songs().items![withLowerBound..<andUpperBound]) as [MPMediaItem]
         //DispatchQueue.main().sync() {
-            print( Array<MPMediaItem>(MPMediaQuery.songs().items![withLowerBound..<andUpperBound]) as [MPMediaItem])
-            songs = Array<MPMediaItem>(MPMediaQuery.songs().items![withLowerBound..<andUpperBound]) as [MPMediaItem]
+            //print(
+            //songs = Array<MPMediaItem>(MPMediaQuery.songs().items![withLowerBound..<andUpperBound]) as [MPMediaItem]
           //  }
         
         //print(temp)

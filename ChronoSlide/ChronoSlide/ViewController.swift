@@ -31,7 +31,7 @@ class AlarmTableViewController: UITableViewController {
     var ChronoAlarms: [Alarm] = [Alarm]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        UIApplication.shared().registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil))
+        UIApplication.shared().registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .badge, .sound] , categories: nil))
         NotificationCenter.default().addObserver(self, selector: #selector(AlarmTableViewController.addingNewAlarm(_:)), name: AddingNewAlarmNotification, object: nil)
         NotificationCenter.default().addObserver(self, selector: #selector(AlarmTableViewController.deletingAlarm(_:)), name: DeletingAlarmNotification, object: nil)
         NotificationCenter.default().addObserver(self, selector: #selector(AlarmTableViewController.updatingAlarm(_:)), name: UpdatingAlarmNotification, object: nil)
